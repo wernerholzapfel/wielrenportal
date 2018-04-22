@@ -11,11 +11,13 @@ import {effects, reducers} from './store/store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import { CyclistsComponent } from './components/cyclists/cyclists.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CyclistsComponent
   ],
   imports: [
     BrowserModule,

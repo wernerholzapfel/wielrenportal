@@ -1,23 +1,7 @@
+<mat-toolbar color="primary">
+  <span>Het Wielrenspel</span>
+</mat-toolbar>
 
-<div class="example-container mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource" matSort>
-
-    <ng-container matColumnDef="firstName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Naam </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.firstName}} {{element.surName}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="nationality">
-      <mat-header-cell *matHeaderCellDef> Nationaliteit </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.nationality}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="dateOfBirth">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Jongeren </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-</div>
+<mat-card>
+  <app-cyclists></app-cyclists>
+</mat-card>
