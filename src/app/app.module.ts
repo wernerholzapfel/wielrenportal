@@ -7,6 +7,10 @@ import {CyclistService} from './services/cyclist.service';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from './shared.module';
+import {effects, reducers} from './store/store';
+import {EffectsModule} from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 
 
 @NgModule({
@@ -17,7 +21,10 @@ import {SharedModule} from './shared.module';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument(),
+    EffectsModule.forRoot(effects)
   ],
   providers: [CyclistService],
   bootstrap: [AppComponent]
