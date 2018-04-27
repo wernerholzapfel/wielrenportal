@@ -1,0 +1,8 @@
+<mat-card>
+  <mat-card-header>
+    Welkom bij het spel
+  </mat-card-header>
+  <mat-card-content>
+    <app-login *ngIf="!(authService.user$ | async)"></app-login>
+  </mat-card-content>
+</mat-card>

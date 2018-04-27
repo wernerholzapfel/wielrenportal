@@ -1,0 +1,17 @@
+:host {
+  .team_card {
+    margin: 10px;
+  }
+  .participant_team_card {
+    margin: 10px 0;
+  //  padding: 24px 0;
+
+  }
+
+  .temp {
+    background-color: yellow;
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+  }
+}

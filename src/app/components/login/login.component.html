@@ -1,0 +1,34 @@
+<form [formGroup]="userForm" class="login-form">
+  <mat-form-field class="full-width">
+    <input matInput placeholder="Email" formControlName="emailFormControl"
+           [errorStateMatcher]="matcher" [(ngModel)]="user.email">
+    <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.email &&
+    !userForm.controls['emailFormControl'].errors?.required">
+      Vul een valide emailadres in.
+    </mat-error>
+    <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.required">
+      Email is <strong>verplicht</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input type="password" matInput placeholder="Password" formControlName="passwordFormControl"
+           [(ngModel)]="user.password">
+    <!--<mat-hint>Het wachtwoord moet minimaal 8 tekens lang zijn</mat-hint>-->
+    <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.minlength &&
+    !userForm.controls['passwordFormControl'].errors?.required">
+      Het wachtwoord moet minstens 8 tekens lang zijn.
+    </mat-error>
+    <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.required">
+      Paswoord is <strong>verplicht</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <div class="form-group">
+    <button mat-raised-button color="primary" (click)="signInWithEmail()" [disabled]="userForm.invalid">
+      Inloggen
+    </button>
+    <button mat-raised-button color="primary" (click)="signUpRegular()" [disabled]="userForm.invalid">
+      Inschrijven
+    </button>
+  </div>
+</form>

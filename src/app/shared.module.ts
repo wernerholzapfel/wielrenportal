@@ -77,8 +77,8 @@ export const MATERIAL_MODULES = [
 ];
 
 // // Other utility shared modules
-// import { FlexLayoutModule } from '@angular/flex-layout';
-// export const UTILITY_SHARED_MODULES = [FlexLayoutModule];
+import { FlexLayoutModule } from '@angular/flex-layout';
+export const UTILITY_SHARED_MODULES = [FlexLayoutModule];
 
 
 // App Pipes
@@ -97,6 +97,7 @@ export const MATERIAL_MODULES = [
   exports: [
     ...ANGULAR_COMMON_MODULES,
     ...MATERIAL_MODULES,
+    ...UTILITY_SHARED_MODULES,
     // ...PIPES
   ],
   // declarations: [ConfirmDialogComponent]

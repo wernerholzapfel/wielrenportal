@@ -1,7 +1,12 @@
 <mat-toolbar color="primary">
   <span>Het Wielrenspel</span>
+  <button mat-button [routerLink]="['/tourriders']">tourriders</button>
+  <button mat-flat-button *ngIf="(authService.user$ | async)" [routerLink]="['/riders']">riders</button>
+  <span class="example-spacer"></span>
+  <button mat-button *ngIf="!(authService.user$ | async)" [routerLink]="['/login']">Login</button>
+  <button mat-button *ngIf="(authService.user$ | async)" (click)="logout()">Logout</button>
 </mat-toolbar>
 
 <mat-card>
-  <app-cyclists></app-cyclists>
+  <router-outlet></router-outlet>
 </mat-card>

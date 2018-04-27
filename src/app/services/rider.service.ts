@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {ICyclist} from '../models/cyclist.model';
+import {IRider} from '../models/rider.model';
 import {environment} from '../../environments/environment';
 
 @Injectable()
-export class CyclistService {
+export class RiderService {
 
   constructor(private http: HttpClient) { }
 
-  getCyclists(): Observable<ICyclist[]> {
+  getRiders(): Observable<IRider[]> {
 
-    return this.http.get<ICyclist[]>(`${environment.apiBaseUrl}/cyclists`);
+    return this.http.get<IRider[]>(`${environment.apiBaseUrl}/riders`);
   }
 }

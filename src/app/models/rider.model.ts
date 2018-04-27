@@ -1,4 +1,4 @@
-export interface ICyclist {
+export interface IRider {
   id: string;
   firstName: string;
   firstNameShort: string;
@@ -8,4 +8,9 @@ export interface ICyclist {
   surNameShort: string;
   dateOfBirth: string;
   isActive: boolean;
+  beschermdeRenner?: boolean;
+  meesterknecht?: boolean;
+  linkebal?: boolean;
+  waterdrager?: boolean;
+  isSelected?: boolean;
 }
