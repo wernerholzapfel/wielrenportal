@@ -5,33 +5,33 @@
       <mat-card-content>
         <mat-list>
           <mat-divider></mat-divider>
-          <h3 matSubheader>Mijn Renners ({{participantRiders.riders.length}}/{{maxParticipantRiders}})</h3>
-          <mat-list-item *ngFor="let rider of participantRiders.riders">
+          <h3 matSubheader>Mijn Renners ({{participantRiders?.riders?.length}}/{{maxParticipantRiders}})</h3>
+          <mat-list-item *ngFor="let rider of participantRiders?.riders">
             {{rider?.firstName}} {{rider?.surNameShort}}
           </mat-list-item>
           <mat-divider></mat-divider>
           <h3 matSubheader>Mijn waterdrager</h3>
           <mat-list-item>
-            {{participantRiders.waterdrager?.firstName}}
-            {{participantRiders.waterdrager?.surNameShort}}
+            {{participantRiders?.waterdrager?.firstName}}
+            {{participantRiders?.waterdrager?.surNameShort}}
           </mat-list-item>
           <mat-divider></mat-divider>
           <h3 matSubheader>Mijn meesterknecht</h3>
           <mat-list-item>
-            {{participantRiders.meesterknecht?.firstName}}
-            {{participantRiders.meesterknecht?.surNameShort}}
+            {{participantRiders?.meesterknecht?.firstName}}
+            {{participantRiders?.meesterknecht?.surNameShort}}
           </mat-list-item>
           <mat-divider></mat-divider>
           <h3 matSubheader>Mijn linkebal</h3>
           <mat-list-item>
-            {{participantRiders.linkebal?.firstName}}
-            {{participantRiders.linkebal?.surNameShort}}
+            {{participantRiders?.linkebal?.firstName}}
+            {{participantRiders?.linkebal?.surNameShort}}
           </mat-list-item>
           <mat-divider></mat-divider>
           <h3 matSubheader>Mijn beschermde renner</h3>
           <mat-list-item>
-            {{participantRiders.beschermdeRenner?.firstName}}
-            {{participantRiders.beschermdeRenner?.surNameShort}}
+            {{participantRiders?.beschermdeRenner?.firstName}}
+            {{participantRiders?.beschermdeRenner?.surNameShort}}
           </mat-list-item>
         </mat-list>
       </mat-card-content>
@@ -50,7 +50,7 @@
         <mat-list>
           <mat-list-item *ngFor="let rider of team.tourRiders">
             <div matLine>
-              {{rider.rider.firstNameShort}} {{rider.rider.surNameShort}}
+              {{rider.rider.firstNameShort}} {{rider.rider.surNameShort}} {{rider.waarde}}
             </div>
             <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!rider.rider.isSelected && !participantRidersComplete()" (click)="setCurrentRider(rider.rider, team, $event)">
               <mat-icon matListIcon>playlist_add</mat-icon>
@@ -71,23 +71,23 @@
       Kies als:
     </mat-list-item>
   </mat-list>
-  <button *ngIf="participantRiders.riders.length < 16" mat-menu-item (click)="addRenner()">
+  <button *ngIf="participantRiders?.riders.length < 16" mat-menu-item (click)="addRenner()">
     <mat-icon matListIcon>add_box</mat-icon>
     Renner
   </button>
-  <button *ngIf="!participantRiders.beschermdeRenner" mat-menu-item (click)="addBeschermdeRenner()">
+  <button *ngIf="!participantRiders?.beschermdeRenner" mat-menu-item (click)="addBeschermdeRenner()">
     <mat-icon matListIcon>add_box</mat-icon>
     Beschermde renner
   </button>
-  <button *ngIf="!participantRiders.meesterknecht" mat-menu-item (click)="addMeesterknecht()">
+  <button *ngIf="!participantRiders?.meesterknecht" mat-menu-item (click)="addMeesterknecht()">
     <mat-icon matListIcon>add_box</mat-icon>
     Meesterknecht
   </button>
-  <button *ngIf="!participantRiders.linkebal" mat-menu-item (click)="addLinkebal()">
+  <button *ngIf="!participantRiders?.linkebal" mat-menu-item (click)="addLinkebal()">
     <mat-icon matListIcon>add_box</mat-icon>
     Linkebal
   </button>
-  <button *ngIf="!participantRiders.waterdrager" mat-menu-item (click)="addWaterdrager()">
+  <button *ngIf="!participantRiders?.waterdrager" mat-menu-item (click)="addWaterdrager()">
     <mat-icon matListIcon>add_box</mat-icon>
     Waterdrager
   </button>

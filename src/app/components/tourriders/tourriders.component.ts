@@ -45,14 +45,15 @@ export class TourridersComponent implements OnInit {
   }
 
   participantRidersComplete(): boolean {
-    return this.participantRiders.riders.length === 1 &&
+    return this.participantRiders &&
+      this.participantRiders.riders.length === 1 &&
     !!this.participantRiders.meesterknecht &&
     !!this.participantRiders.linkebal &&
     !!this.participantRiders.waterdrager &&
     !!this.participantRiders.beschermdeRenner;
   }
 
-  addRenner(e) {
+  addRenner() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam);
     if (this.participantRiders.riders.length < this.maxParticipantRiders) {
       this.participantRiders.riders = [...this.participantRiders.riders, this.currentRider];
@@ -96,15 +97,7 @@ export class TourridersComponent implements OnInit {
           });
         }
       });
-      // Observable.of(new fromTour.SetCurrentRiderAsSelected(response));
-      // this.store.dispatch(new fromTour.SetCurrentRiderAsSelected({riderId: ridertje.id,  teamId: teampje.id}));
       this.store.dispatch(new fromTour.SetCurrentRiderAsSelected(response));
     });
   }
 }
-
-// forEach((element, index) => {
-//   if(element.id === item.id) {
-//     items[index] = item;
-//   }
-// })

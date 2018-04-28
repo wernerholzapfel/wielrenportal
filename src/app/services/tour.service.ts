@@ -28,4 +28,11 @@ export class TourService {
       .map(res => <ITour>res);
   }
 
+  addRidertoTeam(body: any): Observable<ITour> {
+    return this.http.post<any>(`${environment.apiBaseUrl}/tourriders`, body)
+      .map(res => <any>res);
+  }
+
+
+
 }

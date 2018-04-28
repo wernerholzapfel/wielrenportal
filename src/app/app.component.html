@@ -1,7 +1,8 @@
 <mat-toolbar color="primary">
   <span>Het Wielrenspel</span>
-  <button mat-button [routerLink]="['/tourriders']">tourriders</button>
-  <button mat-flat-button *ngIf="(authService.user$ | async)" [routerLink]="['/riders']">riders</button>
+  <button mat-button [routerLink]="['/tourriders']">Inschrijven</button>
+  <button mat-flat-button *ngIf="(authService.user$ | async)" [routerLink]="['/riders']">Wielrenners</button>
+  <button mat-flat-button [routerLink]="['/admin']">Tour admin</button>
   <span class="example-spacer"></span>
   <button mat-button *ngIf="!(authService.user$ | async)" [routerLink]="['/login']">Login</button>
   <button mat-button *ngIf="(authService.user$ | async)" (click)="logout()">Logout</button>

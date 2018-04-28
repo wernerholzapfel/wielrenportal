@@ -13,4 +13,5 @@ export interface IRider {
   linkebal?: boolean;
   waterdrager?: boolean;
   isSelected?: boolean;
+  waarde?: number;
 }

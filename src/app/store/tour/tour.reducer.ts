@@ -56,6 +56,26 @@ export function tourReducer(state = initaltourState, action): TourState {
         inProgress: false,
         error: undefined,
       };
+    case tour.SAVE_RIDER_TO_TEAM_SUCCESS:
+      return {
+        ...state,
+        tour: {
+          tourName: state.tour.tourName,
+          id: state.tour.id,
+          isActive: state.tour.isActive,
+          startDate: state.tour.startDate,
+          endDate: state.tour.endDate,
+          teams: state.tour.teams.map(
+            team => (team.id === action.payload.team.id ? {
+              id: team.id,
+              teamName: team.teamName,
+              selected: team.selected,
+              teamNameShort: team.teamNameShort,
+              country: team.country,
+              tourRiders: [...team.tourRiders, action.payload]
+            } : team)),
+        }
+      };
     default:
       return {
         ...state
@@ -66,5 +86,5 @@ export function tourReducer(state = initaltourState, action): TourState {
 
 export const gettourState = createFeatureSelector<TourState>('tour');
 export const getTour = createSelector(gettourState, (state: TourState) => state.tour);
-export const getTourTeams = createSelector(gettourState, (state: TourState) => state.tour.teams);
+export const getTourTeams = createSelector(gettourState, (state: TourState) => state.tour ? state.tour.teams : []);
 export const getTours = createSelector(gettourState, (state: TourState) => state.tours);

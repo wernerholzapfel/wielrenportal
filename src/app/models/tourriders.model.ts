@@ -6,7 +6,7 @@ export interface ITourriders {
   id: string;
   waarde: number;
   rider: IRider;
-  tour: ITour;
-  team: ITeam;
+  tour?: ITour;
+  team?: ITeam;
 }
 
