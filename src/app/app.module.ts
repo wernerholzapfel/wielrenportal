@@ -26,6 +26,8 @@ import {TokenInterceptor} from './services/token.interceptor';
 import { UsermanagementComponent } from './components/usermanagement/usermanagement.component';
 import { TourridersComponent } from './components/tourriders/tourriders.component';
 import {TourService} from './services/tour.service';
+import { ToursetupComponent } from './components/toursetup/toursetup.component';
+import {TeamService} from './services/teams.service';
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import {TourService} from './services/tour.service';
     LoginComponent,
     HomeComponent,
     UsermanagementComponent,
-    TourridersComponent
+    TourridersComponent,
+    ToursetupComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ import {TourService} from './services/tour.service';
     RiderService,
     TourService,
     AuthService,
+    TeamService,
     AuthGuardService,
     {
       provide: HTTP_INTERCEPTORS,

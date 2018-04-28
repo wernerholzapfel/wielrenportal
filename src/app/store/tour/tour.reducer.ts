@@ -3,19 +3,25 @@ import * as tour from './tour.actions';
 import {ITour} from '../../models/tour.model';
 
 export interface TourState {
+  tours: ITour[];
   tour: ITour;
   inProgress: Boolean;
   error: any;
 }
 
 const initaltourState: TourState = {
-  tour: undefined,
+  tours: undefined,
+  tour: {
+    teams: [],
+    id: undefined, endDate: null, startDate: null, tourName: '', isActive: undefined
+  },
   error: undefined,
   inProgress: false,
 };
 
 export function tourReducer(state = initaltourState, action): TourState {
   switch (action.type) {
+    case tour.FETCH_TOURLIST:
     case tour.FETCH_TOUR:
       return {
         ...state,
@@ -28,6 +34,14 @@ export function tourReducer(state = initaltourState, action): TourState {
         inProgress: false,
         error: undefined
       };
+    case tour.FETCH_TOURLIST_SUCCESS:
+      return {
+        ...state,
+        tours: action.payload,
+        inProgress: false,
+        error: undefined
+      };
+    case tour.FETCH_TOURLIST_FAILURE:
     case tour.FETCH_TOUR_FAILURE:
       return {
         ...state,
@@ -36,15 +50,6 @@ export function tourReducer(state = initaltourState, action): TourState {
         error: action.payload,
       };
     case tour.Set_CURRENT_RIDER_AS_SELECTED:
-      // const newTour: ITour =  state.tour.teams.forEach(team => {
-      //     if (team.id === action.payload.teamId) {
-      //       team.tourRiders.forEach(rider => {
-      //         if (rider.rider.id === action.payload.riderId) {
-      //           Object.assign(rider.rider, {selected: true});
-      //         }
-      //       });
-      //     }
-      //   });
       return {
         ...state,
         tour: action.payload,
@@ -60,4 +65,6 @@ export function tourReducer(state = initaltourState, action): TourState {
 
 
 export const gettourState = createFeatureSelector<TourState>('tour');
-export const gettour = createSelector(gettourState, (state: TourState) => state.tour);
+export const getTour = createSelector(gettourState, (state: TourState) => state.tour);
+export const getTourTeams = createSelector(gettourState, (state: TourState) => state.tour.teams);
+export const getTours = createSelector(gettourState, (state: TourState) => state.tours);

@@ -27,6 +27,30 @@ export class TourEffects {
     });
 
   @Effect()
+  fetchTourById$ = this.actions$
+    .ofType<tour.FetchTourById>(tour.FETCH_TOUR_BY_ID)
+    .switchMap(action => {
+      return this.tourService
+        .getTourById(action.payload)
+        .switchMap(tourResponse =>
+          Observable.of(new tour.FetchTourSuccess(tourResponse))
+        )
+        .catch(err => Observable.of(new tour.FetchTourFailure(err)));
+    });
+
+  @Effect()
+  fetchTourList$ = this.actions$
+    .ofType<tour.FetchTourList>(tour.FETCH_TOURLIST)
+    .switchMap(action => {
+      return this.tourService
+        .getTourlist()
+        .switchMap(tourResponse =>
+          Observable.of(new tour.FetchTourListSuccess(tourResponse))
+        )
+        .catch(err => Observable.of(new tour.FetchTourListFailure(err)));
+    });
+
+  @Effect()
   updateTour$ = this.actions$
     .ofType<tour.SetCurrentRiderAsSelected>(tour.FETCH_TOUR)
     .switchMap(action => Observable.of(new tour.FetchTourSuccess(action.payload)))

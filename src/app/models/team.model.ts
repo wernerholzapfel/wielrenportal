@@ -6,4 +6,5 @@ export interface ITeam {
   teamNameShort: string;
   country: string;
   tourRiders: ITourriders[];
+  selected?: boolean;
 }

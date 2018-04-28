@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
-import {gettour} from '../../store/tour/tour.reducer';
+import {getTour} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
 import {IRider} from '../../models/rider.model';
 import {IPartipantRidersFormModel} from '../../models/partipantRidersForm.model';
@@ -27,7 +27,7 @@ export class TourridersComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTour());
-    this.tour$ = this.store.select(gettour);
+    this.tour$ = this.store.select(getTour);
 
     this.participantRiders = {
       riders: [],

@@ -1,4 +1,3 @@
-import {ITourriders} from './tourriders.model';
 import {ITeam} from './team.model';
 
 export interface ITour {
@@ -8,5 +7,11 @@ export interface ITour {
   endDate: Date;
   isActive: boolean;
   // tourRiders: ITourriders[];
+  teams: ITeam[];
+}
+
+
+export interface AddTeamsRequest {
+  tour: ITour;
   teams: ITeam[];
 }

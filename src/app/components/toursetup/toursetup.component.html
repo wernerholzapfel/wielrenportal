@@ -1,0 +1,21 @@
+<mat-form-field>
+  <mat-select placeholder="Kies de ronde" [(ngModel)]="selectedTour" (change)="fetchTour()">
+    <mat-option *ngFor="let tour of (tours$ | async)" [value]="tour">
+      {{ tour.tourName }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div *ngIf="selectedTour">
+
+  <mat-selection-list #teamsToSave>
+    <mat-list-option *ngFor="let team of selectableTeamList" [value]="team" [selected]="team?.selected">
+      {{team?.teamName}}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <p>
+    <button mat-raised-button color="primary" (click)="saveTeams(teamsToSave)">
+      Save {{teamsToSave.selectedOptions.selected.length}} teams</button>
+  </p>
+</div>
