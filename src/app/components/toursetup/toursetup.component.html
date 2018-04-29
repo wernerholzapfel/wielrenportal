@@ -33,7 +33,7 @@
                       {{rider.rider.firstNameShort}} {{rider.rider.surNameShort}}
                     </div>
                     <div matLine>
-                      waarde: {{rider.rider.waarde}}
+                      waarde: {{rider.waarde}}
                     </div>
                     <!--<button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!rider.rider.isSelected && !participantRidersComplete()" (click)="setCurrentRider(rider.rider, team, $event)">-->
                     <!--<mat-icon matListIcon>playlist_add</mat-icon>-->
@@ -47,12 +47,12 @@
           </div>
           <mat-card class="team_card" fxFlex="40">
             <mat-list>
-              <mat-list-item *ngFor="let rider of (riders$ | async)">
+              <mat-list-item *ngFor="let rider of selectableRiders">
                 <div matLine>
                   {{rider?.firstNameShort}} {{rider?.surNameShort}}
-                  <input type="number" matInput placeholder="waarde"
-                         [(ngModel)]="rider.waarde">
                 </div>
+                <input type="number" matInput placeholder="waarde"
+                       [(ngModel)]="rider.waarde">
                 <button [disabled]="!rider.waarde" mat-icon-button [matMenuTriggerFor]="menu"
                         *ngIf="!rider.isSelected"
                         (click)="setCurrentRider(rider, $event)">

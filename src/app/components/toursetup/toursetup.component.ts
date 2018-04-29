@@ -13,6 +13,8 @@ import 'rxjs/add/observable/combineLatest';
 import {TourService} from '../../services/tour.service';
 import {IRider} from '../../models/rider.model';
 import {getRiders} from '../../store/rider/rider.reducer';
+import 'rxjs/add/operator/mergeMap';
+import {ITourriders} from '../../models/tourriders.model';
 
 @Component({
   selector: 'app-toursetup',
@@ -31,6 +33,7 @@ export class ToursetupComponent implements OnInit {
   teams$: Observable<ITeam[]>;
   selectedTeams$: Observable<ITeam[]>;
   selectableTeamList: ITeam[];
+  selectableRiders: IRider[];
   currentRider: IRider;
 
   ngOnInit() {
@@ -53,6 +56,17 @@ export class ToursetupComponent implements OnInit {
           }
         }));
         console.log(this.selectableTeamList);
+      });
+
+    Observable.combineLatest(this.tourTeams$, this.riders$).subscribe(
+      ([tourTeams, riders]) => {
+        if (riders && tourTeams.length > 0) {
+          let flattenTourRiders: ITourriders[] = [];
+          tourTeams.map(tourteam => {
+            flattenTourRiders = [...flattenTourRiders, ...tourteam.tourRiders];
+          });
+          this.selectableRiders = riders.filter(rider => !(flattenTourRiders.find(ftr => ftr.rider.id === rider.id)));
+        }
       });
   }
 

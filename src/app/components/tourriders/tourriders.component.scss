@@ -13,4 +13,14 @@
     -moz-background-clip: padding-box;
     background-clip: padding-box;
   }
+
+  .alert {
+    color: #c7254e;
+    font-size: 14px;
+  }
+
+  .note {
+    color: rgba(0,0,0,.54);
+    font-size: 14px;
+  }
 }
