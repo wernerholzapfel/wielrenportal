@@ -63,7 +63,7 @@ export class ToursetupComponent implements OnInit {
     this.tourService.addTeams({
       tour: this.selectedTour,
       teams: selectedTeams
-    }).subscribe(response => (console.log('hehe')));
+    }).subscribe(response => (console.log('hehe')))
   }
 
   fetchTour() {
