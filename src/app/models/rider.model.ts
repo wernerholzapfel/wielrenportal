@@ -8,10 +8,11 @@ export interface IRider {
   surNameShort: string;
   dateOfBirth: string;
   isActive: boolean;
-  beschermdeRenner?: boolean;
-  meesterknecht?: boolean;
-  linkebal?: boolean;
-  waterdrager?: boolean;
+  isBeschermdeRenner?: boolean;
+  isMeesterknecht?: boolean;
+  isLinkebal?: boolean;
+  isWaterdrager?: boolean;
+  isRenner?: boolean;
   isSelected?: boolean;
   waarde?: number;
 }

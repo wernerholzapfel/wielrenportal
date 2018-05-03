@@ -28,6 +28,7 @@ import { TourridersComponent } from './components/tourriders/tourriders.componen
 import {TourService} from './services/tour.service';
 import { ToursetupComponent } from './components/toursetup/toursetup.component';
 import {TeamService} from './services/teams.service';
+import {PredictionService} from './services/prediction.service';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import {TeamService} from './services/teams.service';
     TourService,
     AuthService,
     TeamService,
+    PredictionService,
     AuthGuardService,
     {
       provide: HTTP_INTERCEPTORS,

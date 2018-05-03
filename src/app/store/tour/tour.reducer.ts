@@ -69,6 +69,7 @@ export function tourReducer(state = initaltourState, action): TourState {
             team => (team.id === action.payload.team.id ? {
               id: team.id,
               teamName: team.teamName,
+              teamAbbreviation: team.teamAbbreviation,
               selected: team.selected,
               teamNameShort: team.teamNameShort,
               country: team.country,

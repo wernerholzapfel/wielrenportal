@@ -11,7 +11,7 @@
     <mat-tab label="Teams">
       <mat-selection-list #teamsToSave>
         <mat-list-option *ngFor="let team of selectableTeamList" [value]="team" [selected]="team?.selected">
-          {{team?.teamName}}
+          <h3 matLine>{{team?.teamName}}</h3>
         </mat-list-option>
       </mat-selection-list>
 

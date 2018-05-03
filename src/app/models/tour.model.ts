@@ -7,7 +7,7 @@ export interface ITour {
   endDate: Date;
   isActive: boolean;
   // tourRiders: ITourriders[];
-  teams: ITeam[];
+  teams?: ITeam[];
 }
 
 

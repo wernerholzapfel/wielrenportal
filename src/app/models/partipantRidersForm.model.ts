@@ -1,4 +1,5 @@
 import {IRider} from './rider.model';
+import {ITour} from './tour.model';
 
 export interface IPartipantRidersFormModel {
   riders: IRider[];
@@ -6,4 +7,5 @@ export interface IPartipantRidersFormModel {
   meesterknecht: IRider;
   linkebal: IRider;
   waterdrager: IRider;
+  tour: ITour;
 }

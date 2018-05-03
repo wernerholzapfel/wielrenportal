@@ -5,6 +5,7 @@ export interface ITeam {
   teamName: string;
   teamNameShort: string;
   country: string;
+  teamAbbreviation: string;
   tourRiders: ITourriders[];
   selected?: boolean;
 }

@@ -9,6 +9,7 @@ import {IPartipantRidersFormModel} from '../../models/partipantRidersForm.model'
 import {ITeam} from '../../models/team.model';
 import 'rxjs/add/operator/take';
 import {Observable} from 'rxjs/Observable';
+import {PredictionService} from '../../services/prediction.service';
 
 @Component({
   selector: 'app-tourriders',
@@ -19,24 +20,25 @@ export class TourridersComponent implements OnInit {
   tour$: Observable<ITour>;
   currentRider: IRider;
   currentTeam: ITeam;
-  participantRiders: IPartipantRidersFormModel;
-  maxParticipantRiders = 2;
-  maxParticipantRidersPunten = 220;
-  laagsteWaardegroep = 12;
+  partipantRidersForm: IPartipantRidersFormModel;
+  maxParticipantRiders = 16;
+  maxParticipantRidersPunten = 1060;
+  laagsteWaardegroep = 10;
 
-  constructor(private store: Store<IAppState>) {
+  constructor(private store: Store<IAppState>, private predictionService: PredictionService) {
   }
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTour());
     this.tour$ = this.store.select(getTour);
 
-    this.participantRiders = {
+    this.partipantRidersForm = {
       riders: [],
       beschermdeRenner: null,
       waterdrager: null,
       linkebal: null,
-      meesterknecht: null
+      meesterknecht: null,
+      tour: null,
     };
   }
 
@@ -48,63 +50,72 @@ export class TourridersComponent implements OnInit {
   }
 
   calculateUsedWaardepunten(): number {
-    if (this.participantRiders && this.participantRiders.riders.length > 0) {
-      return this.participantRiders.riders.reduce((acc, obj) => acc + obj.waarde, 0);
+    if (this.partipantRidersForm && this.partipantRidersForm.riders.length > 0) {
+      return this.partipantRidersForm.riders.reduce((acc, obj) => acc + obj.waarde, 0);
     }
   }
 
   participantRidersComplete(): boolean {
-    return this.participantRiders &&
+    return this.partipantRidersForm &&
       this.calculateUsedWaardepunten() <= this.maxParticipantRidersPunten &&
-      this.participantRiders &&
-      this.participantRiders.riders.length === this.maxParticipantRiders &&
-      !!this.participantRiders.meesterknecht &&
-      !!this.participantRiders.linkebal &&
-      !!this.participantRiders.waterdrager &&
-      !!this.participantRiders.beschermdeRenner;
+      this.partipantRidersForm &&
+      this.partipantRidersForm.riders.length === this.maxParticipantRiders &&
+      !!this.partipantRidersForm.meesterknecht &&
+      !!this.partipantRidersForm.linkebal &&
+      !!this.partipantRidersForm.waterdrager &&
+      !!this.partipantRidersForm.beschermdeRenner;
   }
 
   addRenner() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam);
-    if (this.participantRiders.riders.length < this.maxParticipantRiders) {
-      this.participantRiders.riders = [...this.participantRiders.riders, this.currentRider];
+    if (this.partipantRidersForm.riders.length < this.maxParticipantRiders) {
+      this.partipantRidersForm.riders = [...this.partipantRidersForm.riders, Object.assign(this.currentRider, {isRenner: true})];
       console.log(this.currentRider.surName + ' toegevoegd als renner');
     }
   }
 
   addBeschermdeRenner() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam);
-    this.participantRiders.beschermdeRenner = this.currentRider;
+    this.partipantRidersForm.beschermdeRenner = Object.assign(this.currentRider, {isBeschermdeRenner: true});
     console.log(this.currentRider.surName + ' toegevoegd als beschermderenner');
   }
 
   addMeesterknecht() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam);
-    this.participantRiders.meesterknecht = this.currentRider;
+    this.partipantRidersForm.meesterknecht = Object.assign(this.currentRider, {isMeesterknecht: true});
     console.log(this.currentRider.surName + ' toegevoegd als meesterknecht');
   }
 
   addLinkebal() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam);
-    this.participantRiders.linkebal = this.currentRider;
+    this.partipantRidersForm.linkebal = Object.assign(this.currentRider, {isLinkebal: true});
     console.log(this.currentRider.surName + ' toegevoegd als linkebal');
   }
 
   addWaterdrager() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam);
-    this.participantRiders.waterdrager = this.currentRider;
+    this.partipantRidersForm.waterdrager = Object.assign(this.currentRider, {isWaterdrager: true});
     console.log(this.currentRider.surName + ' toegevoegd als waterdrager'
     );
   }
 
   showBeschermdeRennerOfMeesterknecht() {
-    if (this.participantRiders && this.participantRiders.meesterknecht && this.currentRider) {
-      return (this.currentRider.waarde === this.participantRiders.meesterknecht.waarde);
+    if (this.partipantRidersForm && this.partipantRidersForm.meesterknecht && this.currentRider) {
+      return (this.currentRider.waarde === this.partipantRidersForm.meesterknecht.waarde);
     }
-    if (this.participantRiders && this.participantRiders.beschermdeRenner && this.currentRider) {
-      return (this.currentRider.waarde === this.participantRiders.beschermdeRenner.waarde);
+    if (this.partipantRidersForm && this.partipantRidersForm.beschermdeRenner && this.currentRider) {
+      return (this.currentRider.waarde === this.partipantRidersForm.beschermdeRenner.waarde);
     }
     return true;
+  }
+
+  submitForm() {
+    this.tour$.take(1).subscribe(tour => {
+      this.partipantRidersForm.tour = tour;
+
+      this.predictionService.submitPrediction(this.partipantRidersForm).subscribe(response =>
+        console.log('opslaan gelukt'), error => console.log(error));
+    });
   }
 
   setCurrentRiderAsSelected(ridertje: IRider, teampje: ITeam) {
