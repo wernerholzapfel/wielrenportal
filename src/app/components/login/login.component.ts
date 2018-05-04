@@ -3,7 +3,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material';
+import {ErrorStateMatcher, MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
     password: '',
     displayName: ''
   };
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService,  public snackBar: MatSnackBar, private router: Router) {
   }
   userForm = new FormGroup ({
   emailFormControl: new FormControl('', [
@@ -42,7 +42,11 @@ export class LoginComponent implements OnInit {
         console.log(res);
         this.router.navigate(['/participants']);
       })
-      .catch((err) => console.log('error: ' + err));
+      .catch((err) => {
+        this.snackBar.open(err.message, 'OK', {
+        });
+        console.log('error: ' + err);
+      });
   }
 
   signUpRegular() {
@@ -52,7 +56,11 @@ export class LoginComponent implements OnInit {
 
         this.router.navigate(['/tourriders']);
       })
-      .catch((err) => console.log('error: ' + err));
+      .catch((err) => {
+        this.snackBar.open(err.message, 'OK', {
+        });
+        console.log('error: ' + err);
+      });
   }
 }
 
