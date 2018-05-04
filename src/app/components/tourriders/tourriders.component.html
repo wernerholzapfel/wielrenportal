@@ -108,11 +108,11 @@
       <mat-icon matListIcon>add_box</mat-icon>
       Meesterknecht
     </button>
-    <button *ngIf="!partipantRidersForm?.linkebal" mat-menu-item (click)="addLinkebal()">
+    <button *ngIf="!partipantRidersForm?.linkebal && currentRider?.waarde === laagsteWaardegroep" mat-menu-item (click)="addLinkebal()">
       <mat-icon matListIcon>add_box</mat-icon>
       Linkebal
     </button>
-    <button *ngIf="!partipantRidersForm?.waterdrager && currentRider?.waarde === laagsteWaardegroep" mat-menu-item
+    <button *ngIf="!partipantRidersForm?.waterdrager" mat-menu-item
             (click)="addWaterdrager()">
       <mat-icon matListIcon>add_box</mat-icon>
       Waterdrager
