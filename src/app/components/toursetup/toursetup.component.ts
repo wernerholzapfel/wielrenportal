@@ -15,6 +15,7 @@ import {IRider} from '../../models/rider.model';
 import {getRiders} from '../../store/rider/rider.reducer';
 import 'rxjs/add/operator/mergeMap';
 import {ITourriders} from '../../models/tourriders.model';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-toursetup',
@@ -23,7 +24,7 @@ import {ITourriders} from '../../models/tourriders.model';
 })
 export class ToursetupComponent implements OnInit {
 
-  constructor(private store: Store<IAppState>, private tourService: TourService) {
+  constructor(private store: Store<IAppState>, private tourService: TourService, public snackBar: MatSnackBar) {
   }
 
   selectedTour: ITour;
@@ -35,6 +36,7 @@ export class ToursetupComponent implements OnInit {
   selectableTeamList: ITeam[];
   selectableRiders: IRider[];
   currentRider: IRider;
+  selectedTab = 0;
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTourList());
@@ -71,13 +73,21 @@ export class ToursetupComponent implements OnInit {
   }
 
   saveTeams(list) {
-    console.log('ik ga opslaan');
     const selectedTeams = list.selectedOptions.selected.map(item => item.value);
 
     this.tourService.addTeams({
       tour: this.selectedTour,
       teams: selectedTeams
-    }).subscribe(response => (console.log('hehe')))
+    }).subscribe(response => {
+      this.snackBar.open('Het opslaan is gelukt', '', {
+        duration: 2000,
+      });
+      this.selectedTab = 1;
+    }, error => {
+      this.snackBar.open(error, '', {
+        duration: 2000,
+      });
+    });
   }
 
   fetchTour() {

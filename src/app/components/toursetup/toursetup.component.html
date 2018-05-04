@@ -7,7 +7,7 @@
 </mat-form-field>
 
 <div *ngIf="selectedTour">
-  <mat-tab-group>
+  <mat-tab-group [selectedIndex]="selectedTab">
     <mat-tab label="Teams">
       <mat-selection-list #teamsToSave>
         <mat-list-option *ngFor="let team of selectableTeamList" [value]="team" [selected]="team?.selected">
@@ -35,11 +35,6 @@
                     <div matLine>
                       waarde: {{rider.waarde}}
                     </div>
-                    <!--<button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="!rider.rider.isSelected && !participantRidersComplete()" (click)="setCurrentRider(rider.rider, team, $event)">-->
-                    <!--<mat-icon matListIcon>playlist_add</mat-icon>-->
-                    <!--</button><button mat-icon-button *ngIf="rider.rider.isSelected">-->
-                    <!--<mat-icon matListIcon>directions_bike</mat-icon>-->
-                    <!--</button>-->
                   </mat-list-item>
                 </mat-list>
               </mat-card-content>
