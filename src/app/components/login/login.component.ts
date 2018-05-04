@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
     password: '',
     displayName: ''
   };
-  constructor(private authService: AuthService,  public snackBar: MatSnackBar, private router: Router) {
+  constructor(public authService: AuthService,  public snackBar: MatSnackBar, private router: Router) {
   }
   userForm = new FormGroup ({
   emailFormControl: new FormControl('', [
@@ -61,6 +61,9 @@ export class LoginComponent implements OnInit {
         });
         console.log('error: ' + err);
       });
+  }
+  logout() {
+    this.authService.logout();
   }
 }
 
