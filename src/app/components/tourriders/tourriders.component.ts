@@ -57,6 +57,8 @@ export class TourridersComponent implements OnInit {
   calculateUsedWaardepunten(): number {
     if (this.partipantRidersForm && this.partipantRidersForm.riders.length > 0) {
       return this.partipantRidersForm.riders.reduce((acc, obj) => acc + obj.waarde, 0);
+    } else {
+      return 0;
     }
   }
 

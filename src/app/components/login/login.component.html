@@ -1,64 +1,66 @@
 <mat-toolbar color="primary">Inloggen</mat-toolbar>
-<mat-tab-group>
-  <mat-tab label="inloggen">
-    <form class="login-form">
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Email"  name="inlogEmail" [(ngModel)]="user.email">
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <input type="password" name="inlogPassword" matInput placeholder="Password"
-               [(ngModel)]="user.password">
-      </mat-form-field>
-      <div class="form-group">
-        <button mat-raised-button color="primary" (click)="signInWithEmail()" [disabled]="!user.email || !user.password">
-          Inloggen
-        </button>
-      </div>
-    </form>
-  </mat-tab>
+<mat-card>
+  <mat-tab-group>
+    <mat-tab label="inloggen">
+      <form class="login-form">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Email" name="inlogEmail" [(ngModel)]="user.email">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input type="password" name="inlogPassword" matInput placeholder="Password"
+                 [(ngModel)]="user.password">
+        </mat-form-field>
+        <div class="form-group">
+          <button mat-raised-button color="primary" (click)="signInWithEmail()"
+                  [disabled]="!user.email || !user.password">
+            Inloggen
+          </button>
+        </div>
+      </form>
+    </mat-tab>
 
-  <mat-tab label="inschrijven">
-    <form [formGroup]="userForm" class="login-form">
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Email" formControlName="emailFormControl"
-               [errorStateMatcher]="matcher" [(ngModel)]="user.email">
-        <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.email &&
+    <mat-tab label="inschrijven">
+      <form [formGroup]="userForm" class="login-form">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Email" formControlName="emailFormControl"
+                 [errorStateMatcher]="matcher" [(ngModel)]="user.email">
+          <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.email &&
     !userForm.controls['emailFormControl'].errors?.required">
-          Vul een valide emailadres in.
-        </mat-error>
-        <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.required">
-          Email is <strong>verplicht</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <input type="password" matInput placeholder="Password" formControlName="passwordFormControl"
-               [(ngModel)]="user.password">
-        <!--<mat-hint>Het wachtwoord moet minimaal 8 tekens lang zijn</mat-hint>-->
-        <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.minlength &&
+            Vul een valide emailadres in.
+          </mat-error>
+          <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.required">
+            Email is <strong>verplicht</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input type="password" matInput placeholder="Password" formControlName="passwordFormControl"
+                 [(ngModel)]="user.password">
+          <!--<mat-hint>Het wachtwoord moet minimaal 8 tekens lang zijn</mat-hint>-->
+          <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.minlength &&
     !userForm.controls['passwordFormControl'].errors?.required">
-          Het wachtwoord moet minstens 8 tekens lang zijn.
-        </mat-error>
-        <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.required">
-          Paswoord is <strong>verplicht</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <input type="text" matInput placeholder="Naam" formControlName="displayNameFormControl"
-               [(ngModel)]="user.displayName">
-        <mat-error *ngIf="userForm.controls['displayNameFormControl'].errors?.required">
-          Naam is <strong>verplicht</strong>
-        </mat-error>
-      </mat-form-field>
+            Het wachtwoord moet minstens 8 tekens lang zijn.
+          </mat-error>
+          <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.required">
+            Paswoord is <strong>verplicht</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input type="text" matInput placeholder="Naam" formControlName="displayNameFormControl"
+                 [(ngModel)]="user.displayName">
+          <mat-error *ngIf="userForm.controls['displayNameFormControl'].errors?.required">
+            Naam is <strong>verplicht</strong>
+          </mat-error>
+        </mat-form-field>
 
-      <div class="form-group">
-        <button mat-raised-button color="primary" (click)="signUpRegular()" [disabled]="userForm.invalid">
-          Inschrijven
-        </button>
-      </div>
-    </form>
-  </mat-tab>
-
-
+        <div class="form-group">
+          <button mat-raised-button color="primary" (click)="signUpRegular()" [disabled]="userForm.invalid">
+            Inschrijven
+          </button>
+        </div>
+      </form>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>
 
 
 
