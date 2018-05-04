@@ -28,9 +28,16 @@ export class AuthService {
     return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
-  signUpRegular(email, password) {
+  updateProfile(displayName: string) {
+    this.getToken().then(response => {
+      response.updateProfile({displayName: displayName});
+    });
+  }
+
+  signUpRegular(email, password, displayName) {
     return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password)
       .then(value => {
+        value.updateProfile({displayName: displayName});
         console.log('Success!', value);
       })
       .catch(err => {

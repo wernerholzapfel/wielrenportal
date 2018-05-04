@@ -10,6 +10,8 @@ import {ITeam} from '../../models/team.model';
 import 'rxjs/add/operator/take';
 import {Observable} from 'rxjs/Observable';
 import {PredictionService} from '../../services/prediction.service';
+import {MatSnackBar} from '@angular/material';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-tourriders',
@@ -25,7 +27,10 @@ export class TourridersComponent implements OnInit {
   maxParticipantRidersPunten = 1060;
   laagsteWaardegroep = 10;
 
-  constructor(private store: Store<IAppState>, private predictionService: PredictionService) {
+  constructor(private store: Store<IAppState>,
+              private predictionService: PredictionService,
+              public snackBar: MatSnackBar,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -113,8 +118,18 @@ export class TourridersComponent implements OnInit {
     this.tour$.take(1).subscribe(tour => {
       this.partipantRidersForm.tour = tour;
 
-      this.predictionService.submitPrediction(this.partipantRidersForm).subscribe(response =>
-        console.log('opslaan gelukt'), error => console.log(error));
+      this.predictionService.submitPrediction(this.partipantRidersForm).subscribe(response => {
+        this.snackBar.open('Het opslaan is gelukt', '', {
+          duration: 2000,
+        });
+        console.log('opslaan gelukt');
+        this.router.navigate(['/participants']);
+      }, error => {
+        this.snackBar.open('Het opslaan is niet gelukt', '', {
+          duration: 2000,
+        });
+        console.log(error);
+      });
     });
   }
 

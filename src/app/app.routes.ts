@@ -8,6 +8,7 @@ import {TourridersComponent} from './components/tourriders/tourriders.component'
 import {LoginComponent} from './components/login/login.component';
 import {ToursetupComponent} from './components/toursetup/toursetup.component';
 import {AdminGuardService} from './services/admin-guard.service';
+import {ParticipantsComponent} from './components/participants/participants.component';
 
 const appRoutes: Routes = [
   {
@@ -18,6 +19,9 @@ const appRoutes: Routes = [
     path: 'tourriders',
     canActivate: [AuthGuardService],
     component: TourridersComponent
+  },{
+    path: 'participants',
+    component: ParticipantsComponent
   },
   {
     path: 'login',

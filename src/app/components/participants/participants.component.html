@@ -1,0 +1,29 @@
+<mat-expansion-panel *ngFor="let participant of participants">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+     {{participant.displayName}}
+    </mat-panel-title>
+    <mat-panel-description>
+      <!--This is a summary of the content-->
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <mat-list>
+    <div *ngFor="let prediction of participant.predictions">
+    <mat-list-item>
+      <h3 matLine>
+        {{prediction.rider.rider.firstName}} {{prediction.rider.rider.surName}} </h3>
+      <p matLine>
+        <span> {{prediction.rider.waarde}} </span>
+        <span *ngIf="prediction.isRider"> Teamrenner </span>
+        <span *ngIf="prediction.isWaterdrager"> Waterdrager </span>
+        <span *ngIf="prediction.isMeesterknecht"> Meesterknecht </span>
+        <span *ngIf="prediction.isLinkebal"> Linkebal </span>
+        <span *ngIf="prediction.isBeschermdeRenner"> Beschermde renner </span>
+      </p>
+      </mat-list-item>
+    <mat-divider [inset]="true"></mat-divider>
+    </div>
+  </mat-list>
+
+</mat-expansion-panel>

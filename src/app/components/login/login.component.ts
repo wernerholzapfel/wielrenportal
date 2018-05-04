@@ -13,7 +13,8 @@ import {ErrorStateMatcher} from '@angular/material';
 export class LoginComponent implements OnInit {
   user = {
     email: '',
-    password: ''
+    password: '',
+    displayName: ''
   };
   constructor(private authService: AuthService, private router: Router) {
   }
@@ -21,6 +22,9 @@ export class LoginComponent implements OnInit {
   emailFormControl: new FormControl('', [
     Validators.required,
     Validators.email,
+  ]),
+  displayNameFormControl: new FormControl('', [
+    Validators.required,
   ]),
   passwordFormControl: new FormControl('', [
     Validators.required,
@@ -36,18 +40,17 @@ export class LoginComponent implements OnInit {
     this.authService.signInRegular(this.user.email, this.user.password)
       .then((res) => {
         console.log(res);
-
-        this.router.navigate(['/riders']);
+        this.router.navigate(['/participants']);
       })
       .catch((err) => console.log('error: ' + err));
   }
 
   signUpRegular() {
-    this.authService.signUpRegular(this.user.email, this.user.password)
+    this.authService.signUpRegular(this.user.email, this.user.password, this.user.displayName)
       .then((res) => {
         console.log(res);
 
-        this.router.navigate(['/riders']);
+        this.router.navigate(['/tourriders']);
       })
       .catch((err) => console.log('error: ' + err));
   }

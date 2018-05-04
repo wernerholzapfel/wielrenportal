@@ -7,7 +7,7 @@
           <mat-divider [inset]="true"></mat-divider>
           <h3 matSubheader>Mijn Renners ({{partipantRidersForm?.riders?.length}}/{{maxParticipantRiders}})</h3>
           <mat-list-item *ngFor="let rider of partipantRidersForm?.riders">
-            {{rider?.firstName}} {{rider?.surNameShort}} {{rider?.waarde}}
+            {{rider?.firstName}} {{rider?.surNameShort}} ({{rider?.waarde}})
           </mat-list-item>
           <mat-list-item class="alert" *ngIf="calculateUsedWaardepunten() > maxParticipantRidersPunten">
             Je team heeft te veel waardepunten
@@ -84,7 +84,7 @@
 <mat-menu #menu="matMenu">
   <mat-list>
     <mat-list-item>
-      Kies als:
+      {{currentRider?.firstName}} {{currentRider?.surName}} ({{currentRider?.waarde}})
     </mat-list-item>
   </mat-list>
   <div fxLayout="column" fxLayoutAlign="start stretch">
