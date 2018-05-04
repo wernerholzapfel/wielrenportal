@@ -4,23 +4,20 @@
   }
   .participant_team_card {
     margin: 10px 0;
-  //  padding: 24px 0;
+    //  padding: 24px 0;
 
   }
-  .temp {
-    background-color: yellow;
-    -webkit-background-clip: padding-box;
-    -moz-background-clip: padding-box;
-    background-clip: padding-box;
+  .mat-menu-content {
+    padding-top: 8px;
+    padding-bottom: 8px;
   }
-
   .alert {
     color: #c7254e;
     font-size: 14px;
   }
 
   .note {
-    color: rgba(0,0,0,.54);
+    color: rgba(0, 0, 0, .54);
     font-size: 14px;
   }
 }

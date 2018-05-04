@@ -1,64 +1,72 @@
 <mat-toolbar color="primary">Tour administratie</mat-toolbar>
 <mat-card>
   <mat-form-field>
-  <mat-select placeholder="Kies de ronde" [(ngModel)]="selectedTour" (change)="fetchTour()">
-    <mat-option *ngFor="let tour of (tours$ | async)" [value]="tour">
-      {{ tour.tourName }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+    <mat-select placeholder="Kies de ronde" [(ngModel)]="selectedTour" (change)="fetchTour()">
+      <mat-option *ngFor="let tour of (tours$ | async)" [value]="tour">
+        {{ tour.tourName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-<div *ngIf="selectedTour">
-  <mat-tab-group [selectedIndex]="selectedTab">
-    <mat-tab label="Teams">
-      <mat-selection-list #teamsToSave>
-        <mat-list-option *ngFor="let team of selectableTeamList" [value]="team" [selected]="team?.selected">
-          <h3 matLine>{{team?.teamName}}</h3>
-        </mat-list-option>
-      </mat-selection-list>
+  <div *ngIf="selectedTour">
+    <mat-tab-group [selectedIndex]="selectedTab">
+      <mat-tab label="Teams">
+        <mat-selection-list #teamsToSave>
+          <mat-list-option *ngFor="let team of selectableTeamList" [value]="team" [selected]="team?.selected">
+            <h3 matLine>{{team?.teamName}}</h3>
+          </mat-list-option>
+        </mat-selection-list>
 
-      <p>
-        <button mat-raised-button color="primary" (click)="saveTeams(teamsToSave)">
-          Save {{teamsToSave.selectedOptions.selected.length}} teams
-        </button>
-      </p>
-    </mat-tab>
-    <mat-tab label="Renners">
+        <p>
+          <button mat-raised-button color="primary" (click)="saveTeams(teamsToSave)">
+            Save {{teamsToSave.selectedOptions.selected.length}} teams
+          </button>
+        </p>
+      </mat-tab>
+      <mat-tab label="Renners">
         <div fxLayout="row">
           <div fxLayout="row wrap" fxLayoutAlign="start start">
-            <mat-card fxFlex="calc(50% - 20px)" class="team_card" *ngFor='let team of (tourTeams$ | async)'>
-              <mat-card-header>{{team.teamName}}</mat-card-header>
-              <mat-card-content>
-                <mat-list dense>
-                  <mat-list-item *ngFor="let rider of team.tourRiders">
-                    <div matLine>
-                      {{rider.rider.firstNameShort}} {{rider.rider.surNameShort}}
-                    </div>
-                    <div matLine>
-                      waarde: {{rider.waarde}}
-                    </div>
-                  </mat-list-item>
-                </mat-list>
-              </mat-card-content>
-            </mat-card>
+            <div class="team_card" fxFlex="calc(50% - 20px)" *ngFor='let team of (tourTeams$ | async)'>
+              <mat-toolbar color="primary">{{team.teamName}}</mat-toolbar>
+              <mat-card>
+                <mat-divider [inset]="true"></mat-divider>
+                <mat-card-content>
+                  <mat-list dense>
+                    <mat-list-item *ngFor="let rider of team.tourRiders">
+                      <div matLine>
+                        {{rider.rider.firstNameShort}} {{rider.rider.surNameShort}}
+                      </div>
+                      <div matLine>
+                        waarde: {{rider.waarde}}
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+                </mat-card-content>
+              </mat-card>
+            </div>
+
           </div>
           <mat-card class="team_card" fxFlex="40">
             <mat-list>
-              <mat-list-item *ngFor="let rider of selectableRiders">
-                <div matLine>
-                  {{rider?.firstNameShort}} {{rider?.surNameShort}}
-                </div>
-                <input type="number" matInput placeholder="waarde"
-                       [(ngModel)]="rider.waarde">
-                <button [disabled]="!rider.waarde" mat-icon-button [matMenuTriggerFor]="menu"
-                        *ngIf="!rider.isSelected"
-                        (click)="setCurrentRider(rider, $event)">
-                  <mat-icon matListIcon>playlist_add</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf="rider.isSelected">
-                  <mat-icon matListIcon>directions_bike</mat-icon>
-                </button>
-              </mat-list-item>
+              <div *ngFor="let rider of selectableRiders">
+                <mat-list-item>
+                  <div matLine>
+                    {{rider?.firstNameShort}} {{rider?.surNameShort}}
+                  </div>
+                  <input type="number" matInput placeholder="waarde"
+                         [(ngModel)]="rider.waarde">
+                  <button [disabled]="!rider.waarde" mat-icon-button [matMenuTriggerFor]="menu"
+                          *ngIf="!rider.isSelected"
+                          (click)="setCurrentRider(rider, $event)">
+                    <mat-icon matListIcon>playlist_add</mat-icon>
+                  </button>
+                  <button mat-icon-button *ngIf="rider.isSelected">
+                    <mat-icon matListIcon>directions_bike</mat-icon>
+                  </button>
+                </mat-list-item>
+                <mat-divider [inset]="true"></mat-divider>
+              </div>
+
             </mat-list>
           </mat-card>
           <mat-menu #menu="matMenu">
@@ -73,7 +81,7 @@
             </mat-list>
           </mat-menu>
         </div>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </mat-card>

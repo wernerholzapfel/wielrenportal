@@ -6,7 +6,7 @@
   <button mat-flat-button *ngIf="authService.isAdmin" [routerLink]="['/admin']">Tour admin</button>
   <span class="example-spacer"></span>
   <button mat-button *ngIf="!(authService.user$ | async)" [routerLink]="['/login']">Login</button>
-  <button mat-button *ngIf="(authService.user$ | async)" [matMenuTriggerFor]="profileMenu"> {{(authService.user$ | async)?.displayName }}</button>
+  <button mat-button *ngIf="(authService.user$ | async)" [matMenuTriggerFor]="profileMenu">Hoi: {{(authService.user$ | async)?.displayName }}</button>
 </mat-toolbar>
 
 <mat-card>
