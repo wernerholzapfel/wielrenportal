@@ -1,4 +1,6 @@
-<mat-form-field>
+<mat-toolbar color="primary">Tour administratie</mat-toolbar>
+<mat-card>
+  <mat-form-field>
   <mat-select placeholder="Kies de ronde" [(ngModel)]="selectedTour" (change)="fetchTour()">
     <mat-option *ngFor="let tour of (tours$ | async)" [value]="tour">
       {{ tour.tourName }}
@@ -73,6 +75,5 @@
         </div>
     </mat-tab>
   </mat-tab-group>
-
-
 </div>
+</mat-card>
