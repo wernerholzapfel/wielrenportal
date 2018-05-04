@@ -7,15 +7,16 @@ import {HomeComponent} from './components/home/home.component';
 import {TourridersComponent} from './components/tourriders/tourriders.component';
 import {LoginComponent} from './components/login/login.component';
 import {ToursetupComponent} from './components/toursetup/toursetup.component';
+import {AdminGuardService} from './services/admin-guard.service';
 
 const appRoutes: Routes = [
   {
     path: 'riders',
-    canActivate: [AuthGuardService],
     component: RidersComponent
   },
   {
     path: 'tourriders',
+    canActivate: [AuthGuardService],
     component: TourridersComponent
   },
   {
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
     component: LoginComponent
   }, {
     path: 'admin',
+    canActivate: [AdminGuardService],
     component: ToursetupComponent
   },
   {

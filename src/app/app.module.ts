@@ -29,6 +29,7 @@ import {TourService} from './services/tour.service';
 import { ToursetupComponent } from './components/toursetup/toursetup.component';
 import {TeamService} from './services/teams.service';
 import {PredictionService} from './services/prediction.service';
+import {AdminGuardService} from './services/admin-guard.service';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import {PredictionService} from './services/prediction.service';
     TeamService,
     PredictionService,
     AuthGuardService,
+    AdminGuardService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

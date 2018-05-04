@@ -3,13 +3,24 @@ import {Observable} from 'rxjs/Observable';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
+import {fromPromise} from 'rxjs/observable/fromPromise';
 
 @Injectable()
 export class AuthService {
   public user$: Observable<firebase.User>;
+  public isAdmin = false;
 
   constructor(private _firebaseAuth: AngularFireAuth, private router: Router) {
     this.user$ = _firebaseAuth.authState;
+
+    this.user$.subscribe(user => {
+      console.log('subscribe op user getriggerd')
+      if (user) {
+        this._firebaseAuth.auth.currentUser.getIdTokenResult(true).then(tokenResult => {
+          this.isAdmin = tokenResult.claims.admin;
+        });
+      }
+    });
   }
 
   signInRegular(email, password) {
@@ -37,8 +48,19 @@ export class AuthService {
         this.router.navigate(['/']));
   }
 
-  getToken() {
-      return  this._firebaseAuth.auth.currentUser.getIdToken(true);
+  getToken(): Promise<any> {
+    if (this._firebaseAuth.auth.currentUser) {
+      return this._firebaseAuth.auth.currentUser.getIdToken(true);
+    } else {
+      return Promise.resolve(false);
+    }
   }
 
+  getTokenResult(): Promise<any> {
+    if (this._firebaseAuth.auth.currentUser) {
+      return this._firebaseAuth.auth.currentUser.getIdTokenResult(true);
+    } else {
+      return Promise.resolve(false);
+    }
+  }
 }
