@@ -4,7 +4,7 @@
       <mat-card-header>Mijn Team</mat-card-header>
       <mat-card-content>
         <mat-list>
-          <mat-divider></mat-divider>
+          <mat-divider [inset]="true"></mat-divider>
           <h3 matSubheader>Mijn Renners ({{partipantRidersForm?.riders?.length}}/{{maxParticipantRiders}})</h3>
           <mat-list-item *ngFor="let rider of partipantRidersForm?.riders">
             {{rider?.firstName}} {{rider?.surNameShort}} {{rider?.waarde}}
@@ -15,28 +15,28 @@
           <mat-list-item class="note" *ngIf="calculateUsedWaardepunten() < maxParticipantRidersPunten">
            Je hebt nog {{maxParticipantRidersPunten - calculateUsedWaardepunten()}} waardepunten over.
           </mat-list-item>
-          <mat-divider></mat-divider>
+                   <mat-divider [inset]="true"></mat-divider>
           <h3 matSubheader>Mijn waterdrager</h3>
           <mat-list-item>
             {{partipantRidersForm?.waterdrager?.firstName}}
             {{partipantRidersForm?.waterdrager?.surNameShort}}
             {{partipantRidersForm?.waterdrager?.waarde}}
           </mat-list-item>
-          <mat-divider></mat-divider>
+                   <mat-divider [inset]="true"></mat-divider>
           <h3 matSubheader>Mijn meesterknecht</h3>
           <mat-list-item>
             {{partipantRidersForm?.meesterknecht?.firstName}}
             {{partipantRidersForm?.meesterknecht?.surNameShort}}
             {{partipantRidersForm?.meesterknecht?.waarde}}
           </mat-list-item>
-          <mat-divider></mat-divider>
+                   <mat-divider [inset]="true"></mat-divider>
           <h3 matSubheader>Mijn linkebal</h3>
           <mat-list-item>
             {{partipantRidersForm?.linkebal?.firstName}}
             {{partipantRidersForm?.linkebal?.surNameShort}}
             {{partipantRidersForm?.linkebal?.waarde}}
           </mat-list-item>
-          <mat-divider></mat-divider>
+                   <mat-divider [inset]="true"></mat-divider>
           <h3 matSubheader>Mijn beschermde renner</h3>
           <mat-list-item>
             {{partipantRidersForm?.beschermdeRenner?.firstName}}
@@ -58,7 +58,7 @@
       <mat-card-header fxLayoutAlign=" center">
         <img matListAvatar [src]="'assets/images/shirts/' + team.teamAbbreviation + '.jpg'">
         {{team.teamName}}</mat-card-header>
-      <mat-divider></mat-divider>
+      <mat-divider [inset]="true"></mat-divider>
       <mat-card-content>
         <mat-list>
           <mat-list-item *ngFor="let rider of team.tourRiders">

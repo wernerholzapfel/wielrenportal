@@ -43,7 +43,7 @@ export class TourridersComponent implements OnInit {
   }
 
   setCurrentRider(rider, team, $event) {
-    this.currentRider = Object.assign(rider.rider, {waarde: rider.waarde});
+    this.currentRider = Object.assign(rider.rider, {waarde: rider.waarde, id: rider.id});
     console.log(this.currentRider);
     this.currentTeam = team;
     $event.stopPropagation();
