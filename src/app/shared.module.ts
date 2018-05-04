@@ -87,18 +87,18 @@ export const UTILITY_SHARED_MODULES = [FlexLayoutModule];
 // import { KeysPipe } from './pipes/keys/keys.pipe';
 // import { EllipsisPipe } from './pipes/ellipsis/ellipsis';
 // import { AddCommasPipe } from './pipes/add-comas/add-commas';
-// import { OrderByPipe } from './pipes/order-by/order-by.pipe';
-// export const PIPES = [AddCommasPipe, EllipsisPipe, KeysPipe, SearchFilterPipe, FormatDatePipe, OrderByPipe];
+import { OrderByPipe } from './pipes/order-by/order-by.pipe';
+export const PIPES = [OrderByPipe];
 
 
 @NgModule({
   imports: [...ANGULAR_COMMON_MODULES, ...MATERIAL_MODULES],
-  // declarations: [...PIPES],
+  declarations: [...PIPES],
   exports: [
     ...ANGULAR_COMMON_MODULES,
     ...MATERIAL_MODULES,
     ...UTILITY_SHARED_MODULES,
-    // ...PIPES
+    ...PIPES
   ],
   // declarations: [ConfirmDialogComponent]
 })
