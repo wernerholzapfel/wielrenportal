@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-content>
+    <mat-list dense>
+      <mat-list-item *ngFor="let etappe of etappes | orderBy : 'date' : false">
+        <div matLine>
+          {{etappe.etappeName}} {{etappe.date}}
+        </div>
+      <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="accent" (click)="openDialog()">Voeg etappe toe</button>
+  </mat-card-actions>
+</mat-card>

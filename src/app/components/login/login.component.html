@@ -46,7 +46,7 @@
         </mat-form-field>
         <mat-form-field class="full-width">
           <input type="text" matInput placeholder="Naam" formControlName="displayNameFormControl"
-                 [(ngModel)]="user.displayName">
+                 [errorStateMatcher]="matcher" [(ngModel)]="user.displayName">
           <mat-error *ngIf="userForm.controls['displayNameFormControl'].errors?.required">
             Naam is <strong>verplicht</strong>
           </mat-error>

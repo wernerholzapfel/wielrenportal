@@ -67,7 +67,7 @@
         <mat-card>
           <mat-card-content>
             <mat-list>
-              <mat-list-item *ngFor="let rider of team.tourRiders | orderBy : 'waarde'">
+              <mat-list-item *ngFor="let rider of team.tourRiders | orderBy : 'waarde': true">
                 <div matLine>
                   {{rider.rider.firstNameShort}} {{rider.rider.surNameShort}} {{rider.waarde}}
                 </div>

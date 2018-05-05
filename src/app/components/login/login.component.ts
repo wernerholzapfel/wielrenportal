@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
-import {AngularFireAuth} from 'angularfire2/auth';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher, MatSnackBar} from '@angular/material';
 
@@ -16,25 +15,28 @@ export class LoginComponent implements OnInit {
     password: '',
     displayName: ''
   };
-  constructor(public authService: AuthService,  public snackBar: MatSnackBar, private router: Router) {
+
+  constructor(public authService: AuthService, public snackBar: MatSnackBar, private router: Router) {
   }
-  userForm = new FormGroup ({
-  emailFormControl: new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]),
-  displayNameFormControl: new FormControl('', [
-    Validators.required,
-  ]),
-  passwordFormControl: new FormControl('', [
-    Validators.required,
-    Validators.minLength(8),
-  ])
-});
+
+  userForm = new FormGroup({
+    emailFormControl: new FormControl('', [
+      Validators.required,
+      Validators.email,
+    ]),
+    displayNameFormControl: new FormControl('', [
+      Validators.required,
+    ]),
+    passwordFormControl: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+    ])
+  });
 
   matcher = new MyErrorStateMatcher();
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   signInWithEmail() {
     this.authService.signInRegular(this.user.email, this.user.password)
@@ -43,8 +45,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/participants']);
       })
       .catch((err) => {
-        this.snackBar.open(err.message, 'OK', {
-        });
+        this.snackBar.open(err.message, 'OK', {});
         console.log('error: ' + err);
       });
   }
@@ -57,11 +58,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/tourriders']);
       })
       .catch((err) => {
-        this.snackBar.open(err.message, 'OK', {
-        });
+        this.snackBar.open(err.message, 'OK', {});
         console.log('error: ' + err);
       });
   }
+
   logout() {
     this.authService.logout();
   }
