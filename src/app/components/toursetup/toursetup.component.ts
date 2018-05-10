@@ -29,6 +29,7 @@ export class ToursetupComponent implements OnInit {
 
   selectedTour: ITour;
   tours$: Observable<ITour[]>;
+  tours: ITour[];
   riders$: Observable<IRider[]>;
   tourTeams$: Observable<ITeam[]>;
   teams$: Observable<ITeam[]>;
@@ -37,6 +38,7 @@ export class ToursetupComponent implements OnInit {
   selectableRiders: IRider[];
   currentRider: IRider;
   selectedTab = 0;
+  selected: ITour;
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTourList());
@@ -70,6 +72,14 @@ export class ToursetupComponent implements OnInit {
           this.selectableRiders = riders.filter(rider => !(flattenTourRiders.find(ftr => ftr.rider.id === rider.id)));
         }
       });
+
+    this.tours$.subscribe(tours => {
+      if (tours && tours.length > 0) {
+        this.selectedTour = tours.find(tour => tour.isActive)
+        this.store.dispatch(new fromTour.FetchTourById(this.selectedTour.id))
+        this.tours = tours;
+      }
+    });
   }
 
   saveTeams(list) {

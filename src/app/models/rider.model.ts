@@ -15,4 +15,5 @@ export interface IRider {
   isRenner?: boolean;
   isSelected?: boolean;
   waarde?: number;
+  position?: number;
 }

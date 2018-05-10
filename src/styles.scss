@@ -3,8 +3,8 @@
 //@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 //@import "~@angular/material/prebuilt-themes/purple-green.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
+@import "~ag-grid/dist/styles/ag-grid.css";
+@import "~ag-grid/dist/styles/ag-theme-material.css";
 .mat-dialog-container {
   padding: 0 !important;
-  height: auto !important;
 }

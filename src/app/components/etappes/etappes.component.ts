@@ -4,6 +4,7 @@ import {IEtappe} from '../../models/etappe.model';
 import {MatDialog} from '@angular/material';
 import {AddEtappeDialogComponent} from './dialog/add-etappe-dialog/add-etappe-dialog.component';
 import {ITour} from '../../models/tour.model';
+import {AddStageClassificationsComponent} from './dialog/add-stage-classifications/add-stage-classifications.component';
 
 @Component({
   selector: 'app-etappes',
@@ -23,7 +24,7 @@ export class EtappesComponent implements OnInit {
 
   }
 
-  openDialog() {
+  openAddEtappeDialog() {
     const dialogRef = this.dialog.open(AddEtappeDialogComponent, {
       data: {tour: this.selectedtour},
       width: '400px'
@@ -31,9 +32,28 @@ export class EtappesComponent implements OnInit {
 
     // todo move to store ?
     dialogRef.afterClosed().subscribe(result => {
-      this.etappeService.saveEtappe(result).subscribe(response => {
-        this.etappes = [...this.etappes, response];
-      });
+      if (result) {
+        this.etappeService.saveEtappe(result).subscribe(response => {
+          this.etappes = [...this.etappes, response];
+        });
+      }
+    });
+  }
+
+  openAddStageClassificationsDialog(etappe) {
+    const dialogRef = this.dialog.open(AddStageClassificationsComponent, {
+      data: {
+        etappe: etappe, uitslag: [], tour: this.selectedtour
+      },
+      width: '90%',
+      height: '90%'
+    });
+
+    // todo move to store ?
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+      }
     });
   }
 }

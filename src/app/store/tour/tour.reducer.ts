@@ -1,6 +1,8 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import * as tour from './tour.actions';
 import {ITour} from '../../models/tour.model';
+import {ITeam} from '../../models/team.model';
+import {ITourriders} from '../../models/tourriders.model';
 
 export interface TourState {
   tours: ITour[];
@@ -88,4 +90,12 @@ export function tourReducer(state = initaltourState, action): TourState {
 export const gettourState = createFeatureSelector<TourState>('tour');
 export const getTour = createSelector(gettourState, (state: TourState) => state.tour);
 export const getTourTeams = createSelector(gettourState, (state: TourState) => state.tour ? state.tour.teams : []);
+export const getTourRiders = createSelector(getTourTeams, (tourTeams: ITeam[]) => {
+  let flattenTourRiders: ITourriders[] = [];
+  tourTeams.map(tourteam => {
+    flattenTourRiders = [...flattenTourRiders, ...tourteam.tourRiders];
+  });
+  return flattenTourRiders;
+});
+
 export const getTours = createSelector(gettourState, (state: TourState) => state.tours);

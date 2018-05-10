@@ -5,11 +5,12 @@
         <div matLine>
           {{etappe.etappeName}} {{etappe.date}}
         </div>
+        <button mat-button color="accent" (click)="openAddStageClassificationsDialog(etappe)">Voer uitslag in</button>
       <mat-divider></mat-divider>
       </mat-list-item>
     </mat-list>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="accent" (click)="openDialog()">Voeg etappe toe</button>
+    <button mat-raised-button color="accent" (click)="openAddEtappeDialog()">Voeg etappe toe</button>
   </mat-card-actions>
 </mat-card>

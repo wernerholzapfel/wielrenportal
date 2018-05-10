@@ -36,6 +36,11 @@ import {EtappesComponent} from './components/etappes/etappes.component';
 import {EtappeService} from './services/etappe.service';
 import {AddEtappeDialogComponent} from './components/etappes/dialog/add-etappe-dialog/add-etappe-dialog.component';
 import {OrderModule} from 'ngx-order-pipe';
+import { AddStageClassificationsComponent }
+from './components/etappes/dialog/add-stage-classifications/add-stage-classifications.component';
+import {MAT_DATE_LOCALE} from '@angular/material';
+import {AgGridModule} from 'ag-grid-angular';
+import {StageclassificationsService} from './services/stageclassifications.service';
 
 
 @NgModule({
@@ -49,10 +54,12 @@ import {OrderModule} from 'ngx-order-pipe';
     ToursetupComponent,
     ParticipantsComponent,
     EtappesComponent,
-    AddEtappeDialogComponent
+    AddEtappeDialogComponent,
+    AddStageClassificationsComponent
   ],
   entryComponents: [
-    AddEtappeDialogComponent
+    AddEtappeDialogComponent,
+    AddStageClassificationsComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +75,8 @@ import {OrderModule} from 'ngx-order-pipe';
     AngularFireAuthModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument(),
-    EffectsModule.forRoot(effects)
+    EffectsModule.forRoot(effects),
+    AgGridModule.withComponents([]),
   ],
   providers: [
     RiderService,
@@ -80,11 +88,13 @@ import {OrderModule} from 'ngx-order-pipe';
     AdminGuardService,
     ParticipantService,
     EtappeService,
+    StageclassificationsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
     },
+    {provide: MAT_DATE_LOCALE, useValue: 'nl-NL'},
   ],
   bootstrap: [AppComponent]
 })

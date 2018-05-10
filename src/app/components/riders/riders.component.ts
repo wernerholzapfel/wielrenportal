@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {MatSort, MatTableDataSource} from '@angular/material';
 import {IRider} from '../../models/rider.model';
 import {IAppState} from '../../store/store';
@@ -6,6 +6,10 @@ import {Store} from '@ngrx/store';
 import {RiderService} from '../../services/rider.service';
 import {FetchRiders} from '../../store/rider/rider.actions';
 import {getRiders} from '../../store/rider/rider.reducer';
+import {Observable} from 'rxjs/Observable';
+import {GridOptions} from 'ag-grid';
+import {getTourRiders} from '../../store/tour/tour.reducer';
+import {ITourriders} from '../../models/tourriders.model';
 
 @Component({
   selector: 'app-riders',
@@ -14,9 +18,22 @@ import {getRiders} from '../../store/rider/rider.reducer';
 })
 export class RidersComponent implements OnInit {
 
-  displayedColumns = ['firstName', 'nationality', 'dateOfBirth'];
+  searchTerm: string;
+  riders$: Observable<ITourriders[]>;
+
+  agColumns = [
+    {headerName: 'Voornaam', field: 'rider.firstName'},
+    {headerName: 'Achternaam', field: 'rider.surName'},
+    {headerName: 'Nationaliteit', field: 'rider.nationality'},
+    {headerName: 'Positie', field: 'rider.position', editable: true,
+      valueParser: this.numberParser},
+    {headerName: 'Geboortedag', field: 'rider.dateOfBirth'}];
   dataSource = new MatTableDataSource<IRider>();
   @ViewChild(MatSort) sort: MatSort;
+
+  @Output()
+  addPositionEvent: EventEmitter<IRider> = new EventEmitter<IRider>();
+  public gridOptions: GridOptions;
 
   constructor(private riderService: RiderService, private store: Store<IAppState>) {
   }
@@ -28,12 +45,40 @@ export class RidersComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new FetchRiders());
-    this.store.select(getRiders).subscribe(data => {
-      this.dataSource.data = data;
-      if (this.dataSource.data) {
-        this.dataSource.sort = this.sort;
-      }
-    });
+    this.riders$ = this.store.select(getTourRiders);
+
+
+    this.gridOptions = <GridOptions>{
+      columnDefs: this.agColumns,
+      onGridReady: () => {
+        this.gridOptions.api.sizeColumnsToFit();
+      },
+      enableSorting: true,
+      singleClickEdit: true
+    };
+  }
+
+  applyFilter(filterValue: string) {
+    this.gridOptions.api.setQuickFilter(filterValue);
+  }
+
+  addPosition(element: any) {
+    if (element.type === 'cellValueChanged' && element.colDef.field === 'rider.position') {
+      const updatedRider = Object.assign(element.data.rider, {position: element.newValue, id: element.data.id});
+      this.addPositionEvent.emit(updatedRider);
+    }
+  }
+
+  formatNumber(number) {
+    return Math.floor(number)
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  }
+  numberFormatter(params) {
+    return '\xA3' + this.formatNumber(params.value);
+  }
+  numberParser(params) {
+    return Number(params.newValue);
   }
 
 }
