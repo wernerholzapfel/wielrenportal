@@ -1,0 +1,37 @@
+<mat-toolbar color="primary">De stand</mat-toolbar>
+<mat-expansion-panel *ngFor="let participant of participants | orderBy : 'punten' : true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{participant.displayName}} {{participant.punten}}
+
+    </mat-panel-title>
+    <mat-panel-description>
+      <!--This is a summary of the content-->
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <div fxLayout="row layout-wrap" fxLayoutGap="5px" fxLayoutAlign="space-around start">
+    <div fxFlex="300px" *ngFor="let prediction of participant.predictions | orderBy : 'punten' : true">
+      <mat-toolbar color="accent">
+        <mat-toolbar-row class="card_header">
+          {{prediction.rider.rider.firstName}} {{prediction.rider.rider.surName}} {{prediction.punten}}
+        </mat-toolbar-row>
+        <mat-toolbar-row class="card_header">
+          <ng-container *ngIf="prediction.isRider"> (Teamrenner)</ng-container>
+          <ng-container *ngIf="prediction.isWaterdrager"> (Waterdrager)</ng-container>
+          <ng-container *ngIf="prediction.isMeesterknecht"> (Meesterknecht)</ng-container>
+          <ng-container *ngIf="prediction.isLinkebal"> (Linkebal)</ng-container>
+          <ng-container *ngIf="prediction.isBeschermdeRenner"> (Beschermde renner)</ng-container>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <mat-card>
+        <mat-card-content>
+          <div *ngFor="let sc of prediction.rider.stageclassifications | orderBy : 'etappe.date' : false">
+            {{sc.etappe.etappeName}} {{sc.punten}}
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-divider [inset]="true"></mat-divider>
+    </div>
+  </div>
+</mat-expansion-panel>

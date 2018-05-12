@@ -9,6 +9,7 @@ import {AuthService} from './services/auth.service';
 export class AppComponent implements OnInit {
   constructor(public authService: AuthService) {}
 
+  isSubmissionPossible = false;
   displayName: string;
   ngOnInit() {
   }

@@ -1,3 +1,5 @@
+import {IStageclassifications} from './participant.model';
+
 export interface IRider {
   id: string;
   firstName: string;
@@ -16,4 +18,6 @@ export interface IRider {
   isSelected?: boolean;
   waarde?: number;
   position?: number;
+  stageclassifications?: IStageclassifications[];
+
 }

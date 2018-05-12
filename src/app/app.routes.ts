@@ -10,6 +10,7 @@ import {ToursetupComponent} from './components/toursetup/toursetup.component';
 import {AdminGuardService} from './services/admin-guard.service';
 import {ParticipantsComponent} from './components/participants/participants.component';
 import {EtappesComponent} from './components/etappes/etappes.component';
+import {ParticipanttableComponent} from './components/participanttable/participanttable.component';
 
 const appRoutes: Routes = [
   {
@@ -24,6 +25,10 @@ const appRoutes: Routes = [
   {
     path: 'participants',
     component: ParticipantsComponent
+  },
+  {
+    path: 'table',
+    component: ParticipanttableComponent
   },
   {
     path: 'login',

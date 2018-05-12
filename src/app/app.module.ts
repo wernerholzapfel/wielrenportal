@@ -41,6 +41,7 @@ from './components/etappes/dialog/add-stage-classifications/add-stage-classifica
 import {MAT_DATE_LOCALE} from '@angular/material';
 import {AgGridModule} from 'ag-grid-angular';
 import {StageclassificationsService} from './services/stageclassifications.service';
+import { ParticipanttableComponent } from './components/participanttable/participanttable.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import {StageclassificationsService} from './services/stageclassifications.servi
     ParticipantsComponent,
     EtappesComponent,
     AddEtappeDialogComponent,
-    AddStageClassificationsComponent
+    AddStageClassificationsComponent,
+    ParticipanttableComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,
