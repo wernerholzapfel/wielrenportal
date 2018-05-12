@@ -11,7 +11,7 @@
   </mat-expansion-panel-header>
 
   <div fxLayout="row layout-wrap" fxLayoutGap="5px" fxLayoutAlign="space-around start">
-    <div fxFlex="300px" *ngFor="let prediction of participant.predictions | orderBy : 'punten' : true">
+    <div fxFlex="300px"  class="wrapgap" *ngFor="let prediction of participant.predictions | orderBy : 'punten' : true">
       <mat-toolbar color="accent">
         <mat-toolbar-row class="card_header">
           {{prediction.rider.rider.firstName}} {{prediction.rider.rider.surName}} {{prediction.punten}}
