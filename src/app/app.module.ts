@@ -42,6 +42,7 @@ import {MAT_DATE_LOCALE} from '@angular/material';
 import {AgGridModule} from 'ag-grid-angular';
 import {StageclassificationsService} from './services/stageclassifications.service';
 import { ParticipanttableComponent } from './components/participanttable/participanttable.component';
+import { TourriderdetaildialogComponent } from './components/tourriderdetaildialog/tourriderdetaildialog.component';
 
 
 @NgModule({
@@ -57,11 +58,13 @@ import { ParticipanttableComponent } from './components/participanttable/partici
     EtappesComponent,
     AddEtappeDialogComponent,
     AddStageClassificationsComponent,
-    ParticipanttableComponent
+    ParticipanttableComponent,
+    TourriderdetaildialogComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,
-    AddStageClassificationsComponent
+    AddStageClassificationsComponent,
+    TourriderdetaildialogComponent
   ],
   imports: [
     BrowserModule,

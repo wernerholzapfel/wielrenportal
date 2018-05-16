@@ -21,6 +21,7 @@ export class RidersComponent implements OnInit {
   searchTerm: string;
   riders$: Observable<ITourriders[]>;
 
+  public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Voornaam', field: 'rider.firstName'},
     {headerName: 'Achternaam', field: 'rider.surName'},
@@ -33,7 +34,6 @@ export class RidersComponent implements OnInit {
 
   @Output()
   addPositionEvent: EventEmitter<IRider> = new EventEmitter<IRider>();
-  public gridOptions: GridOptions;
 
   constructor(private riderService: RiderService, private store: Store<IAppState>) {
   }

@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">{{data.rider.rider.surName}}</mat-toolbar>
+<mat-card>
+  <mat-card-content>
+    <ag-grid-angular
+      style="width: 100%; height: 500px;"
+      class="ag-theme-material"
+      [gridOptions]="gridOptions"
+      [rowData]="data.rider.stageclassifications">
+    </ag-grid-angular>
+  </mat-card-content>
+</mat-card>

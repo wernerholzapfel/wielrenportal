@@ -6,5 +6,6 @@
 @import "~ag-grid/dist/styles/ag-grid.css";
 @import "~ag-grid/dist/styles/ag-theme-material.css";
 .mat-dialog-container {
+  height: auto !important;
   padding: 0 !important;
 }
