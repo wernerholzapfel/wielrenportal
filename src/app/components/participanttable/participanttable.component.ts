@@ -16,7 +16,7 @@ export class ParticipanttableComponent implements OnInit {
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Renner', field: 'rider.rider.surName'},
-    {headerName: 'Waarde', field: 'rider.waarde'},
+    {headerName: 'Waarde', field: 'rider.waarde', sort: 'desc'},
     {headerName: 'Nationaliteit', field: 'rider.rider.nationality'},
     {headerName: 'Punten', field: 'punten'}
   ];

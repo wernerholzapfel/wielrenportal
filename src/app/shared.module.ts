@@ -38,7 +38,8 @@ import {
   MatProgressSpinnerModule,
   MatTableModule,
   MatMenuModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatProgressBarModule
 } from '@angular/material';
 // import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 export const MATERIAL_MODULES = [
@@ -70,6 +71,7 @@ export const MATERIAL_MODULES = [
   MatCommonModule,
   MatRippleModule,
   MatProgressSpinnerModule,
+  MatProgressBarModule,
   CdkTableModule,
   MatTableModule,
   MatMenuModule,

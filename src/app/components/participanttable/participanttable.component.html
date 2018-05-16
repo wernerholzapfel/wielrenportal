@@ -1,4 +1,5 @@
 <mat-toolbar color="primary">De stand</mat-toolbar>
+<mat-progress-bar *ngIf="!participants" mode="buffer"></mat-progress-bar>
 <mat-expansion-panel *ngFor="let participant of participants | orderBy : 'punten' : true">
   <mat-expansion-panel-header>
     <mat-panel-title>
