@@ -23,7 +23,7 @@ app.use(express.static(__dirname + '/dist'));
 // Instruct the app
 // to use the forceSSL
 // middleware
-// app.use(forceSSL());
+app.use(forceSSL());
 
 // Start the app by listening on the default
 // Heroku port
