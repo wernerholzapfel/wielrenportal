@@ -1,14 +1,13 @@
 const express = require('express');
-const sslRedirect = require('heroku-ssl-redirect');
 const path = require('path');
-const forceSsl = require('force-ssl-heroku');
+const forceSSL = require('express-force-ssl');
 
 const app = express();
 // If an incoming request uses
 // a protocol other than HTTPS,
 // redirect that request to the
 // same url but with HTTPS
-app.use(forceSsl());
+app.use(forceSSL());
 
 // Run the app by serving the static files
 // in the dist directory
