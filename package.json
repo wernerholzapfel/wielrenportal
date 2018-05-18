@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "postinstall": "ng build --aot -prod",
+    "postinstall": "ng build --aot -prod --build-optimizer=false",
     "ng": "ng",
     "start": "node server.js",
     "hmr": "ng serve --hmr -e=hmr",
