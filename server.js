@@ -1,19 +1,7 @@
 const express = require('express');
 const path = require('path');
-const forceSSL = require('express-force-ssl');
 
 const app = express();
-// If an incoming request uses
-// a protocol other than HTTPS,
-// redirect that request to the
-// same url but with HTTPS
-app.set('forceSSLOptions', {
-  enable301Redirects: true,
-  trustXFPHeader: false,
-  httpsPort: 443,
-  sslRequiredMessage: 'SSL Required.'
-});
-app.use(forceSSL());
 
 // Run the app by serving the static files
 // in the dist directory
