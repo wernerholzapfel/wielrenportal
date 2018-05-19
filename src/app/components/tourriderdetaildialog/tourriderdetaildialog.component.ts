@@ -11,7 +11,7 @@ export class TourriderdetaildialogComponent implements OnInit {
 
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: '#', field: 'etappe.etappeNumber', sort: 'asc'},
+    {headerName: '#', field: 'etappe.etappeNumber', sort: 'asc', width: 75},
     {headerName: 'Etappe', field: 'etappe.etappeName'},
     {headerName: 'Positie', field: 'position', width: 135},
     {headerName: 'Punten', field: 'punten', width: 135}
