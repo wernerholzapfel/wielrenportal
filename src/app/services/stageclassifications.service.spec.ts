@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { StageclassificationsService } from './stageclassifications.service';
+import { ClassificationsService } from './stageclassifications.service';
 
 describe('StageclassificationsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StageclassificationsService]
+      providers: [ClassificationsService]
     });
   });
 
-  it('should be created', inject([StageclassificationsService], (service: StageclassificationsService) => {
+  it('should be created', inject([ClassificationsService], (service: ClassificationsService) => {
     expect(service).toBeTruthy();
   }));
 });

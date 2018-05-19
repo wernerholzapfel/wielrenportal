@@ -18,6 +18,12 @@ export interface IStageClassification {
   tourrider: ITourrider;
 }
 
+export interface ITourClassification {
+  id: string;
+  position: number;
+  tour: ITour;
+  tourrider: ITourrider;
+}
 
 export interface ITourrider {
   id: string;

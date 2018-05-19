@@ -40,7 +40,7 @@ import { AddStageClassificationsComponent }
 from './components/etappes/dialog/add-stage-classifications/add-stage-classifications.component';
 import {MAT_DATE_LOCALE} from '@angular/material';
 import {AgGridModule} from 'ag-grid-angular';
-import {StageclassificationsService} from './services/stageclassifications.service';
+import {ClassificationsService} from './services/stageclassifications.service';
 import { ParticipanttableComponent } from './components/participanttable/participanttable.component';
 import { TourriderdetaildialogComponent } from './components/tourriderdetaildialog/tourriderdetaildialog.component';
 
@@ -93,7 +93,7 @@ import { TourriderdetaildialogComponent } from './components/tourriderdetaildial
     AdminGuardService,
     ParticipantService,
     EtappeService,
-    StageclassificationsService,
+    ClassificationsService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

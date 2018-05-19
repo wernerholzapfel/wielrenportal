@@ -15,8 +15,13 @@ import {IRider} from '../../models/rider.model';
 import {getRiders} from '../../store/rider/rider.reducer';
 import 'rxjs/add/operator/mergeMap';
 import {ITourriders} from '../../models/tourriders.model';
-import {MatSnackBar} from '@angular/material';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {GridOptions} from 'ag-grid';
+import {AddStageClassificationsComponent} from '../etappes/dialog/add-stage-classifications/add-stage-classifications.component';
+import {
+  ETAPPECLASSIFICATION, MOUNTAINCLASSIFICATION, TOURCLASSIFICATION,
+  YOUTHCLASSIFICATION
+} from '../../models/constants';
 
 @Component({
   selector: 'app-toursetup',
@@ -25,8 +30,9 @@ import {GridOptions} from 'ag-grid';
 })
 export class ToursetupComponent implements OnInit {
 
-  constructor(private store: Store<IAppState>, private tourService: TourService, public snackBar: MatSnackBar) {
+  constructor(private store: Store<IAppState>, private tourService: TourService, public snackBar: MatSnackBar, public dialog: MatDialog) {
   }
+
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Renner', field: 'rider.surNameShort'},
@@ -46,6 +52,9 @@ export class ToursetupComponent implements OnInit {
   currentRider: IRider;
   selectedTab = 0;
   selected: ITour;
+  TOURCLASSIFICATION = TOURCLASSIFICATION;
+  YOUTHCLASSIFICATION = YOUTHCLASSIFICATION;
+  MOUNTAINCLASSIFICATION = MOUNTAINCLASSIFICATION;
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTourList());
@@ -133,5 +142,25 @@ export class ToursetupComponent implements OnInit {
 
   }
 
+  openClassificationsModal(type: string) {
+    const dialogRef = this.dialog.open(AddStageClassificationsComponent, {
+      data: {
+        type: type,
+        form: {
+          uitslag: [],
+          tour: this.selectedTour
+        }
+      },
+      width: '90%',
+      height: '90%'
+    });
 
+    // todo move to store ?
+    // todo check voor wijzigingen
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+      }
+    });
+  }
 }

@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material';
 import {AddEtappeDialogComponent} from './dialog/add-etappe-dialog/add-etappe-dialog.component';
 import {ITour} from '../../models/tour.model';
 import {AddStageClassificationsComponent} from './dialog/add-stage-classifications/add-stage-classifications.component';
+import {ETAPPECLASSIFICATION} from '../../models/constants';
 
 @Component({
   selector: 'app-etappes',
@@ -43,7 +44,12 @@ export class EtappesComponent implements OnInit {
   openAddStageClassificationsDialog(etappe) {
     const dialogRef = this.dialog.open(AddStageClassificationsComponent, {
       data: {
-        etappe: etappe, uitslag: [], tour: this.selectedtour
+        type: ETAPPECLASSIFICATION,
+        form: {
+          etappe: etappe,
+          uitslag: [],
+          tour: this.selectedtour
+        }
       },
       width: '90%',
       height: '90%'

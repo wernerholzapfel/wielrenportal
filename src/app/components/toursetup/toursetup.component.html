@@ -1,6 +1,5 @@
 <mat-toolbar color="primary">Tour administratie</mat-toolbar>
 <mat-card>
-  {{selected}}
   <mat-form-field>
     <mat-select placeholder="Kies de ronde" [(ngModel)]="selectedTour" (change)="fetchTour()">
       <mat-option *ngFor="let tour of tours" [value]="tour">
@@ -8,6 +7,11 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-divider></mat-divider>
+  <button mat-raised-button color="warn" [disabled]="true">Edit tour</button>
+  <button mat-raised-button color="warn" (click)="openClassificationsModal(TOURCLASSIFICATION)">Eindklassement</button>
+  <button mat-raised-button color="warn" (click)="openClassificationsModal(MOUNTAINCLASSIFICATION)">Bergklassement</button>
+  <button mat-raised-button color="warn" (click)="openClassificationsModal(YOUTHCLASSIFICATION)">Jongerenklassement</button>
 
   <div *ngIf="selectedTour">
     <mat-tab-group [selectedIndex]="selectedTab">

@@ -1,21 +1,17 @@
-<!--<div fxLayout="column" fxLayoutAlign="space-between stretch">-->
-
-<mat-toolbar color="primary">Uitslag voor {{data.etappe.etappeName}}</mat-toolbar>
+<mat-toolbar color="primary">Uitslag voor {{toolbartext}}</mat-toolbar>
   <div>
   <div fxLayout="row" fxLayoutAlign="space-between stretch">
     <mat-card fxFlex="30">
       <mat-toolbar color="primary">
-        <!--<div fxLayout="row" fxLayoutAlign="space-between start" >-->
-        <div>Etappe uitslag</div>
+        <div>{{subtitleText}}</div>
         <span fxFlex></span>
         <button mat-raised-button color="accent" (click)="submit(data)">Opslaan</button>
-        <!--</div>-->
       </mat-toolbar>
       <mat-card-content>
         <div class="stage-cf-container mat-elevation-z8">
-          <div *ngIf="data.uitslag.length <= 0">Vul rechts de positie van de renner in en voeg deze toe.</div>
+          <div *ngIf="data.form.uitslag.length <= 0">Vul rechts de positie van de renner in en voeg deze toe.</div>
           <mat-list>
-            <mat-list-item *ngFor="let item of data.uitslag | orderBy : 'position'">
+            <mat-list-item *ngFor="let item of data.form.uitslag | orderBy : 'position'">
               <div matLine> {{item.position}}: {{item.firstName}} {{item.surName}}
               </div>
               <button (click)="deleteRiderFromSC(item)" mat-icon-button>
