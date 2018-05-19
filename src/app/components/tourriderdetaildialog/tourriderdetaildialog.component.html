@@ -1,11 +1,14 @@
-<mat-toolbar color="primary">{{data.rider.rider.surName}}</mat-toolbar>
-<mat-card>
-  <mat-card-content>
-    <ag-grid-angular
+<!--<mat-card>-->
+  <!--<mat-card-header>{{data?.rider?.rider?.surName}}</mat-card-header>-->
+  <!--<mat-card-content>-->
+    <div *ngIf="!data">
+      Selecteer een renner om zijn uitslagen te zien.
+    </div>
+    <ag-grid-angular *ngIf="data"
       style="width: 100%; height: 500px;"
       class="ag-theme-material"
       [gridOptions]="gridOptions"
-      [rowData]="data.rider.stageclassifications">
+      [rowData]="data?.rider?.stageclassifications">
     </ag-grid-angular>
-  </mat-card-content>
-</mat-card>
+  <!--</mat-card-content>-->
+<!--</mat-card>-->

@@ -3,7 +3,7 @@
     <mat-list dense>
       <mat-list-item *ngFor="let etappe of etappes | orderBy : 'date' : false">
         <div matLine>
-          {{etappe.etappeName}} {{etappe.date}}
+         {{etappe.etappeNumber}} {{etappe.etappeName}} {{etappe.date}}
         </div>
         <button mat-button color="accent" (click)="openAddStageClassificationsDialog(etappe)">Voer uitslag in</button>
       <mat-divider></mat-divider>

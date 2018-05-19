@@ -11,7 +11,7 @@ import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourrider
   styleUrls: ['./participanttable.component.scss']
 })
 export class ParticipanttableComponent implements OnInit {
-
+  data: any;
   participants: IParticipant[];
   public gridOptions: GridOptions;
   agColumns = [
@@ -37,9 +37,11 @@ export class ParticipanttableComponent implements OnInit {
     };
   }
 
-  onRowSelected(event) {
+  onRowSelected(event, participant) {
     if (event.node.selected) {
-      this.openTourRidersDetailDialog(event.data);
+    this.participants.find(item => item.id === participant.id).selectedRider = event.data;
+      // this.data = event.data;
+      // this.openTourRidersDetailDialog(event.data);
     }
   }
 

@@ -3,6 +3,7 @@ import {IRider} from './rider.model';
 
 export interface IEtappe {
   id: string;
+  etappeNumber: number;
   etappeName: string;
   date: Date;
   type?: string;

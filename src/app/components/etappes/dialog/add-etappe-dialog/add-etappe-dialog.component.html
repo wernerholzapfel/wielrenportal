@@ -4,6 +4,12 @@
 
     <form [formGroup]="etappeForm" class="login-form">
       <mat-form-field class="full-width">
+        <input type="number" matInput placeholder="Etappe nummer" formControlName="etappeNummerFormControl"
+               [errorStateMatcher]="matcher" [(ngModel)]="data.etappeNumber">
+        <mat-error *ngIf="etappeForm.controls['etappeNummerFormControl'].errors?.required">
+          Etappe nummer is <strong>verplicht</strong>
+        </mat-error>
+      </mat-form-field><mat-form-field class="full-width">
         <input type="text" matInput placeholder="Etappe" formControlName="etappeNameFormControl"
                [errorStateMatcher]="matcher" [(ngModel)]="data.etappeName">
         <mat-error *ngIf="etappeForm.controls['etappeNameFormControl'].errors?.required">

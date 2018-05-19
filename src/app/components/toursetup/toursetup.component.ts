@@ -16,6 +16,7 @@ import {getRiders} from '../../store/rider/rider.reducer';
 import 'rxjs/add/operator/mergeMap';
 import {ITourriders} from '../../models/tourriders.model';
 import {MatSnackBar} from '@angular/material';
+import {GridOptions} from 'ag-grid';
 
 @Component({
   selector: 'app-toursetup',
@@ -26,6 +27,12 @@ export class ToursetupComponent implements OnInit {
 
   constructor(private store: Store<IAppState>, private tourService: TourService, public snackBar: MatSnackBar) {
   }
+  public gridOptions: GridOptions;
+  agColumns = [
+    {headerName: 'Renner', field: 'rider.surNameShort'},
+    {headerName: 'Waarde', field: 'waarde', sort: 'desc', width: 135},
+    {headerName: 'Nationaliteit', field: 'rider.nationality', width: 135},
+  ];
 
   selectedTour: ITour;
   tours$: Observable<ITour[]>;
@@ -80,6 +87,13 @@ export class ToursetupComponent implements OnInit {
         this.tours = tours;
       }
     });
+    this.gridOptions = <GridOptions>{
+      columnDefs: this.agColumns,
+      onGridReady: () => {
+        this.gridOptions.api.sizeColumnsToFit();
+      },
+      enableSorting: true,
+    };
   }
 
   saveTeams(list) {
@@ -118,4 +132,6 @@ export class ToursetupComponent implements OnInit {
     }));
 
   }
+
+
 }

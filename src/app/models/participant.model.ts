@@ -6,6 +6,7 @@ export interface IParticipant {
   displayName: string;
   predictions: IPrediction[];
   punten: number;
+  selectedRider?: IRider;
 }
 
 

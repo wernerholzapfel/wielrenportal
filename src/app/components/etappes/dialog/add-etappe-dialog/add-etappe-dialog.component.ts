@@ -18,6 +18,9 @@ export class AddEtappeDialogComponent implements OnInit {
     etappeNameFormControl: new FormControl('', [
       Validators.required,
     ]),
+    etappeNummerFormControl: new FormControl('', [
+      Validators.required,
+    ]),
     dateFormControl: new FormControl('', [
       Validators.required,
     ]),

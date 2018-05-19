@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
 import {GridOptions} from 'ag-grid';
 
@@ -11,13 +11,17 @@ export class TourriderdetaildialogComponent implements OnInit {
 
   public gridOptions: GridOptions;
   agColumns = [
+    {headerName: '#', field: 'etappe.etappeNumber', sort: 'asc'},
     {headerName: 'Etappe', field: 'etappe.etappeName'},
-    {headerName: 'Positie', field: 'position'},
-    {headerName: 'Punten', field: 'punten'}
+    {headerName: 'Positie', field: 'position', width: 135},
+    {headerName: 'Punten', field: 'punten', width: 135}
   ];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+
+  constructor() {
   }
+
+  @Input() data;
 
   ngOnInit() {
     this.gridOptions = <GridOptions>{

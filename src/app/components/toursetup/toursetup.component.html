@@ -32,16 +32,22 @@
               <mat-card>
                 <mat-divider [inset]="true"></mat-divider>
                 <mat-card-content>
-                  <mat-list dense>
-                    <mat-list-item *ngFor="let rider of team.tourRiders">
-                      <div matLine>
-                        {{rider.rider.firstNameShort}} {{rider.rider.surNameShort}}
-                      </div>
-                      <div matLine>
-                        waarde: {{rider.waarde}}
-                      </div>
-                    </mat-list-item>
-                  </mat-list>
+                  <ag-grid-angular
+                    style="width: 100%; height: 500px;"
+                    class="ag-theme-material"
+                    [gridOptions]="gridOptions"
+                    [rowData]="(team?.tourRiders)">
+                  </ag-grid-angular>
+                  <!--<mat-list dense>-->
+                    <!--<mat-list-item *ngFor="let rider of team.tourRiders">-->
+                      <!--<div matLine>-->
+                        <!--{{rider.rider.firstNameShort}} {{rider.rider.surNameShort}}-->
+                      <!--</div>-->
+                      <!--<div matLine>-->
+                        <!--waarde: {{rider.waarde}}-->
+                      <!--</div>-->
+                    <!--</mat-list-item>-->
+                  <!--</mat-list>-->
                 </mat-card-content>
               </mat-card>
             </div>
