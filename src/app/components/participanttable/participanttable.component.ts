@@ -16,11 +16,15 @@ export class ParticipanttableComponent implements OnInit {
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Renner', field: 'rider.rider.surName'},
-    {headerName: 'Waarde', field: 'rider.waarde', sort: 'desc'},
-    {headerName: 'Nationaliteit', field: 'rider.rider.nationality'},
-    {headerName: 'Punten', field: 'punten'}
+    {headerName: 'Waarde', field: 'rider.waarde', sort: 'desc', width: 135},
+    {headerName: 'Etappes', field: 'totalStagePoints', width: 135},
+    {headerName: 'Tour', field: 'tourPoints', width: 135},
+    {headerName: 'Berg', field: 'mountainPoints', width: 135},
+    {headerName: 'Jongeren', field: 'youth', width: 135},
+    // {headerName: 'Totaal', field: 'totalPoints'}
   ];
   rowSelection = 'single';
+
 
   constructor(private participantService: ParticipantService, public dialog: MatDialog) {
   }

@@ -5,7 +5,7 @@ export interface IParticipant {
   id: string;
   displayName: string;
   predictions: IPrediction[];
-  punten: number;
+  totalPoints: number;
   selectedRider?: IRider;
 }
 
@@ -18,12 +18,16 @@ export interface IPrediction {
   isLinkebal: boolean;
   isBeschermdeRenner: boolean;
   rider: IRider[];
-  punten: number;
+  totalStagePoints?: number;
+  tourPoints?: number;
+  mountainPoints?: number;
+  youthPoints?: number;
 }
+
 
 export interface IStageclassifications {
   id: string;
   position: number;
   etappe: IEtappe;
-  punten: number;
+  stagePoints: number;
 }
