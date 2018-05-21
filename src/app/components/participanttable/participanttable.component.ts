@@ -4,6 +4,7 @@ import {IParticipant} from '../../models/participant.model';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
+import {IRider} from '../../models/rider.model';
 
 @Component({
   selector: 'app-participanttable',
@@ -11,11 +12,14 @@ import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourrider
   styleUrls: ['./participanttable.component.scss']
 })
 export class ParticipanttableComponent implements OnInit {
+  private gridApi;
+  private gridColumnApi;
+
   data: any;
   participants: IParticipant[];
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: 'Renner', field: 'rider.rider.surName'},
+    {headerName: 'Renner', valueGetter: this.determineRole},
     {headerName: 'Waarde', field: 'rider.waarde', sort: 'desc', width: 135},
     {headerName: 'Etappes', field: 'totalStagePoints', width: 135},
     {headerName: 'Tour', field: 'tourPoints', width: 135},
@@ -24,6 +28,29 @@ export class ParticipanttableComponent implements OnInit {
     // {headerName: 'Totaal', field: 'totalPoints'}
   ];
   rowSelection = 'single';
+
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+
+    params.api.sizeColumnsToFit();
+  }
+  determineRole(params): string {
+    if (params.data.isWaterdrager) {
+      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + ' WD';
+    }
+    if (params.data.isLinkebal) {
+      return params.data.rider.rider.firstName + params.data.rider.rider.surName + ' LB';
+    }
+    if (params.data.isBeschermdeRenner) {
+      return params.data.rider.rider.firstName + params.data.rider.rider.surName + ' BR';
+    }
+    if (params.data.isMeesterknecht) {
+      return params.data.rider.rider.firstName + params.data.rider.rider.surName + ' MK';
+    } else {
+      return params.data.rider.rider.firstName + params.data.rider.rider.surName;
+    }
+  }
 
 
   constructor(private participantService: ParticipantService, public dialog: MatDialog) {
@@ -43,7 +70,7 @@ export class ParticipanttableComponent implements OnInit {
 
   onRowSelected(event, participant) {
     if (event.node.selected) {
-    this.participants.find(item => item.id === participant.id).selectedRider = event.data;
+      this.participants.find(item => item.id === participant.id).selectedRider = event.data;
       // this.data = event.data;
       // this.openTourRidersDetailDialog(event.data);
     }
@@ -61,5 +88,4 @@ export class ParticipanttableComponent implements OnInit {
       }
     });
   }
-
 }

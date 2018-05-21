@@ -5,6 +5,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~ag-grid/dist/styles/ag-grid.css";
 @import "~ag-grid/dist/styles/ag-theme-material.css";
+@import "~ag-grid/dist/styles/ag-theme-balham.css";
 .mat-dialog-container {
   height: auto !important;
   padding: 0 !important;
@@ -14,3 +15,4 @@
   // todo get from colors
   background-color: #ff4081 !important;
 }
+//$ag-range-selected-color-1:  #ff4081;

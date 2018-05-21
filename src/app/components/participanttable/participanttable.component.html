@@ -15,11 +15,12 @@
       <div fxFlex="60">
         <ag-grid-angular
           style="height: 495px;"
-          class="ag-theme-material"
+          class="ag-theme-balham"
           [gridOptions]="gridOptions"
           [rowSelection]="rowSelection"
           (rowSelected)="onRowSelected($event, participant)"
-          [rowData]="(participant?.predictions)">
+          [rowData]="(participant?.predictions)"
+          (gridReady)="onGridReady($event)">
         </ag-grid-angular>
       </div>
       <div fxFlex="40">
