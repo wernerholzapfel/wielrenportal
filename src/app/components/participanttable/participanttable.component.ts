@@ -4,7 +4,6 @@ import {IParticipant} from '../../models/participant.model';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
-import {IRider} from '../../models/rider.model';
 
 @Component({
   selector: 'app-participanttable',
@@ -19,12 +18,12 @@ export class ParticipanttableComponent implements OnInit {
   participants: IParticipant[];
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: 'Renner', valueGetter: this.determineRole},
-    {headerName: 'Waarde', field: 'rider.waarde', sort: 'desc', width: 135},
-    {headerName: 'Etappes', field: 'totalStagePoints', width: 135},
-    {headerName: 'Tour', field: 'tourPoints', width: 135},
-    {headerName: 'Berg', field: 'mountainPoints', width: 135},
-    {headerName: 'Jongeren', field: 'youth', width: 135},
+    {headerName: 'Renner', valueGetter: this.determineRole, minWidth: 200},
+    {headerName: 'Waarde', field: 'rider.waarde', sort: 'desc', minWidth: 135},
+    {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 135},
+    {headerName: 'Tour', field: 'tourPoints', minWidth: 135},
+    {headerName: 'Berg', field: 'mountainPoints', minWidth: 135},
+    {headerName: 'Jongeren', field: 'youth', minWidth: 135},
     // {headerName: 'Totaal', field: 'totalPoints'}
   ];
   rowSelection = 'single';
@@ -35,20 +34,21 @@ export class ParticipanttableComponent implements OnInit {
 
     params.api.sizeColumnsToFit();
   }
+
   determineRole(params): string {
     if (params.data.isWaterdrager) {
       return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + ' WD';
     }
     if (params.data.isLinkebal) {
-      return params.data.rider.rider.firstName + params.data.rider.rider.surName + ' LB';
+      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + ' LB';
     }
     if (params.data.isBeschermdeRenner) {
-      return params.data.rider.rider.firstName + params.data.rider.rider.surName + ' BR';
+      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + ' BR';
     }
     if (params.data.isMeesterknecht) {
-      return params.data.rider.rider.firstName + params.data.rider.rider.surName + ' MK';
+      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + ' MK';
     } else {
-      return params.data.rider.rider.firstName + params.data.rider.rider.surName;
+      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName;
     }
   }
 

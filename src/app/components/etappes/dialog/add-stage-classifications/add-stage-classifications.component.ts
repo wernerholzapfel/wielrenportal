@@ -5,7 +5,7 @@ import {ClassificationsService} from '../../../../services/stageclassifications.
 import {IStageClassification, ITourClassification} from '../../../../models/etappe.model';
 import {
   ETAPPECLASSIFICATION,
-  MOUNTAINCLASSIFICATION,
+  MOUNTAINCLASSIFICATION, POINTSCLASSIFICATION,
   TOURCLASSIFICATION,
   YOUTHCLASSIFICATION
 } from '../../../../models/constants';
@@ -53,6 +53,11 @@ export class AddStageClassificationsComponent implements OnInit {
         this.subtitleText = 'Jongeren uitslag';
         break;
       }
+      case POINTSCLASSIFICATION: {
+        this.toolbartext = 'Puntenlassement';
+        this.subtitleText = 'Punten uitslag';
+        break;
+      }
       default: {
         this.toolbartext = '';
         this.subtitleText = '';
@@ -77,6 +82,10 @@ export class AddStageClassificationsComponent implements OnInit {
       }
       case MOUNTAINCLASSIFICATION: {
         this.fetchMountainClassification();
+        break;
+      }
+      case POINTSCLASSIFICATION: {
+        this.fetchPointsClassification();
         break;
       }
       default:
@@ -104,6 +113,11 @@ export class AddStageClassificationsComponent implements OnInit {
 
   private fetchMountainClassification() {
     this.stageClassificationsService.getMountainClassifications(this.data.form.tour.id).subscribe(response => {
+      this.data.form.uitslag = this.transformResponseToRequest(response);
+    });
+  }
+  private fetchPointsClassification() {
+    this.stageClassificationsService.getPointsClassifications(this.data.form.tour.id).subscribe(response => {
       this.data.form.uitslag = this.transformResponseToRequest(response);
     });
   }
@@ -149,6 +163,10 @@ export class AddStageClassificationsComponent implements OnInit {
         this.submitMountainClassification(data.form);
         break;
       }
+       case POINTSCLASSIFICATION: {
+        this.submitPointsClassification(data.form);
+        break;
+      }
       default:
         console.warn('geen classification opgeslagen');
     }
@@ -187,6 +205,20 @@ export class AddStageClassificationsComponent implements OnInit {
       return {position: item.position, tour: form.tour, tourrider: item};
     });
     this.stageClassificationsService.saveMountainclassifications(body).subscribe(response => {
+        this.dialogRef.close();
+        this.snackBar.open('Het opslaan is gelukt', '', {}
+        );
+      },
+      err => {
+        this.snackBar.open(err.message);
+      });
+  }
+
+  private submitPointsClassification(form) {
+    const body: ITourClassification[] = form.uitslag.map(item => {
+      return {position: item.position, tour: form.tour, tourrider: item};
+    });
+    this.stageClassificationsService.savePointsclassifications(body).subscribe(response => {
         this.dialogRef.close();
         this.snackBar.open('Het opslaan is gelukt', '', {}
         );

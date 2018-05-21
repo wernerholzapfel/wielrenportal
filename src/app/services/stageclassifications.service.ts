@@ -44,5 +44,12 @@ export class ClassificationsService {
 
   getMountainClassifications(tourId: string): Observable<ITourClassification[]> {
     return this.http.get<ITourClassification[]>(`${environment.apiBaseUrl}/mountainclassifications/${tourId}`);
+  } savePointsclassifications(body: ITourClassification[]): Observable<any> {
+    return this.http.post<ITourClassification[]>(`${environment.apiBaseUrl}/pointsclassifications`, body)
+      .map(res => <ITourClassification[]>res);
+  }
+
+  getPointsClassifications(tourId: string): Observable<ITourClassification[]> {
+    return this.http.get<ITourClassification[]>(`${environment.apiBaseUrl}/pointsclassifications/${tourId}`);
   }
 }

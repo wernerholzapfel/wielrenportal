@@ -20,7 +20,7 @@ import {GridOptions} from 'ag-grid';
 import {AddStageClassificationsComponent} from '../etappes/dialog/add-stage-classifications/add-stage-classifications.component';
 import {
   ETAPPECLASSIFICATION, MOUNTAINCLASSIFICATION, TOURCLASSIFICATION,
-  YOUTHCLASSIFICATION
+  YOUTHCLASSIFICATION, POINTSCLASSIFICATION
 } from '../../models/constants';
 
 @Component({
@@ -55,6 +55,7 @@ export class ToursetupComponent implements OnInit {
   TOURCLASSIFICATION = TOURCLASSIFICATION;
   YOUTHCLASSIFICATION = YOUTHCLASSIFICATION;
   MOUNTAINCLASSIFICATION = MOUNTAINCLASSIFICATION;
+  POINTSCLASSIFICATION = POINTSCLASSIFICATION;
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTourList());
