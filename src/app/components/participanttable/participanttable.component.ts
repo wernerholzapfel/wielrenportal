@@ -19,11 +19,13 @@ export class ParticipanttableComponent implements OnInit {
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Renner', valueGetter: this.determineRole, minWidth: 200},
-    {headerName: 'Waarde', field: 'rider.waarde', sort: 'desc', minWidth: 135},
-    {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 135},
-    {headerName: 'Tour', field: 'tourPoints', minWidth: 135},
-    {headerName: 'Berg', field: 'mountainPoints', minWidth: 135},
-    {headerName: 'Jongeren', field: 'youth', minWidth: 135},
+    {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
+    {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 80},
+    {headerName: 'Tour', field: 'tourPoints', minWidth: 80},
+    {headerName: 'Berg', field: 'mountainPoints', minWidth: 80},
+    {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
+    {headerName: 'Punten', field: 'pointsPoints', minWidth: 80},
+    {headerName: 'Waarde', field: 'rider.waarde', minWidth: 80},
     // {headerName: 'Totaal', field: 'totalPoints'}
   ];
   rowSelection = 'single';
@@ -50,6 +52,20 @@ export class ParticipanttableComponent implements OnInit {
     } else {
       return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName;
     }
+  }
+
+  determineTotaalpunten(params): number {
+    if ('todo tourisDone' !== 'todo tourisDone') {
+      return ((params.data.totalStagePoints ? params.data.totalStagePoints : 0) +
+        (params.data.youthPoints ? params.data.youthPoints : 0) +
+        (params.data.mountainPoints ? params.data.mountainPoints : 0) +
+        (params.data.tourPoints ? params.data.tourPoints : 0) +
+        (params.data.pointsPoints ? params.data.pointsPoints : 0));
+    } else {
+      return params.data.totalStagePoints ? params.data.totalStagePoints : 0
+
+    }
+
   }
 
 

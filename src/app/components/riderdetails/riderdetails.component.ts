@@ -12,7 +12,7 @@ export class RiderdetailsComponent implements OnInit {
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Renner', field: 'rider.surName', minWidth: 200},
-    {headerName: 'Team', field: 'team.teamName'},
+    {headerName: 'Team', field: 'team.teamName', minWidth: 100},
     {headerName: 'Waarde', field: 'waarde', minWidth: 80},
     {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 80},
     {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 80},
@@ -49,5 +49,9 @@ export class RiderdetailsComponent implements OnInit {
       (params.data.mountainPoints ? params.data.mountainPoints : 0) +
       (params.data.tourPoints ? params.data.tourPoints : 0) +
       (params.data.pointsPoints ? params.data.pointsPoints : 0));
+  }
+
+  applyFilter(filterValue: string) {
+    this.gridOptions.api.setQuickFilter(filterValue);
   }
 }
