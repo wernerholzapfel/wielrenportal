@@ -17,11 +17,8 @@ export class TourriderdetaildialogComponent implements OnInit {
     {headerName: 'Punten', field: 'stagePoints', width: 135}
   ];
 
-
-  constructor() {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
   }
-
-  @Input() data;
 
   ngOnInit() {
     this.gridOptions = <GridOptions>{

@@ -13,4 +13,9 @@ export class RiderService {
 
     return this.http.get<IRider[]>(`${environment.apiBaseUrl}/riders`);
   }
+
+  getDetailTourriders(): Observable<IRider[]> {
+
+    return this.http.get<IRider[]>(`${environment.apiBaseUrl}/tourriders/details`);
+  }
 }

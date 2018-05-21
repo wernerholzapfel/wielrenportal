@@ -11,8 +11,8 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <div fxLayout="row" fxLayoutGap="5px">
-      <div fxFlex="60">
+    <div fxLayout="row">
+      <div fxFlex="100">
         <ag-grid-angular
           style="width: 100%; height: 495px;"
           class="ag-theme-balham"
@@ -23,9 +23,9 @@
           (gridReady)="onGridReady($event)">
         </ag-grid-angular>
       </div>
-      <div fxFlex="40">
-        <app-tourriderdetaildialog [data]="participant?.selectedRider"></app-tourriderdetaildialog>
-      </div>
+      <!--<div fxFlex="40">-->
+        <!--<app-tourriderdetaildialog [data]="participant?.selectedRider"></app-tourriderdetaildialog>-->
+      <!--</div>-->
       <!--<div fxFlex="300px"  class="wrapgap" *ngFor="let prediction of participant.predictions | orderBy : 'punten' : true">-->
       <!--<mat-toolbar>-->
       <!--<mat-toolbar-row class="card_header">-->

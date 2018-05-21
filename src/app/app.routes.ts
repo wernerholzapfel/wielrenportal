@@ -11,6 +11,8 @@ import {AdminGuardService} from './services/admin-guard.service';
 import {ParticipantsComponent} from './components/participants/participants.component';
 import {EtappesComponent} from './components/etappes/etappes.component';
 import {ParticipanttableComponent} from './components/participanttable/participanttable.component';
+import {TourriderdetaildialogComponent} from './components/tourriderdetaildialog/tourriderdetaildialog.component';
+import {RiderdetailsComponent} from './components/riderdetails/riderdetails.component';
 
 const appRoutes: Routes = [
   {
@@ -18,9 +20,12 @@ const appRoutes: Routes = [
     component: RidersComponent
   },
   {
-    path: 'tourriders',
+    path: 'inschrijven',
     canActivate: [AuthGuardService],
     component: TourridersComponent
+  }, {
+    path: 'tourriders',
+    component: RiderdetailsComponent
   },
   {
     path: 'participants',

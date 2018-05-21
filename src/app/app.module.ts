@@ -43,6 +43,7 @@ import {AgGridModule} from 'ag-grid-angular';
 import {ClassificationsService} from './services/stageclassifications.service';
 import { ParticipanttableComponent } from './components/participanttable/participanttable.component';
 import { TourriderdetaildialogComponent } from './components/tourriderdetaildialog/tourriderdetaildialog.component';
+import { RiderdetailsComponent } from './components/riderdetails/riderdetails.component';
 
 
 @NgModule({
@@ -59,7 +60,8 @@ import { TourriderdetaildialogComponent } from './components/tourriderdetaildial
     AddEtappeDialogComponent,
     AddStageClassificationsComponent,
     ParticipanttableComponent,
-    TourriderdetaildialogComponent
+    TourriderdetaildialogComponent,
+    RiderdetailsComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,
