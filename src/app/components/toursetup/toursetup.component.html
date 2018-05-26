@@ -40,6 +40,8 @@
                   <ag-grid-angular
                     style="width: 100%; height: 350px;"
                     class="ag-theme-balham"
+                    (rowSelected)="onRiderRowSelected($event, team)"
+                    [rowSelection]="rowSelection"
                     [gridOptions]="gridOptions"
                     [rowData]="(team?.tourRiders)">
                   </ag-grid-angular>

@@ -21,6 +21,7 @@ export class EtappesComponent implements OnInit {
   }
 
   ngOnInit() {
+    // todo store in store
     this.etappeService.getEtappes().subscribe(response => this.etappes = response);
 
   }
@@ -52,7 +53,7 @@ export class EtappesComponent implements OnInit {
         }
       },
       width: '90%',
-      height: '90%'
+      // height: '90%'
     });
 
     // todo move to store ?

@@ -44,6 +44,7 @@ import {ClassificationsService} from './services/stageclassifications.service';
 import { ParticipanttableComponent } from './components/participanttable/participanttable.component';
 import { TourriderdetaildialogComponent } from './components/tourriderdetaildialog/tourriderdetaildialog.component';
 import { RiderdetailsComponent } from './components/riderdetails/riderdetails.component';
+import { EdittourriderdialogComponent } from './components/edittourriderdialog/edittourriderdialog.component';
 
 
 @NgModule({
@@ -61,12 +62,14 @@ import { RiderdetailsComponent } from './components/riderdetails/riderdetails.co
     AddStageClassificationsComponent,
     ParticipanttableComponent,
     TourriderdetaildialogComponent,
-    RiderdetailsComponent
+    RiderdetailsComponent,
+    EdittourriderdialogComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,
     AddStageClassificationsComponent,
-    TourriderdetaildialogComponent
+    TourriderdetaildialogComponent,
+    EdittourriderdialogComponent
   ],
   imports: [
     BrowserModule,

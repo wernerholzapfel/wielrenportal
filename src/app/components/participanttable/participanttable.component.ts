@@ -19,6 +19,7 @@ export class ParticipanttableComponent implements OnInit {
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Renner', valueGetter: this.determineRole, minWidth: 200},
+    {headerName: 'Uit',  valueGetter: this.determineIsOutText, minWidth: 80},
     {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
     {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 80},
     {headerName: 'Tour', field: 'tourPoints', minWidth: 80},
@@ -35,6 +36,11 @@ export class ParticipanttableComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
 
     params.api.sizeColumnsToFit();
+  }
+
+
+  determineIsOutText(params): string {
+    return params.data.isOut ? 'Ja' : 'Nee';
   }
 
   determineRole(params): string {
@@ -96,7 +102,7 @@ export class ParticipanttableComponent implements OnInit {
     const dialogRef = this.dialog.open(TourriderdetaildialogComponent, {
       data: data,
       width: '90%',
-      height: '90%'
+      // height: '90%'
     });
 
     dialogRef.afterClosed().subscribe(result => {

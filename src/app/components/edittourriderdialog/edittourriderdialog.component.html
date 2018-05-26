@@ -1,0 +1,30 @@
+<mat-toolbar color="primary">Wijzig {{data.firstName}} {{data.surName}}</mat-toolbar>
+<mat-card>
+  <mat-card-content>
+
+    <!--<form [formGroup]="riderForm" class="login-form">-->
+      <mat-form-field class="full-width">
+        <input type="number" matInput placeholder="waarde" name="riderWaardeFormControl"
+               [errorStateMatcher]="matcher" [(ngModel)]="data.waarde">
+        <mat-error *ngIf="riderForm.controls['riderWaardeFormControl'].errors?.required">
+          waarde is <strong>verplicht</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-checkbox name="isUitgevallenFormControl" [(ngModel)]="data.isOut">Is uitgevallen
+      </mat-checkbox>
+      <mat-form-field>
+        <mat-select placeholder="uitval etappe" [(ngModel)]="selectedEtappe">
+          <mat-option *ngFor="let etappe of etappes" [value]="etappe">
+            {{ etappe.etappeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    <!--</form>-->
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="saveRiderToTeam(data)" [mat-dialog-close]="data"
+            color="accent">Opslaan
+    </button>
+    <button mat-raised-button [mat-dialog-close]="false">Annuleer</button>
+  </mat-card-actions>
+</mat-card>

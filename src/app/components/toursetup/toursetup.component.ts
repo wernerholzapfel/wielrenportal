@@ -19,9 +19,12 @@ import {MatDialog, MatSnackBar} from '@angular/material';
 import {GridOptions} from 'ag-grid';
 import {AddStageClassificationsComponent} from '../etappes/dialog/add-stage-classifications/add-stage-classifications.component';
 import {
-  ETAPPECLASSIFICATION, MOUNTAINCLASSIFICATION, TOURCLASSIFICATION,
-  YOUTHCLASSIFICATION, POINTSCLASSIFICATION
+  MOUNTAINCLASSIFICATION,
+  POINTSCLASSIFICATION,
+  TOURCLASSIFICATION,
+  YOUTHCLASSIFICATION
 } from '../../models/constants';
+import {EdittourriderdialogComponent} from '../edittourriderdialog/edittourriderdialog.component';
 
 @Component({
   selector: 'app-toursetup',
@@ -37,8 +40,10 @@ export class ToursetupComponent implements OnInit {
   agColumns = [
     {headerName: 'Renner', field: 'rider.surNameShort'},
     {headerName: 'Waarde', field: 'waarde', sort: 'desc', width: 135},
+    {headerName: 'Uitgevallen', field: 'isOut', width: 135},
     {headerName: 'Nationaliteit', field: 'rider.nationality', width: 135},
   ];
+  rowSelection = 'single';
 
   selectedTour: ITour;
   tours$: Observable<ITour[]>;
@@ -92,8 +97,8 @@ export class ToursetupComponent implements OnInit {
 
     this.tours$.subscribe(tours => {
       if (tours && tours.length > 0) {
-        this.selectedTour = tours.find(tour => tour.isActive)
-        this.store.dispatch(new fromTour.FetchTourById(this.selectedTour.id))
+        this.selectedTour = tours.find(tour => tour.isActive);
+        this.store.dispatch(new fromTour.FetchTourById(this.selectedTour.id));
         this.tours = tours;
       }
     });
@@ -153,7 +158,7 @@ export class ToursetupComponent implements OnInit {
         }
       },
       width: '90%',
-      height: '90%'
+      // height: '90%'
     });
 
     // todo move to store ?
@@ -161,6 +166,30 @@ export class ToursetupComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
+      }
+    });
+  }
+
+  onRiderRowSelected(event, team) {
+    if (event.node.selected) {
+      Object.assign(event.data, {team: {id: team.id}});
+      Object.assign(event.data, {tour: this.selectedTour});
+      this.openEditTourRiderDialog(event.data);
+    }
+  }
+
+  openEditTourRiderDialog(data: IRider) {
+    const dialogRef = this.dialog.open(EdittourriderdialogComponent, {
+      data: data,
+      width: '400px'
+    });
+
+    // todo move to store ?
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // this.tourriderservice.saveEtappe(result).subscribe(response => {
+        //   this.etappes = [...this.etappes, response];
+        // });
       }
     });
   }

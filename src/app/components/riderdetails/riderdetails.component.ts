@@ -14,6 +14,7 @@ export class RiderdetailsComponent implements OnInit {
     {headerName: 'Renner', field: 'rider.surName', minWidth: 200},
     {headerName: 'Team', field: 'team.teamName', minWidth: 100},
     {headerName: 'Waarde', field: 'waarde', minWidth: 80},
+    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 40},
     {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 80},
     {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 80},
     {headerName: 'Tour', field: 'tourPoints', minWidth: 80},
@@ -41,6 +42,10 @@ export class RiderdetailsComponent implements OnInit {
       },
       enableSorting: true,
     };
+  }
+
+  determineIsOutText(params): string {
+    return params.data.isOut ? 'Ja' : 'Nee';
   }
 
   determineTotaalpunten(params): number {
