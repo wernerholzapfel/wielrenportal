@@ -45,7 +45,7 @@ export class RiderdetailsComponent implements OnInit {
   }
 
   determineIsOutText(params): string {
-    return params.data.isOut ? 'Ja' : 'Nee';
+    return (params.data.rider && params.data.rider.isOut) ? 'Ja' : 'Nee';
   }
 
   determineTotaalpunten(params): number {
