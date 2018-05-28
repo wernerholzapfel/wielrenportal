@@ -61,14 +61,14 @@ export class ParticipanttableComponent implements OnInit {
   }
 
   determineTotaalpunten(params): number {
-    if ('todo tourisDone' !== 'todo tourisDone') {
+    if ('todo tourisDone' === 'todo tourisDone') {
       return ((params.data.totalStagePoints ? params.data.totalStagePoints : 0) +
         (params.data.youthPoints ? params.data.youthPoints : 0) +
         (params.data.mountainPoints ? params.data.mountainPoints : 0) +
         (params.data.tourPoints ? params.data.tourPoints : 0) +
         (params.data.pointsPoints ? params.data.pointsPoints : 0));
     } else {
-      return params.data.totalStagePoints ? params.data.totalStagePoints : 0
+      return params.data.totalStagePoints ? params.data.totalStagePoints : 0;
 
     }
 
