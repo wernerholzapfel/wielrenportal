@@ -1,5 +1,5 @@
-
 <mat-toolbar color="primary">Deelnemers</mat-toolbar>
+<mat-progress-bar *ngIf="!participants" mode="buffer"></mat-progress-bar>
 <mat-expansion-panel *ngFor="let participant of participants">
   <mat-expansion-panel-header>
     <mat-panel-title>

@@ -6,13 +6,30 @@
 @import "~ag-grid/dist/styles/ag-grid.css";
 @import "~ag-grid/dist/styles/ag-theme-material.css";
 @import "~ag-grid/dist/styles/ag-theme-balham.css";
+
 .mat-dialog-container {
-  height: auto !important;
   padding: 0 !important;
+}
+.cdk-overlay-pane {
+  max-width: none !important;
 }
 
 .ag-row-selected {
   // todo get from colors
   background-color: #ff4081 !important;
 }
+
 //$ag-range-selected-color-1:  #ff4081;
+
+@media (max-width: 599px) {
+  .mat-card,
+  .mat-expansion-panel-body {
+    padding: 8px 4px !important;
+  }
+}
+
+.mat-drawer-content {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+

@@ -1,7 +1,7 @@
-<mat-toolbar color="primary">Uitslag voor {{toolbartext}}</mat-toolbar>
+<mat-toolbar color="primary">{{toolbartext}}</mat-toolbar>
   <div>
-  <div fxLayout="row" fxLayoutAlign="space-between stretch">
-    <mat-card fxFlex="30">
+  <div fxLayout="column-reverse" fxLayout.gt-sm="row" fxLayoutAlign="space-between stretch">
+    <mat-card fxFlex="100" fxFlex.gt-sm="30">
       <mat-toolbar color="primary">
         <div>{{subtitleText}}</div>
         <span fxFlex></span>
@@ -22,12 +22,10 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <div fxFlex="70">
+    <div fxFlex="100" fxFlex.gt-sm="70">
       <app-riders
         (addPositionEvent)="addPosition($event)">
       </app-riders>
     </div>
   </div>
 </div>
-
-<!--</div>-->

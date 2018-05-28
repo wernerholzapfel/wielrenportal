@@ -31,6 +31,7 @@ export class RiderdetailsComponent implements OnInit {
   riders: any[];
 
   ngOnInit() {
+    // todo move to store?
     this.riderService.getDetailTourriders()
       .subscribe(response =>
         this.riders = response);

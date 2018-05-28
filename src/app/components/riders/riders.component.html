@@ -1,5 +1,6 @@
 <mat-card>
-  <mat-toolbar color="primary">Wielrenners</mat-toolbar>
+<mat-toolbar color="primary">Wielrenners</mat-toolbar>
+  <mat-progress-bar *ngIf="!(riders$ | async)" mode="buffer"></mat-progress-bar>
   <mat-card-content>
     <div class="riders-container mat-elevation-z8">
       <div class="riders-header">
@@ -7,34 +8,6 @@
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
       </div>
-      <!--<mat-table #table [dataSource]="dataSource" matSort>-->
-
-        <!--<ng-container matColumnDef="firstName">-->
-          <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Naam</mat-header-cell>-->
-          <!--<mat-cell *matCellDef="let element"> {{element.firstName}} {{element.surName}}</mat-cell>-->
-        <!--</ng-container>-->
-
-        <!--<ng-container matColumnDef="nationality">-->
-          <!--<mat-header-cell *matHeaderCellDef> Nationaliteit</mat-header-cell>-->
-          <!--<mat-cell *matCellDef="let element"> {{element.nationality}}</mat-cell>-->
-        <!--</ng-container>-->
-
-        <!--<ng-container matColumnDef="dateOfBirth">-->
-          <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Jongeren</mat-header-cell>-->
-          <!--<mat-cell *matCellDef="let element"> {{element.dateOfBirth}}</mat-cell>-->
-        <!--</ng-container>-->
-
-        <!--<ng-container matColumnDef="position">-->
-          <!--<mat-header-cell *matHeaderCellDef mat-sort-header> Positie</mat-header-cell>-->
-          <!--<mat-cell *matCellDef="let element"> 	<mat-form-field floatLabel="never">-->
-            <!--<input type="number" matInput placeholder="positie" (change)="addPosition(element)" [value]="element.position" [(ngModel)]="element.position">-->
-          <!--</mat-form-field></mat-cell>-->
-        <!--</ng-container>-->
-
-        <!--<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>-->
-        <!--<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>-->
-      <!--</mat-table>-->
-
       <ag-grid-angular
         style="width: 100%; height: 500px;"
         class="ag-theme-balham"

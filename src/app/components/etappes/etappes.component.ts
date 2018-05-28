@@ -29,7 +29,7 @@ export class EtappesComponent implements OnInit {
   openAddEtappeDialog() {
     const dialogRef = this.dialog.open(AddEtappeDialogComponent, {
       data: {tour: this.selectedtour},
-      width: '400px'
+      width: '90%'
     });
 
     // todo move to store ?
@@ -53,7 +53,7 @@ export class EtappesComponent implements OnInit {
         }
       },
       width: '90%',
-      // height: '90%'
+      height: '90%'
     });
 
     // todo move to store ?

@@ -158,7 +158,7 @@ export class ToursetupComponent implements OnInit {
         }
       },
       width: '90%',
-      // height: '90%'
+      height: '90%'
     });
 
     // todo move to store ?
@@ -181,7 +181,7 @@ export class ToursetupComponent implements OnInit {
   openEditTourRiderDialog(data: IRider) {
     const dialogRef = this.dialog.open(EdittourriderdialogComponent, {
       data: data,
-      width: '400px'
+      width: '90%',
     });
 
     // todo move to store ?

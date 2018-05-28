@@ -11,6 +11,9 @@ export class AppComponent implements OnInit {
 
   isSubmissionPossible = false;
   displayName: string;
+  events: string[] = [];
+  opened: boolean;
+
   ngOnInit() {
   }
 
