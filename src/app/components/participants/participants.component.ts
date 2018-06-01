@@ -15,6 +15,7 @@ export class ParticipantsComponent implements OnInit {
   }
 
   ngOnInit() {
+    // todo move to service ?
     this.participantService.getParticipants().subscribe(response => this.participants = response);
   }
 

@@ -5,6 +5,13 @@ import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
 import {Router} from '@angular/router';
+import * as fromParticipanttable from '../../store/participanttable/participanttable.actions';
+import {Store} from '@ngrx/store';
+import {IAppState} from '../../store/store';
+import {getTourTeams} from '../../store/tour/tour.reducer';
+import {getParticipanttable} from '../../store/participanttable/participanttable.reducer';
+import {Observable} from 'rxjs/Observable';
+import {IParticipanttable} from '../../models/participanttable.model';
 
 @Component({
   selector: 'app-participanttable',
@@ -14,7 +21,8 @@ import {Router} from '@angular/router';
 export class ParticipanttableComponent implements OnInit {
 
   data: any;
-  participants: IParticipant[];
+  participantstable$: Observable<IParticipanttable[]>;
+
   // public gridOptions: GridOptions;
   // agColumns = [
   //   {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 200},
@@ -55,11 +63,13 @@ export class ParticipanttableComponent implements OnInit {
   }
 
 
-  constructor(private participantService: ParticipantService, public dialog: MatDialog, private router: Router) {
+  constructor(private store: Store<IAppState>, public dialog: MatDialog, private router: Router) {
   }
 
   ngOnInit() {
-    this.participantService.getParticipantsTable().subscribe(response => this.participants = response);
+    // todo move to store
+    this.store.dispatch(new fromParticipanttable.FetchParticipanttable());
+    this.participantstable$ = this.store.select(getParticipanttable);
 
     // this.gridOptions = <GridOptions>{
     //   columnDefs: this.agColumns,

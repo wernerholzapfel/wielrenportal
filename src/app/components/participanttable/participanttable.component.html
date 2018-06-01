@@ -1,7 +1,8 @@
 <mat-toolbar color="primary">De stand</mat-toolbar>
-<mat-progress-bar *ngIf="!participants" mode="buffer"></mat-progress-bar>
+<!--todo show progress bar-->
+<!--<mat-progress-bar *ngIf="!(participantstable$ | async)?.length >= 0" mode="buffer"></mat-progress-bar>-->
 <mat-accordion>
-  <mat-expansion-panel *ngFor="let participant of participants | orderBy : 'totalPoints' : true">
+  <mat-expansion-panel *ngFor="let participant of (participantstable$ | async) | orderBy : 'totalPoints' : true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <div fxLayout="row" fxLayoutAlign="space-between start">
@@ -13,6 +14,6 @@
         <!--This is a summary of the content-->
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-participantpredictions [data]="participant.predictions" ></app-participantpredictions>
+    <app-participantpredictions [data]="participant.predictions"></app-participantpredictions>
   </mat-expansion-panel>
 </mat-accordion>

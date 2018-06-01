@@ -3,6 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {IParticipant} from '../models/participant.model';
 import {HttpClient} from '@angular/common/http';
+import {IParticipanttable} from '../models/participanttable.model';
 
 @Injectable()
 export class ParticipantService {
@@ -15,9 +16,8 @@ export class ParticipantService {
     return this.http.get<IParticipant[]>(`${environment.apiBaseUrl}/participants`);
   }
 
-  getParticipantsTable(): Observable<IParticipant[]> {
-
-    return this.http.get<IParticipant[]>(`${environment.apiBaseUrl}/participants/table`);
+  getParticipantsTable(): Observable<IParticipanttable[]> {
+    return this.http.get<IParticipanttable[]>(`${environment.apiBaseUrl}/participants/table`);
   }
 
 }
