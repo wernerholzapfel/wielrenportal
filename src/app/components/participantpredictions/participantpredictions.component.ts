@@ -1,14 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
-import {IParticipant} from '../../models/participant.model';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
-import {ParticipantService} from '../../services/participant.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import {getParticipantPredictions, getParticipanttable} from '../../store/participanttable/participanttable.reducer';
+import {getParticipantPredictions} from '../../store/participanttable/participanttable.reducer';
 import {Observable} from 'rxjs/Observable';
-import {IParticipanttable} from '../../models/participanttable.model';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 
@@ -95,7 +92,7 @@ export class ParticipantpredictionsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.sub =  this.route.params.subscribe(params => {
+    this.sub = this.route.params.subscribe(params => {
       this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
     });
 
