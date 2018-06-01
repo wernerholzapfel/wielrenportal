@@ -6,7 +6,7 @@
       class="ag-theme-balham"
       [gridOptions]="gridOptions"
       [rowSelection]="rowSelection"
-      (rowSelected)="onRowSelected($event, participant)"
+      (rowSelected)="onRowSelected($event)"
       [rowData]="(participanttable$ | async)?.predictions"
       [enableColResize]="true"
       (gridReady)="onGridReady($event)">

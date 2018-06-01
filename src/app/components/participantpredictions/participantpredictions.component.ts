@@ -106,7 +106,7 @@ export class ParticipantpredictionsComponent implements OnInit {
     };
   }
 
-  onRowSelected(event, participant) {
+  onRowSelected(event) {
     if (event.node.selected) {
       this.openTourRidersDetailDialog(event.data);
     }
