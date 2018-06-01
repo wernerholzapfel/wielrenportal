@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">Inloggen</mat-toolbar>
 <mat-card>
-  <mat-tab-group *ngIf="!(authService.user$ | async)" >
-    <mat-tab label="inloggen">
+  <mat-tab-group *ngIf="!(authService.user$ | async)">
+    <mat-tab label="inloggen" *ngIf="!wachtwoordvergeten">
       <form class="login-form">
         <mat-form-field class="full-width">
           <input matInput placeholder="Email" name="inlogEmail" [(ngModel)]="user.email">
@@ -11,15 +11,18 @@
                  [(ngModel)]="user.password">
         </mat-form-field>
         <div class="form-group">
-          <button mat-raised-button color="primary" (click)="signInWithEmail()"
-                  [disabled]="!user.email || !user.password">
-            Inloggen
-          </button>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <button mat-raised-button color="primary" (click)="signInWithEmail()"
+                    [disabled]="!user.email || !user.password">
+              Inloggen
+            </button>
+            <div class="clickable_div" (click)="activateResetPassword(true)">Wachtwoord vergeten</div>
+          </div>
         </div>
       </form>
     </mat-tab>
 
-    <mat-tab label="inschrijven">
+    <mat-tab label="inschrijven" *ngIf="!wachtwoordvergeten">
       <form [formGroup]="userForm" class="login-form">
         <mat-form-field class="full-width">
           <input matInput placeholder="Email" formControlName="emailFormControl"
@@ -59,8 +62,26 @@
         </div>
       </form>
     </mat-tab>
+    <mat-tab *ngIf="wachtwoordvergeten" label="wachtwoord vergeten">
+      <form class="login-form">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Email" name="inlogEmail" [(ngModel)]="user.email">
+        </mat-form-field>
+        <div class="form-group">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <button mat-raised-button color="primary" (click)="sendPasswordResetEmail()"
+                    [disabled]="!user.email">
+              Reset wachtwoord
+            </button>
+            <div class="clickable_div" (click)="activateResetPassword(false)">Login</div>
+          </div>
+        </div>
+      </form>
+    </mat-tab>
   </mat-tab-group>
-  <button mat-raised-button color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout {{(authService.user$ | async)?.displayName }}</button>
+  <button mat-raised-button color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout
+    {{(authService.user$ | async)?.displayName }}
+  </button>
 </mat-card>
 
 

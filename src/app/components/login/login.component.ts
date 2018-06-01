@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
   });
 
   matcher = new MyErrorStateMatcher();
+  wachtwoordvergeten = false;
 
   ngOnInit() {
   }
@@ -43,6 +44,17 @@ export class LoginComponent implements OnInit {
       .then((res) => {
         console.log(res);
         this.router.navigate(['/participants']);
+      })
+      .catch((err) => {
+        this.snackBar.open(err.message, 'OK', {});
+        console.log('error: ' + err);
+      });
+  }
+
+  sendPasswordResetEmail() {
+    this.authService.sendPasswordResetEmail(this.user.email)
+      .then((res) => {
+        this.snackBar.open(res, 'OK', {});
       })
       .catch((err) => {
         this.snackBar.open(err.message, 'OK', {});
@@ -65,6 +77,10 @@ export class LoginComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  activateResetPassword(isTrue: boolean) {
+    this.wachtwoordvergeten = isTrue;
   }
 }
 

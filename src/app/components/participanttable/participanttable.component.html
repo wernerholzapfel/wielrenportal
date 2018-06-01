@@ -4,7 +4,10 @@
   <mat-expansion-panel *ngFor="let participant of participants | orderBy : 'totalPoints' : true">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{participant.displayName}} {{participant.totalPoints}}
+        <div fxLayout="row" fxLayoutAlign="space-between start">
+          <div fxFlex="200px">{{participant.displayName}}</div>
+          <div fxFlex="120px">{{participant.totalPoints}}</div>
+        </div>
       </mat-panel-title>
       <mat-panel-description>
         <!--This is a summary of the content-->
@@ -25,7 +28,7 @@
         </ag-grid-angular>
       </div>
       <!--<div fxFlex="40">-->
-        <!--<app-tourriderdetaildialog [data]="participant?.selectedRider"></app-tourriderdetaildialog>-->
+      <!--<app-tourriderdetaildialog [data]="participant?.selectedRider"></app-tourriderdetaildialog>-->
       <!--</div>-->
       <!--<div fxFlex="300px"  class="wrapgap" *ngFor="let prediction of participant.predictions | orderBy : 'punten' : true">-->
       <!--<mat-toolbar>-->

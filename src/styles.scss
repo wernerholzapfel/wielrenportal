@@ -33,3 +33,19 @@
   overflow-x: hidden !important;
 }
 
+// icon size in cell
+.ag-grid-icon {
+  font-size: 16px !important;
+  color: slategrey;
+  top: 4px;
+  position: absolute;
+  right: 0;
+}
+
+.clickable_div {
+  cursor: pointer;
+  font-size: 12px;
+  color: slategrey;
+  margin-left: 5px;
+
+}

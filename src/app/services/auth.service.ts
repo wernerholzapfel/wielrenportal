@@ -3,7 +3,6 @@ import {Observable} from 'rxjs/Observable';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase';
-import {fromPromise} from 'rxjs/observable/fromPromise';
 
 @Injectable()
 export class AuthService {
@@ -70,4 +69,10 @@ export class AuthService {
       return Promise.resolve(false);
     }
   }
+
+  sendPasswordResetEmail(email: string): Promise<any> {
+    return this._firebaseAuth.auth.sendPasswordResetEmail(email);
+  }
+
+
 }

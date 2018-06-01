@@ -4,6 +4,7 @@ import {IParticipant} from '../../models/participant.model';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-participanttable',
@@ -18,11 +19,10 @@ export class ParticipanttableComponent implements OnInit {
   participants: IParticipant[];
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: 'Renner', valueGetter: this.determineRole, minWidth: 200},
+    {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 200},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80},
     {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
-    {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 80},
-    {headerName: 'Laatste etappe', field: 'deltaStagePoints', minWidth: 80},
+    {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, minWidth: 100},
     {headerName: 'Tour', field: 'tourPoints', minWidth: 80},
     {headerName: 'Berg', field: 'mountainPoints', minWidth: 80},
     {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
@@ -45,21 +45,32 @@ export class ParticipanttableComponent implements OnInit {
   }
 
   determineRole(params): string {
+    // todo implement with mat-icon and mat-tooltip https://plnkr.co/edit/?p=preview
     if (params.data.isWaterdrager) {
-      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + ' WD';
+      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName +
+        '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">delete_outline</mat-icon>';
     }
     if (params.data.isLinkebal) {
-      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + ' LB';
+      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName +
+        '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">new_releases</mat-icon>';
     }
     if (params.data.isBeschermdeRenner) {
-      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + ' BR';
+      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName +
+        '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">verified_user</mat-icon>';
     }
     if (params.data.isMeesterknecht) {
-      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + ' MK';
+      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName +
+        '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">build</mat-icon>';
     } else {
       return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName;
     }
   }
+
+  formatEtappeTotaalpunten(params): string {
+    const addendum: string = (params.data.deltaStagePoints > 0) ? ' (+' + params.data.deltaStagePoints + ')' : (params.data.deltaStagePoints === 0) ? '' : ' (' + params.data.deltaStagePoints + ')';
+    return params.data.totalStagePoints + addendum;
+  }
+
 
   determineTotaalpunten(params): number {
     if ('todo tourisDone' === 'todo tourisDone') {
@@ -76,7 +87,7 @@ export class ParticipanttableComponent implements OnInit {
   }
 
 
-  constructor(private participantService: ParticipantService, public dialog: MatDialog) {
+  constructor(private participantService: ParticipantService, public dialog: MatDialog, private router: Router) {
   }
 
   ngOnInit() {
