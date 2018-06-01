@@ -45,6 +45,7 @@ import { ParticipanttableComponent } from './components/participanttable/partici
 import { TourriderdetaildialogComponent } from './components/tourriderdetaildialog/tourriderdetaildialog.component';
 import { RiderdetailsComponent } from './components/riderdetails/riderdetails.component';
 import { EdittourriderdialogComponent } from './components/edittourriderdialog/edittourriderdialog.component';
+import { ParticipantpredictionsComponent } from './components/participantpredictions/participantpredictions.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { EdittourriderdialogComponent } from './components/edittourriderdialog/e
     ParticipanttableComponent,
     TourriderdetaildialogComponent,
     RiderdetailsComponent,
-    EdittourriderdialogComponent
+    EdittourriderdialogComponent,
+    ParticipantpredictionsComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,
