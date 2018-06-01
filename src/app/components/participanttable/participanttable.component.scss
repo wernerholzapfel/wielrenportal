@@ -1,9 +1,11 @@
 :host {
-  .card_header {
-    height: 30px
+  .container-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
   }
 
-  .wrapgap {
-    margin-bottom: 5px;
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
   }
 }

@@ -4,7 +4,13 @@ import {IParticipant} from '../../models/participant.model';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {ParticipantService} from '../../services/participant.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
+import {getParticipantPredictions, getParticipanttable} from '../../store/participanttable/participanttable.reducer';
+import {Observable} from 'rxjs/Observable';
+import {IParticipanttable} from '../../models/participanttable.model';
+import {IAppState} from '../../store/store';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-participantpredictions',
@@ -14,8 +20,9 @@ import {Router} from '@angular/router';
 export class ParticipantpredictionsComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
+  sub: Subscription;
 
-  @Input() data: any;
+  participanttable$: Observable<any>;
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 200},
@@ -83,10 +90,15 @@ export class ParticipantpredictionsComponent implements OnInit {
 
   }
 
-  constructor(private participantService: ParticipantService, public dialog: MatDialog, private router: Router) {
+  constructor(private store: Store<IAppState>, private route: ActivatedRoute, public dialog: MatDialog) {
   }
 
   ngOnInit() {
+
+    this.sub =  this.route.params.subscribe(params => {
+      this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
+    });
+
 
     this.gridOptions = <GridOptions>{
       columnDefs: this.agColumns,
@@ -99,8 +111,6 @@ export class ParticipantpredictionsComponent implements OnInit {
 
   onRowSelected(event, participant) {
     if (event.node.selected) {
-      // this.participants.find(item => item.id === participant.id).selectedRider = event.data;
-      this.data = event.data;
       this.openTourRidersDetailDialog(event.data);
     }
   }

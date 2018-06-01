@@ -9,10 +9,9 @@ import {LoginComponent} from './components/login/login.component';
 import {ToursetupComponent} from './components/toursetup/toursetup.component';
 import {AdminGuardService} from './services/admin-guard.service';
 import {ParticipantsComponent} from './components/participants/participants.component';
-import {EtappesComponent} from './components/etappes/etappes.component';
 import {ParticipanttableComponent} from './components/participanttable/participanttable.component';
-import {TourriderdetaildialogComponent} from './components/tourriderdetaildialog/tourriderdetaildialog.component';
 import {RiderdetailsComponent} from './components/riderdetails/riderdetails.component';
+import {ParticipantpredictionsComponent} from './components/participantpredictions/participantpredictions.component';
 
 const appRoutes: Routes = [
   {
@@ -33,7 +32,11 @@ const appRoutes: Routes = [
   },
   {
     path: 'table',
-    component: ParticipanttableComponent
+    component: ParticipanttableComponent,
+  },
+  {
+    path: 'table/detail/:id',
+    component: ParticipantpredictionsComponent
   },
   {
     path: 'login',
@@ -45,6 +48,10 @@ const appRoutes: Routes = [
   },
   {
     path: '',
+    component: HomeComponent,
+  },
+  {
+    path: '**',
     component: HomeComponent,
   }
 ];

@@ -21,19 +21,19 @@ const initalparticipanttableState: ParticipanttableState = {
 
 export function participanttableReducer(state = initalparticipanttableState, action): ParticipanttableState {
   switch (action.type) {
-    case participanttable.FETCH_PARTICIPANTABLE:
+    case participanttable.FETCH_PARTICIPANTTABLE:
       return {
         ...state,
         inProgress: true,
       };
-    case participanttable.FETCH_PARTICIPANTABLE_SUCCESS:
+    case participanttable.FETCH_PARTICIPANTTABLE_SUCCESS:
       return {
         ...state,
         participanttable: action.payload,
         inProgress: false,
         error: undefined
       };
-    case participanttable.FETCH_PARTICIPANTABLE_FAILURE:
+    case participanttable.FETCH_PARTICIPANTTABLE_FAILURE:
       return {
         ...state,
         participanttable: undefined,
@@ -50,5 +50,7 @@ export function participanttableReducer(state = initalparticipanttableState, act
 
 export const getparticipanttableState = createFeatureSelector<ParticipanttableState>('participanttable');
 export const getParticipanttable = createSelector(getparticipanttableState, (state: ParticipanttableState) => state.participanttable);
-// todo filter by participant Id
-// export const getParticipantPredictions = createSelector(getparticipanttableState, (state: ParticipanttableState) => state.participanttable ? state.participanttable.teams : []);
+export const getParticipantPredictions = id =>
+  createSelector(getparticipanttableState, (state: ParticipanttableState) =>
+    state.participanttable.find(item =>
+      item.id === id));

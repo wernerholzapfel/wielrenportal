@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from './services/auth.service';
+import {Store} from '@ngrx/store';
+import {IAppState} from './store/store';
+import * as fromParticipanttable from './store/participanttable/participanttable.actions';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +10,8 @@ import {AuthService} from './services/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(public authService: AuthService) {}
+  constructor(private store: Store<IAppState>, public authService: AuthService) {
+  }
 
   isSubmissionPossible = false;
   displayName: string;
@@ -15,6 +19,7 @@ export class AppComponent implements OnInit {
   opened: boolean;
 
   ngOnInit() {
+    this.store.dispatch(new fromParticipanttable.FetchParticipanttable());
   }
 
   logout() {

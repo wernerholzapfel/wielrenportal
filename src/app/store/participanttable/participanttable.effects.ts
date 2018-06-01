@@ -16,7 +16,7 @@ export class ParticipanttableEffects {
 
   @Effect()
   fetchParticipanttable$ = this.actions$
-    .ofType<participanttable.FetchParticipanttable>(participanttable.FETCH_PARTICIPANTABLE)
+    .ofType<participanttable.FetchParticipanttable>(participanttable.FETCH_PARTICIPANTTABLE)
     .switchMap(action => {
       return this.participanttableService
         .getParticipantsTable()

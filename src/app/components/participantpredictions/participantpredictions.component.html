@@ -1,3 +1,4 @@
+<mat-toolbar color="primary">Renners van {{(participanttable$ | async)?.displayName}} ({{(participanttable$ | async)?.totalPoints}})</mat-toolbar>
 <div fxLayout="row">
   <div fxFlex="100">
     <ag-grid-angular
@@ -6,7 +7,7 @@
       [gridOptions]="gridOptions"
       [rowSelection]="rowSelection"
       (rowSelected)="onRowSelected($event, participant)"
-      [rowData]="data"
+      [rowData]="(participanttable$ | async)?.predictions"
       [enableColResize]="true"
       (gridReady)="onGridReady($event)">
     </ag-grid-angular>
