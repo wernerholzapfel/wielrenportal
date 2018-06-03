@@ -14,7 +14,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {RidersComponent} from './components/riders/riders.component';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
-import {AngularFireDatabaseModule} from 'angularfire2/database';
+import {AngularFireDatabaseModule} from 'angularfire2/database-deprecated';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AuthService} from './services/auth.service';
 import {LoginComponent} from './components/login/login.component';

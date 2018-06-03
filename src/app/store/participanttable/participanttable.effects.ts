@@ -7,19 +7,19 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import {ParticipantService} from '../../services/participant.service';
+import {AngularFireDatabase} from 'angularfire2/database-deprecated';
 
 @Injectable()
 export class ParticipanttableEffects {
   constructor(private actions$: Actions,
-              private participanttableService: ParticipantService) {
+              private participanttableService: ParticipantService, private db: AngularFireDatabase) {
   }
 
   @Effect()
   fetchParticipanttable$ = this.actions$
     .ofType<participanttable.FetchParticipanttable>(participanttable.FETCH_PARTICIPANTTABLE)
     .switchMap(action => {
-      return this.participanttableService
-        .getParticipantsTable()
+      return this.db.list('/server/stand')
         .switchMap(participanttableResponse =>
           Observable.of(new participanttable.FetchParticipanttableSuccess(participanttableResponse))
         )
