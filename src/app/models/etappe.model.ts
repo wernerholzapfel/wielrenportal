@@ -11,7 +11,7 @@ export interface IEtappe {
 }
 
 export interface IStageClassification {
-  id: string;
+  id?: string;
   position: number;
   tour: ITour;
   etappe: IEtappe;
@@ -19,7 +19,7 @@ export interface IStageClassification {
 }
 
 export interface ITourClassification {
-  id: string;
+  id?: string;
   position: number;
   tour: ITour;
   tourrider: ITourrider;

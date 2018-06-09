@@ -11,8 +11,7 @@ import {AngularFireDatabase} from 'angularfire2/database-deprecated';
 
 @Injectable()
 export class ParticipanttableEffects {
-  constructor(private actions$: Actions,
-              private participanttableService: ParticipantService, private db: AngularFireDatabase) {
+  constructor(private actions$: Actions, private db: AngularFireDatabase) {
   }
 
   @Effect()

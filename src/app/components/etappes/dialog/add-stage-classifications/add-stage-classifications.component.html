@@ -1,24 +1,23 @@
 <mat-toolbar color="primary">{{toolbartext}}</mat-toolbar>
-  <div>
+<div>
   <div fxLayout="column-reverse" fxLayout.gt-sm="row" fxLayoutAlign="space-between stretch">
     <mat-card fxFlex="100" fxFlex.gt-sm="30">
       <mat-toolbar color="primary">
         <div>{{subtitleText}}</div>
         <span fxFlex></span>
-        <button mat-raised-button color="accent" (click)="submit(data)">Opslaan</button>
       </mat-toolbar>
       <mat-card-content>
         <div class="stage-cf-container mat-elevation-z8">
-          <div *ngIf="data.form.uitslag.length <= 0">Vul rechts de positie van de renner in en voeg deze toe.</div>
-          <mat-list>
-            <mat-list-item *ngFor="let item of data.form.uitslag | orderBy : 'position'">
-              <div matLine> {{item.position}}: {{item.firstName}} {{item.surName}}
-              </div>
-              <button (click)="deleteRiderFromSC(item)" mat-icon-button>
-                <mat-icon matListIcon>delete</mat-icon>
-              </button>
-            </mat-list-item>
-          </mat-list>
+          <div class="stage-cf-header" fxLayoutAlign="space-evenly center">
+              <button mat-raised-button color="accent" (click)="submit(data)">Opslaan</button>
+              <button mat-raised-button color="warn" (click)="onRemoveSelected(data)">Verwijder</button>
+          </div>
+          <ag-grid-angular
+            style="width: 100%; height: 500px;"
+            class="ag-theme-balham"
+            [gridOptions]="gridOptions"
+            [rowData]="data.form.uitslag">
+          </ag-grid-angular>
         </div>
       </mat-card-content>
     </mat-card>

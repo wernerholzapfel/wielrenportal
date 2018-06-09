@@ -5,10 +5,12 @@ import {ClassificationsService} from '../../../../services/stageclassifications.
 import {IStageClassification, ITourClassification} from '../../../../models/etappe.model';
 import {
   ETAPPECLASSIFICATION,
-  MOUNTAINCLASSIFICATION, POINTSCLASSIFICATION,
+  MOUNTAINCLASSIFICATION,
+  POINTSCLASSIFICATION,
   TOURCLASSIFICATION,
   YOUTHCLASSIFICATION
 } from '../../../../models/constants';
+import {GridOptions} from 'ag-grid';
 
 @Component({
   selector: 'app-add-stage-classifications',
@@ -25,10 +27,31 @@ export class AddStageClassificationsComponent implements OnInit {
 
   toolbartext: string;
   subtitleText: string;
+  public gridOptions: GridOptions;
+  agColumns = [
+    {headerName: 'Voornaam', field: 'firstName'},
+    {headerName: 'Achternaam', field: 'surName'},
+    {
+      headerName: 'Positie', field: 'position',
+      valueParser: this.numberParser, sort: 'asc',
+      width: 50
+    },
+  ];
 
   ngOnInit() {
     this.fetchData(this.data);
     this.determineText(this.data);
+
+    this.gridOptions = <GridOptions>{
+      columnDefs: this.agColumns,
+      onGridReady: () => {
+        this.gridOptions.api.sizeColumnsToFit();
+      },
+      enableSorting: false,
+      singleClickEdit: true,
+      animateRows: true,
+      rowSelection: 'multiple'
+    };
   }
 
   determineText(data) {
@@ -116,6 +139,7 @@ export class AddStageClassificationsComponent implements OnInit {
       this.data.form.uitslag = this.transformResponseToRequest(response);
     });
   }
+
   private fetchPointsClassification() {
     this.stageClassificationsService.getPointsClassifications(this.data.form.tour.id).subscribe(response => {
       this.data.form.uitslag = this.transformResponseToRequest(response);
@@ -163,7 +187,7 @@ export class AddStageClassificationsComponent implements OnInit {
         this.submitMountainClassification(data.form);
         break;
       }
-       case POINTSCLASSIFICATION: {
+      case POINTSCLASSIFICATION: {
         this.submitPointsClassification(data.form);
         break;
       }
@@ -243,9 +267,18 @@ export class AddStageClassificationsComponent implements OnInit {
 
   }
 
-  deleteRiderFromSC(itemToDelete: IRider) {
-    this.data.form.uitslag = this.data.form.uitslag.filter(item =>
-      item !== itemToDelete);
+  onRemoveSelected() {
+    const selectedData = this.gridOptions.api.getSelectedRows();
+    const res = this.gridOptions.api.updateRowData({remove: selectedData});
+    const rowData = [];
+    this.gridOptions.api.forEachNode(function (node) {
+      rowData.push(node.data);
+    });
+    this.data.form.uitslag = rowData;
+  }
+
+  numberParser(params) {
+    return Number(params.newValue);
   }
 
   // todo update riders state as well.

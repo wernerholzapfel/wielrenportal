@@ -15,9 +15,4 @@ export class ParticipantService {
 
     return this.http.get<IParticipant[]>(`${environment.apiBaseUrl}/participants`);
   }
-
-  getParticipantsTable(): Observable<IParticipanttable[]> {
-    return this.http.get<IParticipanttable[]>(`${environment.apiBaseUrl}/participants/table`);
-  }
-
 }
