@@ -49,22 +49,23 @@ export class ParticipantpredictionsComponent implements OnInit {
   determineRole(params): string {
     // todo implement with mat-icon and mat-tooltip https://plnkr.co/edit/?p=preview
     if (params.data.isWaterdrager) {
-      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName +
-        '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">delete_outline</mat-icon>';
+      return '<div><mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">delete_outline</mat-icon>' +
+        params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName + '</div>';
     }
     if (params.data.isLinkebal) {
-      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName +
-        '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">new_releases</mat-icon>';
+      return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">new_releases</mat-icon>' +
+        params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName;
     }
     if (params.data.isBeschermdeRenner) {
-      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName +
-        '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">verified_user</mat-icon>';
+      return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">verified_user</mat-icon>' +
+        params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName;
     }
     if (params.data.isMeesterknecht) {
-      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName +
-        '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">build</mat-icon>';
+      return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">build</mat-icon>' +
+        params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName;
     } else {
-      return params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName;
+      return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">directions_bike</mat-icon>'
+        + params.data.rider.rider.firstName + ' ' + params.data.rider.rider.surName;
     }
   }
 

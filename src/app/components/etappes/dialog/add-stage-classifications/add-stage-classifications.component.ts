@@ -29,6 +29,14 @@ export class AddStageClassificationsComponent implements OnInit {
   subtitleText: string;
   public gridOptions: GridOptions;
   agColumns = [
+    {
+      headerName: '#',
+      width: 40,
+      checkboxSelection: true,
+      suppressSorting: true,
+      suppressMenu: true,
+      pinned: true
+    },
     {headerName: 'Voornaam', field: 'firstName'},
     {headerName: 'Achternaam', field: 'surName'},
     {

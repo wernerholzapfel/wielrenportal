@@ -11,17 +11,18 @@ export interface IParticipant {
 
 
 export interface IPrediction {
-  id: string;
+  id?: string;
   isRider: boolean;
   isWaterdrager: boolean;
   isMeesterknecht: boolean;
   isLinkebal: boolean;
   isBeschermdeRenner: boolean;
-  rider: IRider[];
+  rider: IRider;
   totalStagePoints?: number;
   tourPoints?: number;
   mountainPoints?: number;
   youthPoints?: number;
+  waarde?: number;
 }
 
 

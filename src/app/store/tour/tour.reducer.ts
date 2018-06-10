@@ -54,7 +54,24 @@ export function tourReducer(state = initaltourState, action): TourState {
     case tour.Set_CURRENT_RIDER_AS_SELECTED:
       return {
         ...state,
-        tour: action.payload,
+        tour: {
+          tourName: state.tour.tourName,
+          id: state.tour.id,
+          isActive: state.tour.isActive,
+          startDate: state.tour.startDate,
+          endDate: state.tour.endDate,
+          teams: state.tour.teams.map(team => (team.id === action.payload.team.id ? {
+            id: team.id,
+            teamName: team.teamName,
+            teamAbbreviation: team.teamAbbreviation,
+            selected: team.selected,
+            teamNameShort: team.teamNameShort,
+            country: team.country,
+            tourRiders: team.tourRiders.map(rider => (rider.id === action.payload.rider.id ?
+              Object.assign(rider, {isSelected: action.payload.selected}) : rider)
+            )
+          } : team)),
+        },
         inProgress: false,
         error: undefined,
       };

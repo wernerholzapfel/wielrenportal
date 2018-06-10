@@ -4,6 +4,8 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {IPartipantRidersFormModel} from '../models/partipantRidersForm.model';
 import {IRider} from '../models/rider.model';
+import {IEtappe} from '../models/etappe.model';
+import {IPrediction} from '../models/participant.model';
 
 @Injectable()
 export class PredictionService {
@@ -12,5 +14,9 @@ export class PredictionService {
   submitPrediction(body: IPartipantRidersFormModel): Observable<IRider[]> {
     return this.http.post<IRider[]>(`${environment.apiBaseUrl}/predictions`, body)
       .map(res => <IRider[]>res);
+  }
+
+  getPredictionsForUser(): Observable<IPrediction[]> {
+    return this.http.get<IPrediction[]>(`${environment.apiBaseUrl}/predictions/user`);
   }
 }

@@ -7,6 +7,10 @@
 @import "~ag-grid/dist/styles/ag-theme-material.css";
 @import "~ag-grid/dist/styles/ag-theme-balham.css";
 
+.mat-card {
+  padding: 8px !important;
+}
+
 .mat-dialog-container {
   padding: 0 !important;
 }
@@ -38,8 +42,7 @@
   font-size: 16px !important;
   color: slategrey;
   top: 4px;
-  position: absolute;
-  right: 0;
+  position: relative;
 }
 
 .clickable_div {

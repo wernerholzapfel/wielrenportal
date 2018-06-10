@@ -1,4 +1,5 @@
 import {IStageclassifications} from './participant.model';
+import {ITeam} from './team.model';
 
 export interface IRider {
   id: string;
@@ -19,5 +20,5 @@ export interface IRider {
   waarde?: number;
   position?: number;
   stageclassifications?: IStageclassifications[];
-
+  team?: ITeam;
 }
