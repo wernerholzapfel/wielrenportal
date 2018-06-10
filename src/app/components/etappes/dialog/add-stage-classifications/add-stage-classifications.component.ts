@@ -37,11 +37,11 @@ export class AddStageClassificationsComponent implements OnInit {
       suppressMenu: true,
       pinned: true
     },
-    {headerName: 'Voornaam', field: 'firstName'},
+    {headerName: 'Voornaam', field: 'firstName', rowDrag: true},
     {headerName: 'Achternaam', field: 'surName'},
     {
       headerName: 'Positie', field: 'position',
-      valueParser: this.numberParser, sort: 'asc',
+      valueParser: this.numberParser,
       width: 50
     },
   ];
@@ -55,7 +55,7 @@ export class AddStageClassificationsComponent implements OnInit {
       onGridReady: () => {
         this.gridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: false,
+      enableSorting: true,
       singleClickEdit: true,
       animateRows: true,
       rowSelection: 'multiple'
@@ -166,6 +166,7 @@ export class AddStageClassificationsComponent implements OnInit {
   }
 
   addPosition(element: IRider) {
+    // todo check max 20 uitslag elementen
     if (element.position > 0) {
       if (this.data.form.uitslag.find(item => item.id === element.id)) {
         this.data.form.uitslag = [...this.data.form.uitslag.filter(item => item.id !== element.id), element];
@@ -175,6 +176,7 @@ export class AddStageClassificationsComponent implements OnInit {
     } else {
       this.data.form.uitslag = [...this.data.form.uitslag.filter(item => item.id !== element.id)];
     }
+    this.data.form.uitslag.sort((a, b) => a.position - b.position);
   }
 
   submit(data) {
@@ -277,10 +279,14 @@ export class AddStageClassificationsComponent implements OnInit {
 
   onRemoveSelected() {
     const selectedData = this.gridOptions.api.getSelectedRows();
-    const res = this.gridOptions.api.updateRowData({remove: selectedData});
+    this.gridOptions.api.updateRowData({remove: selectedData});
+    this.resetPosition();
+  }
+
+  resetPosition() {
     const rowData = [];
     this.gridOptions.api.forEachNode(function (node) {
-      rowData.push(node.data);
+      rowData.push(Object.assign(node.data, {position: node.childIndex + 1}));
     });
     this.data.form.uitslag = rowData;
   }
@@ -288,6 +294,7 @@ export class AddStageClassificationsComponent implements OnInit {
   numberParser(params) {
     return Number(params.newValue);
   }
+
 
   // todo update riders state as well.
 }

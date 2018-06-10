@@ -16,6 +16,9 @@
             style="width: 100%; height: 500px;"
             class="ag-theme-balham"
             [gridOptions]="gridOptions"
+            [rowDragManaged]="true"
+            [animateRows]="true"
+            (rowDragEnd)="resetPosition($event)"
             [rowData]="data.form.uitslag">
           </ag-grid-angular>
         </div>

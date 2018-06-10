@@ -12,7 +12,7 @@
               <h3 matSubheader>
                 <mat-icon matListIcon>directions_bike</mat-icon>
                 Mijn Renners ({{partipantRidersForm?.riders?.length}}/{{maxParticipantRiders}})</h3>
-              <mat-list-item *ngFor="let rider of partipantRidersForm?.riders">
+              <mat-list-item *ngFor="let rider of partipantRidersForm?.riders | orderBy : 'rider.waarde' : 'desc'">
                 <div matLine>
                   {{rider?.rider?.rider?.firstName}} {{rider?.rider?.rider?.surNameShort}} ({{rider?.rider?.waarde}})
                 </div>
