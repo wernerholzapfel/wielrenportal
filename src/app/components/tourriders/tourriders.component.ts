@@ -21,7 +21,7 @@ import {IRider} from '../../models/rider.model';
 })
 export class TourridersComponent implements OnInit {
   tour$: Observable<ITour>;
-  currentRider: IPrediction;
+  currentRider: IRider;
   currentTeam: ITeam;
   partipantRidersForm: IPartipantRidersFormModel;
   maxParticipantRiders = 16;
@@ -91,7 +91,7 @@ export class TourridersComponent implements OnInit {
           rider: this.currentRider,
           isRider: true
         })];
-      console.log(this.currentRider.rider.surName + ' toegevoegd als renner');
+      console.log(this.currentRider.surName + ' toegevoegd als renner');
     }
   }
 
@@ -101,7 +101,7 @@ export class TourridersComponent implements OnInit {
       rider: this.currentRider,
       isBeschermdeRenner: true
     });
-    console.log(this.currentRider.rider.surName + ' toegevoegd als beschermderenner');
+    console.log(this.currentRider.surName + ' toegevoegd als beschermderenner');
   }
 
   addMeesterknecht() {
@@ -110,7 +110,7 @@ export class TourridersComponent implements OnInit {
       rider: this.currentRider,
       isMeesterknecht: true
     });
-    console.log(this.currentRider.rider.surName + ' toegevoegd als meesterknecht');
+    console.log(this.currentRider.surName + ' toegevoegd als meesterknecht');
   }
 
   addLinkebal() {
@@ -119,7 +119,7 @@ export class TourridersComponent implements OnInit {
       rider: this.currentRider,
       isLinkebal: true
     });
-    console.log(this.currentRider.rider.surName + ' toegevoegd als linkebal');
+    console.log(this.currentRider.surName + ' toegevoegd als linkebal');
   }
 
   addWaterdrager() {
@@ -128,15 +128,15 @@ export class TourridersComponent implements OnInit {
       rider: this.currentRider,
       isWaterdrager: true
     });
-    console.log(this.currentRider.rider.surName + ' toegevoegd als waterdrager'
+    console.log(this.currentRider.surName + ' toegevoegd als waterdrager'
     );
   }
 
   showBeschermdeRennerOfMeesterknecht() {
-    if (this.partipantRidersForm && this.partipantRidersForm.meesterknecht && this.currentRider && this.currentRider.rider) {
+    if (this.partipantRidersForm && this.partipantRidersForm.meesterknecht && this.currentRider) {
       return (this.currentRider.waarde === this.partipantRidersForm.meesterknecht.rider.waarde);
     }
-    if (this.partipantRidersForm && this.partipantRidersForm.beschermdeRenner && this.currentRider && this.currentRider.rider) {
+    if (this.partipantRidersForm && this.partipantRidersForm.beschermdeRenner && this.currentRider) {
       return (this.currentRider.waarde === this.partipantRidersForm.beschermdeRenner.rider.waarde);
     }
     return true;
