@@ -1,5 +1,6 @@
 import {IRider} from './rider.model';
 import {IEtappe} from './etappe.model';
+import {ITeam} from './team.model';
 
 export interface IParticipant {
   id: string;
@@ -9,6 +10,21 @@ export interface IParticipant {
   selectedRider?: IRider;
 }
 
+export interface ITourrider {
+  id: string;
+  rider: IRider;
+  isActive: boolean;
+  isBeschermdeRenner?: boolean;
+  isMeesterknecht?: boolean;
+  isLinkebal?: boolean;
+  isWaterdrager?: boolean;
+  isRider?: boolean;
+  isSelected?: boolean;
+  waarde?: number;
+  position?: number;
+  stageclassifications?: IStageclassifications[];
+  team?: ITeam;
+}
 
 export interface IPrediction {
   id?: string;
@@ -17,7 +33,7 @@ export interface IPrediction {
   isMeesterknecht: boolean;
   isLinkebal: boolean;
   isBeschermdeRenner: boolean;
-  rider: IRider;
+  rider: ITourrider;
   totalStagePoints?: number;
   tourPoints?: number;
   mountainPoints?: number;

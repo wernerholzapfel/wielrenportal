@@ -11,7 +11,7 @@ import {Observable} from 'rxjs/Observable';
 import {PredictionService} from '../../services/prediction.service';
 import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
-import {IPrediction} from '../../models/participant.model';
+import {IPrediction, ITourrider} from '../../models/participant.model';
 import {IRider} from '../../models/rider.model';
 
 @Component({
@@ -21,7 +21,7 @@ import {IRider} from '../../models/rider.model';
 })
 export class TourridersComponent implements OnInit {
   tour$: Observable<ITour>;
-  currentRider: IRider;
+  currentRider: any; // todo
   currentTeam: ITeam;
   partipantRidersForm: IPartipantRidersFormModel;
   maxParticipantRiders = 16;
@@ -180,7 +180,7 @@ export class TourridersComponent implements OnInit {
     });
   }
 
-  setCurrentRiderAsSelected(ridertje: IRider, teampje: ITeam, selected: boolean) {
+  setCurrentRiderAsSelected(ridertje: ITourrider, teampje: ITeam, selected: boolean) {
     // this.tour$.take(1).subscribe(response => {
     //   response.teams.forEach(team => {
     //     if (team.id === teampje.id) {
