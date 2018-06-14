@@ -46,6 +46,7 @@
       </div>
 
     </mat-toolbar>
+    <img class="banner_image" fxHide [fxHide.gt-xs]="false" src="../assets/images/header_small.png">
     <mat-card>
       <router-outlet [hidden]="!opened"></router-outlet>
     </mat-card>
