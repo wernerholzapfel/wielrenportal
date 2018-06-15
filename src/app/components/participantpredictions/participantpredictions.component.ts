@@ -22,7 +22,7 @@ export class ParticipantpredictionsComponent implements OnInit {
   participanttable$: Observable<any>;
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: '', cellRenderer: this.determineFlag, width: 70},
+    {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
     {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 200},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80},
     {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, minWidth: 100},
