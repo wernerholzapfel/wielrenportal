@@ -34,8 +34,8 @@
         </p>
       </mat-tab>
       <mat-tab label="Renners">
-        <div fxLayout="row">
-          <div fxLayout="row wrap" fxLayoutAlign="start start">
+        <div fxLayout="columns">
+          <div fxFlex="70" fxLayout="row wrap" fxLayoutAlign="start start">
             <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)"
                  *ngFor='let team of (tourTeams$ | async)'>
               <mat-toolbar color="primary">{{team.teamName}}</mat-toolbar>
@@ -48,16 +48,21 @@
                     (rowSelected)="onRiderRowSelected($event, team)"
                     [rowSelection]="rowSelection"
                     [gridOptions]="gridOptions"
+                    enableColResize
+                    enableSorting
+                    enableFilter
                     [rowData]="(team?.tourRiders)">
                   </ag-grid-angular>
                 </mat-card-content>
               </mat-card>
             </div>
-
           </div>
-          <mat-card class="team_card" fxFlex="40">
+          <mat-card class="team_card" fxFlex="30">
+              <mat-form-field class="full-width">
+                <input matInput [(ngModel)]="filterText" placeholder="Filter">
+              </mat-form-field>
             <mat-list>
-              <div *ngFor="let rider of selectableRiders">
+              <div *ngFor="let rider of selectableRiders | filter:filterText">
                 <mat-list-item>
                   <div matLine>
                     {{rider?.firstNameShort}} {{rider?.surNameShort}}

@@ -46,6 +46,7 @@ import { TourriderdetaildialogComponent } from './components/tourriderdetaildial
 import { RiderdetailsComponent } from './components/riderdetails/riderdetails.component';
 import { EdittourriderdialogComponent } from './components/edittourriderdialog/edittourriderdialog.component';
 import { ParticipantpredictionsComponent } from './components/participantpredictions/participantpredictions.component';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
 
 
 @NgModule({
@@ -88,6 +89,7 @@ import { ParticipantpredictionsComponent } from './components/participantpredict
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot(effects),
+    Ng2SearchPipeModule,
     AgGridModule.withComponents([]),
   ],
   providers: [

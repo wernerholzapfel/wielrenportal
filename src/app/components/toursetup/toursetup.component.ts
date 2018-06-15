@@ -39,9 +39,9 @@ export class ToursetupComponent implements OnInit {
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Renner', field: 'rider.surNameShort'},
-    {headerName: 'Waarde', field: 'waarde', sort: 'desc', width: 135},
-    {headerName: 'Uitgevallen', field: 'isOut', width: 135},
-    {headerName: 'Nationaliteit', field: 'rider.nationality', width: 135},
+    {headerName: 'Waarde', field: 'waarde', sort: 'desc', width: 124},
+    {headerName: 'Uitgevallen', field: 'isOut', width: 124},
+    {headerName: 'Nat.', field: 'rider.nationality', width: 70},
   ];
   rowSelection = 'single';
 
@@ -61,6 +61,7 @@ export class ToursetupComponent implements OnInit {
   YOUTHCLASSIFICATION = YOUTHCLASSIFICATION;
   MOUNTAINCLASSIFICATION = MOUNTAINCLASSIFICATION;
   POINTSCLASSIFICATION = POINTSCLASSIFICATION;
+  filterText: string;
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTourList());
@@ -105,7 +106,7 @@ export class ToursetupComponent implements OnInit {
     this.gridOptions = <GridOptions>{
       columnDefs: this.agColumns,
       onGridReady: () => {
-        this.gridOptions.api.sizeColumnsToFit();
+        // this.gridOptions.api.sizeColumnsToFit();
       },
       enableSorting: true,
     };
