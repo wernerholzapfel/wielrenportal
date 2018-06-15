@@ -16,12 +16,12 @@ export class RiderdetailsComponent implements OnInit {
     {headerName: 'Waarde', field: 'waarde', minWidth: 80},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 40},
     {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 80},
-    {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 80},
-    {headerName: 'Tour', field: 'tourPoints', minWidth: 80},
+    {headerName: 'Algemeen', field: 'tourPoints', minWidth: 80},
     {headerName: 'Berg', field: 'mountainPoints', minWidth: 80},
-    {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
     {headerName: 'Punten', field: 'pointsPoints', minWidth: 80},
+    {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
     {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
+    {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 80},
   ];
   rowSelection = 'single';
 

@@ -3,18 +3,21 @@
     <mat-toolbar color="primary">Menu</mat-toolbar>
     <mat-list>
       <mat-list-item (click)="opened = false" [routerLink]="['/table']">Stand</mat-list-item>
-      <mat-list-item (click)="opened = false"[routerLink]="['/participants']">Deelnemers</mat-list-item >
-      <mat-list-item (click)="opened = false"[routerLink]="['/tourriders']">Wielrenners</mat-list-item >
+      <mat-list-item (click)="opened = false" [routerLink]="['/participants']">Deelnemers</mat-list-item>
+      <mat-list-item (click)="opened = false" [routerLink]="['/tourriders']">Renners</mat-list-item>
       <span class="example-spacer"></span>
-      <mat-list-item (click)="opened = false" *ngIf="authService.isAdmin" [routerLink]="['/admin']">Tour admin</mat-list-item>
-      <mat-list-item (click)="opened = false" *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
-              [routerLink]="['/inschrijven']">Inschrijven
-      </mat-list-item >
+      <mat-list-item (click)="opened = false" *ngIf="authService.isAdmin" [routerLink]="['/admin']">Tour admin
+      </mat-list-item>
+      <mat-list-item (click)="opened = false"
+                     *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
+                     [routerLink]="['/inschrijven']">Mijn team
+      </mat-list-item>
       <span class="example-spacer"></span>
-      <mat-list-item (click)="opened = false" *ngIf="!(authService.user$ | async)" [routerLink]="['/login']">Login</mat-list-item >
-      <mat-list-item  (click)="opened = false" *ngIf="(authService.user$ | async)" (click)="logout()">
+      <mat-list-item (click)="opened = false" *ngIf="!(authService.user$ | async)" [routerLink]="['/login']">Login
+      </mat-list-item>
+      <mat-list-item (click)="opened = false" *ngIf="(authService.user$ | async)" (click)="logout()">
         Logout {{(authService.user$ | async)?.displayName }}
-      </mat-list-item >
+      </mat-list-item>
     </mat-list>
   </mat-sidenav>
 
@@ -24,11 +27,11 @@
         <span>Het Wielrenspel</span>
         <button mat-flat-button [routerLink]="['/table']">Stand</button>
         <button mat-flat-button [routerLink]="['/participants']">Deelnemers</button>
-        <button mat-flat-button [routerLink]="['/tourriders']">Wielrenners</button>
+        <button mat-flat-button [routerLink]="['/tourriders']">Renners</button>
         <span class="example-spacer"></span>
         <button mat-flat-button *ngIf="authService.isAdmin" [routerLink]="['/admin']">Tour admin</button>
         <button mat-button *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
-                [routerLink]="['/inschrijven']">Inschrijven
+                [routerLink]="['/inschrijven']">Mijn team
         </button>
         <span class="example-spacer"></span>
         <button mat-button *ngIf="!(authService.user$ | async)" [routerLink]="['/login']">Login</button>

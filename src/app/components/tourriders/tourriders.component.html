@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">Inschrijven</mat-toolbar>
+<mat-toolbar color="primary">Mijn team</mat-toolbar>
 <mat-progress-bar *ngIf="!(tour$ | async)?.teams" mode="buffer"></mat-progress-bar>
 <mat-card>
   <div fxLayout="column" fxLayout.gt-sm="row">
@@ -14,7 +14,9 @@
                 Mijn Renners ({{partipantRidersForm?.riders?.length}}/{{maxParticipantRiders}})</h3>
               <mat-list-item *ngFor="let rider of partipantRidersForm?.riders | orderBy : 'rider.waarde' : 'desc'">
                 <div matLine>
-                  {{rider?.rider?.rider?.firstName}} {{rider?.rider?.rider?.surNameShort}} ({{rider?.rider?.waarde}})
+                  {{rider?.rider?.rider?.firstName}}
+                  {{rider?.rider?.rider?.surNameShort}}
+                  ({{rider?.rider?.waarde}})
                 </div>
                 <button mat-icon-button>
                   <mat-icon matListIcon (click)="deleteRider(rider)">delete</mat-icon>
@@ -34,7 +36,7 @@
                 <div matLine>
                   {{partipantRidersForm?.waterdrager?.rider.rider.firstName}}
                   {{partipantRidersForm?.waterdrager?.rider.rider.surNameShort}}
-                  {{partipantRidersForm?.waterdrager?.rider.waarde}}
+                  ({{partipantRidersForm?.waterdrager?.rider.waarde}})
                 </div>
                 <button mat-icon-button *ngIf="partipantRidersForm?.waterdrager">
                   <mat-icon matListIcon (click)="deleteRider(partipantRidersForm?.waterdrager)">delete</mat-icon>
@@ -48,7 +50,7 @@
                 <div matLine>
                   {{partipantRidersForm?.meesterknecht?.rider.rider.firstName}}
                   {{partipantRidersForm?.meesterknecht?.rider.rider.surNameShort}}
-                  {{partipantRidersForm?.meesterknecht?.rider.waarde}}
+                  ({{partipantRidersForm?.meesterknecht?.rider.waarde}})
                 </div>
                 <button mat-icon-button *ngIf="partipantRidersForm?.meesterknecht">
                   <mat-icon matListIcon (click)="deleteRider(partipantRidersForm?.meesterknecht)">delete</mat-icon>
@@ -62,7 +64,7 @@
                 <div matLine>
                   {{partipantRidersForm?.linkebal?.rider.rider.firstName}}
                   {{partipantRidersForm?.linkebal?.rider.rider.surNameShort}}
-                  {{partipantRidersForm?.linkebal?.rider.waarde}}
+                  ({{partipantRidersForm?.linkebal?.rider.waarde}})
                 </div>
                 <button mat-icon-button *ngIf="partipantRidersForm?.linkebal">
                   <mat-icon matListIcon (click)="deleteRider(partipantRidersForm?.linkebal)">delete</mat-icon>
@@ -76,7 +78,7 @@
                 <div matLine>
                   {{partipantRidersForm?.beschermdeRenner?.rider.rider.firstName}}
                   {{partipantRidersForm?.beschermdeRenner?.rider.rider.surNameShort}}
-                  {{partipantRidersForm?.beschermdeRenner?.rider.waarde}}
+                  ({{partipantRidersForm?.beschermdeRenner?.rider.waarde}})
                 </div>
                 <button mat-icon-button *ngIf="partipantRidersForm?.beschermdeRenner">
                   <mat-icon matListIcon (click)="deleteRider(partipantRidersForm?.beschermdeRenner)">delete</mat-icon>

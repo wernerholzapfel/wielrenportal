@@ -22,14 +22,15 @@ export class ParticipantpredictionsComponent implements OnInit {
   participanttable$: Observable<any>;
   public gridOptions: GridOptions;
   agColumns = [
+    {headerName: '', cellRenderer: this.determineFlag, width: 70},
     {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 200},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80},
-    {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
     {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, minWidth: 100},
-    {headerName: 'Tour', field: 'tourPoints', minWidth: 80},
+    {headerName: 'Algemeen', field: 'tourPoints', minWidth: 80},
     {headerName: 'Berg', field: 'mountainPoints', minWidth: 80},
-    {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
     {headerName: 'Punten', field: 'pointsPoints', minWidth: 80},
+    {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
+    {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
     {headerName: 'Waarde', field: 'rider.waarde', minWidth: 80},
     // {headerName: 'Totaal', field: 'totalPoints'}
   ];
@@ -44,6 +45,9 @@ export class ParticipantpredictionsComponent implements OnInit {
 
   determineIsOutText(params): string {
     return (params.data.rider && params.data.rider.isOut) ? 'Ja' : 'Nee';
+  }
+  determineFlag(params): string {
+    return '<img class="ag-grid-icon" style="height: 18px;" src="/assets/images/flag/nl.png">';
   }
 
   determineRole(params): string {
