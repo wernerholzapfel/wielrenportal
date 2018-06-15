@@ -108,6 +108,7 @@
               <mat-list-item *ngFor="let rider of team.tourRiders | orderBy : 'waarde': true">
                 <div matLine>
                   {{rider?.rider.firstNameShort}} {{rider?.rider.surNameShort}}
+                  <span *ngIf="youngster(rider?.rider)">(Y)</span>
                 </div>
                 <div>{{rider?.waarde}}
                 </div>

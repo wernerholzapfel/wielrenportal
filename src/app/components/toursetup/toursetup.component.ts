@@ -25,6 +25,7 @@ import {
   YOUTHCLASSIFICATION
 } from '../../models/constants';
 import {EdittourriderdialogComponent} from '../edittourriderdialog/edittourriderdialog.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-toursetup',
@@ -193,5 +194,8 @@ export class ToursetupComponent implements OnInit {
         // });
       }
     });
+  }
+  youngster(rider: IRider) {
+    return moment(rider.dateOfBirth).isAfter('1993-01-01');
   }
 }

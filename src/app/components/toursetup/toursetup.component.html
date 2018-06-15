@@ -66,6 +66,7 @@
                 <mat-list-item>
                   <div matLine>
                     {{rider?.firstNameShort}} {{rider?.surNameShort}}
+                    <span *ngIf="youngster(rider)">(Y)</span>
                   </div>
                   <input type="number" matInput placeholder="waarde"
                          [(ngModel)]="rider.waarde">

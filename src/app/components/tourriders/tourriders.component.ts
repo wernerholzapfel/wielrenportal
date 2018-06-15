@@ -13,6 +13,7 @@ import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
 import {IPrediction, ITourrider} from '../../models/participant.model';
 import {IRider} from '../../models/rider.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-tourriders',
@@ -181,17 +182,9 @@ export class TourridersComponent implements OnInit {
   }
 
   setCurrentRiderAsSelected(ridertje: ITourrider, teampje: ITeam, selected: boolean) {
-    // this.tour$.take(1).subscribe(response => {
-    //   response.teams.forEach(team => {
-    //     if (team.id === teampje.id) {
-    //       team.tourRiders.forEach(rider => {
-    //         if (rider.id === ridertje.id) {
-    //           Object.assign(rider, {isSelected: true});
-    //         }
-    //       });
-    //     }
-    //   });
       this.store.dispatch(new fromTour.SetCurrentRiderAsSelected({rider: ridertje, team: teampje, selected: selected}));
-    // });
+  }
+  youngster(rider: IRider) {
+    return moment(rider.dateOfBirth).isAfter('1993-01-01');
   }
 }

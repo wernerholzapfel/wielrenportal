@@ -3,6 +3,7 @@ import {AuthService} from './services/auth.service';
 import {Store} from '@ngrx/store';
 import {IAppState} from './store/store';
 import * as fromParticipanttable from './store/participanttable/participanttable.actions';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
