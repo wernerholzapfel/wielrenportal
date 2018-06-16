@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
-import * as fromParticipanttable from '../../store/participanttable/participanttable.actions';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
 import {getParticipanttable} from '../../store/participanttable/participanttable.reducer';
@@ -23,6 +22,7 @@ export class ParticipanttableComponent implements OnInit {
 
   public gridOptions: GridOptions;
   agColumns = [
+    {headerName: '#', field: 'position'},
     // {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 200},
     // {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80},
     // {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
@@ -64,7 +64,6 @@ export class ParticipanttableComponent implements OnInit {
 
   onRowSelected(event) {
     if (event.node.selected) {
-      // this.participants.find(item => item.id === participant.id).selectedRider = event.data;
       this.router.navigate(['/table/detail/', event.data.id]);
     }
   }
