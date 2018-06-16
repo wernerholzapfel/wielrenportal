@@ -28,7 +28,7 @@ export class TourridersComponent implements OnInit {
   maxParticipantRiders = 16;
   maxParticipantRidersPunten = 1060;
   laagsteWaardegroep = 10;
-  ridersWaardeList: ITourrider[] = [];
+  ridersWaardeList: any[] = [];
   newWaardeList: any[];
 
 
@@ -36,29 +36,16 @@ export class TourridersComponent implements OnInit {
               private predictionService: PredictionService,
               public snackBar: MatSnackBar,
               private router: Router) {
-
-    Object.defineProperty(Array.prototype, 'group', {
-      enumerable: false,
-      value: function (key) {
-        let map = {};
-        this.forEach(function (e) {
-          let k = key(e);
-          map[k] = map[k] || [];
-          map[k].push(e);
-        });
-        return Object.keys(map).map(function (k) {
-          return {key: k, data: map[k]};
-        });
-      }
-    });
-
   }
 
   ngOnInit() {
+
+
     this.store.dispatch(new fromTour.FetchTour());
     this.tour$ = this.store.select(getTour);
 
     this.tour$.subscribe(tour => {
+      const map = {};
       this.ridersWaardeList = [];
       this.newWaardeList = [];
       if (tour && tour.teams) {
@@ -66,9 +53,15 @@ export class TourridersComponent implements OnInit {
           this.ridersWaardeList = [...this.ridersWaardeList, ...team.tourRiders];
         });
       }
-      this.newWaardeList = this.ridersWaardeList.group(function (item) {
-        return item.waarde;
-      }).sort((a, b) =>  b.key - a.key);
+      this.ridersWaardeList.forEach(item => {
+        let k = item.waarde;
+        map[k] = map[k] || [];
+        map[k].push(item);
+      });
+
+      this.newWaardeList = Object.keys(map).map(k => ({key: k, data: map[k]}));
+
+      this.newWaardeList.sort((a, b) => b.key - a.key);
     });
 
     this.predictionService.getPredictionsForUser().subscribe(predictions => {
