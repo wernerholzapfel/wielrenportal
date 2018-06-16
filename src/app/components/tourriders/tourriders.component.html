@@ -11,7 +11,8 @@
               <mat-divider [inset]="true"></mat-divider>
               <h3 matSubheader>
                 <mat-icon matListIcon>directions_bike</mat-icon>
-                Mijn Renners ({{partipantRidersForm?.riders?.length}}/{{maxParticipantRiders}})</h3>
+                Mijn Renners ({{partipantRidersForm?.riders?.length}}/{{maxParticipantRiders}})
+              </h3>
               <mat-list-item *ngFor="let rider of partipantRidersForm?.riders | orderBy : 'rider.waarde' : 'desc'">
                 <div matLine>
                   {{rider?.rider?.rider?.firstName}}
@@ -30,22 +31,24 @@
               </mat-list-item>
               <mat-divider [inset]="true"></mat-divider>
               <h3 matSubheader>
-                <mat-icon matListIcon>delete_outline</mat-icon>
-                Mijn waterdrager</h3>
+                <mat-icon matListIcon>verified_user</mat-icon>
+                Mijn beschermde renner
+              </h3>
               <mat-list-item>
                 <div matLine>
-                  {{partipantRidersForm?.waterdrager?.rider.rider.firstName}}
-                  {{partipantRidersForm?.waterdrager?.rider.rider.surNameShort}}
-                  ({{partipantRidersForm?.waterdrager?.rider.waarde}})
+                  {{partipantRidersForm?.beschermdeRenner?.rider.rider.firstName}}
+                  {{partipantRidersForm?.beschermdeRenner?.rider.rider.surNameShort}}
+                  ({{partipantRidersForm?.beschermdeRenner?.rider.waarde}})
                 </div>
-                <button mat-icon-button *ngIf="partipantRidersForm?.waterdrager">
-                  <mat-icon matListIcon (click)="deleteRider(partipantRidersForm?.waterdrager)">delete</mat-icon>
+                <button mat-icon-button *ngIf="partipantRidersForm?.beschermdeRenner">
+                  <mat-icon matListIcon (click)="deleteRider(partipantRidersForm?.beschermdeRenner)">delete</mat-icon>
                 </button>
               </mat-list-item>
               <mat-divider [inset]="true"></mat-divider>
-              <h3 matSubheader  matTooltip="Info about the action">
+              <h3 matSubheader matTooltip="Info about the action">
                 <mat-icon matListIcon>build</mat-icon>
-                Mijn meesterknecht</h3>
+                Mijn meesterknecht
+              </h3>
               <mat-list-item>
                 <div matLine>
                   {{partipantRidersForm?.meesterknecht?.rider.rider.firstName}}
@@ -58,8 +61,24 @@
               </mat-list-item>
               <mat-divider [inset]="true"></mat-divider>
               <h3 matSubheader>
+                <mat-icon matListIcon>delete_outline</mat-icon>
+                Mijn waterdrager
+              </h3>
+              <mat-list-item>
+                <div matLine>
+                  {{partipantRidersForm?.waterdrager?.rider.rider.firstName}}
+                  {{partipantRidersForm?.waterdrager?.rider.rider.surNameShort}}
+                  ({{partipantRidersForm?.waterdrager?.rider.waarde}})
+                </div>
+                <button mat-icon-button *ngIf="partipantRidersForm?.waterdrager">
+                  <mat-icon matListIcon (click)="deleteRider(partipantRidersForm?.waterdrager)">delete</mat-icon>
+                </button>
+              </mat-list-item>
+              <mat-divider [inset]="true"></mat-divider>
+              <h3 matSubheader>
                 <mat-icon matListIcon>new_releases</mat-icon>
-                Mijn linkebal</h3>
+                Mijn linkebal
+              </h3>
               <mat-list-item>
                 <div matLine>
                   {{partipantRidersForm?.linkebal?.rider.rider.firstName}}
@@ -68,20 +87,6 @@
                 </div>
                 <button mat-icon-button *ngIf="partipantRidersForm?.linkebal">
                   <mat-icon matListIcon (click)="deleteRider(partipantRidersForm?.linkebal)">delete</mat-icon>
-                </button>
-              </mat-list-item>
-              <mat-divider [inset]="true"></mat-divider>
-              <h3 matSubheader>
-                <mat-icon matListIcon>verified_user</mat-icon>
-                Mijn beschermde renner</h3>
-              <mat-list-item>
-                <div matLine>
-                  {{partipantRidersForm?.beschermdeRenner?.rider.rider.firstName}}
-                  {{partipantRidersForm?.beschermdeRenner?.rider.rider.surNameShort}}
-                  ({{partipantRidersForm?.beschermdeRenner?.rider.waarde}})
-                </div>
-                <button mat-icon-button *ngIf="partipantRidersForm?.beschermdeRenner">
-                  <mat-icon matListIcon (click)="deleteRider(partipantRidersForm?.beschermdeRenner)">delete</mat-icon>
                 </button>
               </mat-list-item>
             </mat-list>
@@ -97,39 +102,83 @@
       </div>
     </div>
     <div fxLayout="row, wrap" fxFlex="100" fxFlex.gt-sm="70" fxLayoutAlign="start stretch">
-      <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)" *ngFor='let team of (tour$ | async)?.teams'>
-        <mat-toolbar color="accent" fxLayoutAlign=" center">
-          <img matListAvatar [src]="'assets/images/shirts/' + team.teamAbbreviation + '.jpg'">
-          {{team.teamName}}
-        </mat-toolbar>
-        <mat-card>
-          <mat-card-content>
-            <mat-list>
-              <mat-list-item *ngFor="let rider of team.tourRiders | orderBy : 'waarde': true">
-                <div matLine>
-                  {{rider?.rider.firstNameShort}} {{rider?.rider.surNameShort}}
-                  <span *ngIf="youngster(rider?.rider)">(Y)</span>
-                </div>
-                <div>{{rider?.waarde}}
-                </div>
-                <button mat-icon-button [matMenuTriggerFor]="menu"
-                        *ngIf="!rider.isSelected"
-                        [disabled]="participantRidersComplete()"
-                        (click)="setCurrentRider(rider, team, $event)">
-                  <mat-icon matListIcon>playlist_add</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf="rider.isSelected">
-                  <!--<mat-icon matListIcon *ngIf="rider.isWaterdrager">delete_outline</mat-icon>-->
-                  <!--<mat-icon matListIcon *ngIf="rider.isLinkebal">new_releases</mat-icon>-->
-                  <!--<mat-icon matListIcon *ngIf="rider.isBeschermdeRenner">verified_user</mat-icon>-->
-                  <!--<mat-icon matListIcon *ngIf="rider.isMeesterknecht">build</mat-icon>-->
-                  <mat-icon matListIcon>directions_bike</mat-icon>
-                </button>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
+      <div fxFlex="100" fxLayout="row" class="full-width" fxLayoutAlign="center start">
+        <div class="full-width header">
+          <mat-button-toggle-group value="team" name="riders_view" #group="matButtonToggleGroup">
+            <mat-button-toggle value="team">Team</mat-button-toggle>
+            <mat-button-toggle value="waarde">Waarde</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
       </div>
+      <ng-container *ngIf="group.value === 'team'">
+        <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)" *ngFor='let team of (tour$ | async)?.teams'>
+          <mat-toolbar color="accent" fxLayoutAlign=" center">
+            <img matListAvatar [src]="'assets/images/shirts/' + team.teamAbbreviation + '.jpg'">
+            {{team.teamName}}
+          </mat-toolbar>
+          <mat-card>
+            <mat-card-content>
+              <mat-list>
+                <mat-list-item *ngFor="let rider of team.tourRiders | orderBy : 'waarde': true">
+                  <div matLine>
+                    {{rider?.rider.firstNameShort}} {{rider?.rider.surNameShort}}
+                    <span *ngIf="youngster(rider?.rider)">(Y)</span>
+                  </div>
+                  <div>{{rider?.waarde}}
+                  </div>
+                  <button mat-icon-button [matMenuTriggerFor]="menu"
+                          *ngIf="!rider.isSelected"
+                          [disabled]="participantRidersComplete()"
+                          (click)="setCurrentRider(rider, team, $event)">
+                    <mat-icon matListIcon>playlist_add</mat-icon>
+                  </button>
+                  <button mat-icon-button *ngIf="rider.isSelected">
+                    <!--<mat-icon matListIcon *ngIf="rider.isWaterdrager">delete_outline</mat-icon>-->
+                    <!--<mat-icon matListIcon *ngIf="rider.isLinkebal">new_releases</mat-icon>-->
+                    <!--<mat-icon matListIcon *ngIf="rider.isBeschermdeRenner">verified_user</mat-icon>-->
+                    <!--<mat-icon matListIcon *ngIf="rider.isMeesterknecht">build</mat-icon>-->
+                    <mat-icon matListIcon>directions_bike</mat-icon>
+                  </button>
+                </mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="group.value === 'waarde'">
+        <div class="waarde_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)" *ngFor="let waardeGroep of newWaardeList">
+          <mat-toolbar color="accent" fxLayoutAlign=" center">
+            {{waardeGroep.key}}
+          </mat-toolbar>
+          <mat-card>
+            <mat-card-content>
+              <mat-list>
+                <mat-list-item *ngFor="let rider of waardeGroep.data">
+                  <div matLine>
+                    {{rider?.rider.firstNameShort}} {{rider?.rider.surNameShort}}
+                    <span *ngIf="youngster(rider?.rider)">(Y)</span>
+                  </div>
+                  <div>{{rider?.waarde}}
+                  </div>
+                  <button mat-icon-button [matMenuTriggerFor]="menu"
+                          *ngIf="!rider.isSelected"
+                          [disabled]="participantRidersComplete()"
+                          (click)="setCurrentRider(rider, team, $event)">
+                    <mat-icon matListIcon>playlist_add</mat-icon>
+                  </button>
+                  <button mat-icon-button *ngIf="rider.isSelected">
+                    <!--<mat-icon matListIcon *ngIf="rider.isWaterdrager">delete_outline</mat-icon>-->
+                    <!--<mat-icon matListIcon *ngIf="rider.isLinkebal">new_releases</mat-icon>-->
+                    <!--<mat-icon matListIcon *ngIf="rider.isBeschermdeRenner">verified_user</mat-icon>-->
+                    <!--<mat-icon matListIcon *ngIf="rider.isMeesterknecht">build</mat-icon>-->
+                    <mat-icon matListIcon>directions_bike</mat-icon>
+                  </button>
+                </mat-list-item>
+              </mat-list>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
     </div>
   </div>
 </mat-card>
@@ -154,15 +203,15 @@
       <mat-icon matListIcon>add_box</mat-icon>
       Meesterknecht
     </button>
-    <button *ngIf="!partipantRidersForm?.linkebal && currentRider?.waarde === laagsteWaardegroep" mat-menu-item
-            (click)="addLinkebal()">
-      <mat-icon matListIcon>add_box</mat-icon>
-      Linkebal
-    </button>
     <button *ngIf="!partipantRidersForm?.waterdrager" mat-menu-item
             (click)="addWaterdrager()">
       <mat-icon matListIcon>add_box</mat-icon>
       Waterdrager
+    </button>
+    <button *ngIf="!partipantRidersForm?.linkebal && currentRider?.waarde === laagsteWaardegroep" mat-menu-item
+            (click)="addLinkebal()">
+      <mat-icon matListIcon>add_box</mat-icon>
+      Linkebal
     </button>
   </div>
 </mat-menu>

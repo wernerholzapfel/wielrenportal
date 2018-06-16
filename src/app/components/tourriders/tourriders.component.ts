@@ -28,16 +28,48 @@ export class TourridersComponent implements OnInit {
   maxParticipantRiders = 16;
   maxParticipantRidersPunten = 1060;
   laagsteWaardegroep = 10;
+  ridersWaardeList: ITourrider[] = [];
+  newWaardeList: any[];
+
 
   constructor(private store: Store<IAppState>,
               private predictionService: PredictionService,
               public snackBar: MatSnackBar,
               private router: Router) {
+
+    Object.defineProperty(Array.prototype, 'group', {
+      enumerable: false,
+      value: function (key) {
+        let map = {};
+        this.forEach(function (e) {
+          let k = key(e);
+          map[k] = map[k] || [];
+          map[k].push(e);
+        });
+        return Object.keys(map).map(function (k) {
+          return {key: k, data: map[k]};
+        });
+      }
+    });
+
   }
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTour());
     this.tour$ = this.store.select(getTour);
+
+    this.tour$.subscribe(tour => {
+      this.ridersWaardeList = [];
+      this.newWaardeList = [];
+      if (tour && tour.teams) {
+        tour.teams.map(team => {
+          this.ridersWaardeList = [...this.ridersWaardeList, ...team.tourRiders];
+        });
+      }
+      this.newWaardeList = this.ridersWaardeList.group(function (item) {
+        return item.waarde;
+      }).sort((a, b) =>  b.key - a.key);
+    });
 
     this.predictionService.getPredictionsForUser().subscribe(predictions => {
 
@@ -182,8 +214,9 @@ export class TourridersComponent implements OnInit {
   }
 
   setCurrentRiderAsSelected(ridertje: ITourrider, teampje: ITeam, selected: boolean) {
-      this.store.dispatch(new fromTour.SetCurrentRiderAsSelected({rider: ridertje, team: teampje, selected: selected}));
+    this.store.dispatch(new fromTour.SetCurrentRiderAsSelected({rider: ridertje, team: teampje, selected: selected}));
   }
+
   youngster(rider: IRider) {
     return moment(rider.dateOfBirth).isAfter('1993-01-01');
   }
