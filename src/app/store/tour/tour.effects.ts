@@ -34,10 +34,10 @@ export class TourEffects {
       return this.tourService
         .getTourById(action.payload)
         .switchMap(tourResponse =>
-          Observable.from([new tour.FetchTourSuccess(tourResponse), new etappe.FetchEtappeList(tourResponse.id)])
-        )
+          Observable.of(new tour.FetchTourSuccess(tourResponse), new etappe.FetchEtappeList(tourResponse.id)))
         .catch(err => Observable.of(new tour.FetchTourFailure(err)));
     });
+
 
   @Effect()
   fetchTourList$ = this.actions$
@@ -57,7 +57,7 @@ export class TourEffects {
     .switchMap(action => Observable.of(new tour.FetchTourSuccess(action.payload)))
     .catch(err => Observable.of(new tour.FetchTourFailure(err)));
 
-@Effect()
+  @Effect()
   saveRiderToTeam$ = this.actions$
     .ofType<tour.SaveRiderToTeam>(tour.SAVE_RIDER_TO_TEAM)
     .switchMap(action => {

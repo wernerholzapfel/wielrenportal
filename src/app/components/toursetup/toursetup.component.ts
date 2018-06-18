@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
+import * as fromEtappe from '../../store/etappe/etappe.actions';
 import * as fromTeam from '../../store/team/team.actions';
 import * as fromRider from '../../store/rider/rider.actions';
 import {IAppState} from '../../store/store';
@@ -101,6 +102,7 @@ export class ToursetupComponent implements OnInit {
       if (tours && tours.length > 0) {
         this.selectedTour = tours.find(tour => tour.isActive);
         this.store.dispatch(new fromTour.FetchTourById(this.selectedTour.id));
+        this.store.dispatch(new fromEtappe.FetchEtappeList(this.selectedTour.id));
         this.tours = tours;
       }
     });

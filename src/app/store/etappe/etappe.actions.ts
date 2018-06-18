@@ -11,26 +11,26 @@ export const FETCH_ETAPPE = '[ETAPPE] Fetch Etappe';
 export const FETCH_ETAPPE_SUCCESS = '[ETAPPE] Fetch Etappe Success';
 export const FETCH_ETAPPE_FAILURE = '[ETAPPE] Fetch Etappe Failure';
 
-export class FetchEtappe implements Action {
-  readonly type = FETCH_ETAPPE;
-
-  constructor() {
-  }
-}
-
-export class FetchEtappeSuccess implements Action {
-  readonly type = FETCH_ETAPPE_SUCCESS;
-
-  constructor(public payload: IEtappe) {
-  }
-}
-
-export class FetchEtappeFailure implements Action {
-  readonly type = FETCH_ETAPPE_FAILURE;
-
-  constructor(public payload: HttpErrorResponse) {
-  }
-}
+// export class FetchEtappe implements Action {
+//   readonly type = FETCH_ETAPPE;
+//
+//   constructor() {
+//   }
+// }
+//
+// export class FetchEtappeSuccess implements Action {
+//   readonly type = FETCH_ETAPPE_SUCCESS;
+//
+//   constructor(public payload: IEtappe) {
+//   }
+// }
+//
+// export class FetchEtappeFailure implements Action {
+//   readonly type = FETCH_ETAPPE_FAILURE;
+//
+//   constructor(public payload: HttpErrorResponse) {
+//   }
+// }
 
 export class FetchEtappeList implements Action {
   readonly type = FETCH_ETAPPELIST;
