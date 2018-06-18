@@ -34,7 +34,7 @@ export class TourEffects {
       return this.tourService
         .getTourById(action.payload)
         .switchMap(tourResponse =>
-          Observable.of(new tour.FetchTourSuccess(tourResponse), new etappe.FetchEtappeList(tourResponse.id)))
+          Observable.of(new tour.FetchTourSuccess(tourResponse)))
         .catch(err => Observable.of(new tour.FetchTourFailure(err)));
     });
 

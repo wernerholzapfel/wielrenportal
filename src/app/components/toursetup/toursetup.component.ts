@@ -135,6 +135,8 @@ export class ToursetupComponent implements OnInit {
 
   fetchTour() {
     this.store.dispatch(new fromTour.FetchTourById(this.selectedTour.id));
+    this.store.dispatch(new fromEtappe.FetchEtappeList(this.selectedTour.id));
+
   }
 
   setCurrentRider(rider, $event) {
