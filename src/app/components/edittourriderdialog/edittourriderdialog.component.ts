@@ -36,7 +36,8 @@ export class EdittourriderdialogComponent implements OnInit {
 
   ngOnInit() {
     // todo store in store
-    this.etappeService.getEtappes().subscribe(response => this.etappes = response.sort((a, b) => a.etappeNumber - b.etappeNumber));
+    // todo get tour?
+    this.etappeService.getEtappes('').subscribe(response => this.etappes = response.sort((a, b) => a.etappeNumber - b.etappeNumber));
     this.selectedEtappe = this.data.latestEtappe;
   }
 

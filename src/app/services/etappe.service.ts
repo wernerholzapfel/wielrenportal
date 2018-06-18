@@ -10,9 +10,9 @@ export class EtappeService {
   constructor(private http: HttpClient) {
   }
 
-  getEtappes(): Observable<IEtappe[]> {
+  getEtappes(tourId): Observable<IEtappe[]> {
 
-    return this.http.get<IEtappe[]>(`${environment.apiBaseUrl}/etappes`);
+    return this.http.get<IEtappe[]>(`${environment.apiBaseUrl}/etappes/tour/${tourId}`);
   }
 
   saveEtappe(body: IEtappe): Observable<IEtappe> {

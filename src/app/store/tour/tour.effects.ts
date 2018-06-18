@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
 import * as tour from './tour.actions';
+import * as etappe from '../etappe/etappe.actions';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
@@ -33,7 +34,7 @@ export class TourEffects {
       return this.tourService
         .getTourById(action.payload)
         .switchMap(tourResponse =>
-          Observable.of(new tour.FetchTourSuccess(tourResponse))
+          Observable.from([new tour.FetchTourSuccess(tourResponse), new etappe.FetchEtappeList(tourResponse.id)])
         )
         .catch(err => Observable.of(new tour.FetchTourFailure(err)));
     });

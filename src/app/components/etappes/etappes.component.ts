@@ -6,6 +6,10 @@ import {AddEtappeDialogComponent} from './dialog/add-etappe-dialog/add-etappe-di
 import {ITour} from '../../models/tour.model';
 import {AddStageClassificationsComponent} from './dialog/add-stage-classifications/add-stage-classifications.component';
 import {ETAPPECLASSIFICATION} from '../../models/constants';
+import {getTourTeams} from '../../store/tour/tour.reducer';
+import {IAppState} from '../../store/store';
+import {Store} from '@ngrx/store';
+import {getEtappes} from '../../store/etappe/etappe.reducer';
 
 @Component({
   selector: 'app-etappes',
@@ -17,13 +21,12 @@ export class EtappesComponent implements OnInit {
   etappes: IEtappe[];
   @Input() selectedtour: ITour;
 
-  constructor(private etappeService: EtappeService, public dialog: MatDialog) {
+  constructor(private store: Store<IAppState>, private etappeService: EtappeService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
-    // todo store in store
-    this.etappeService.getEtappes().subscribe(response => this.etappes = response);
-
+    // todo make async when save is also in store
+    this.store.select(getEtappes).subscribe(etappes => this.etappes = etappes);
   }
 
   openAddEtappeDialog() {
@@ -56,7 +59,6 @@ export class EtappesComponent implements OnInit {
       height: '90%'
     });
 
-    // todo move to store ?
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);

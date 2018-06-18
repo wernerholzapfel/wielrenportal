@@ -5,6 +5,7 @@ import {ITeam} from './team.model';
 export interface IParticipant {
   id: string;
   displayName: string;
+  teamName: string;
   predictions: IPrediction[];
   totalPoints: number;
   selectedRider?: IRider;
