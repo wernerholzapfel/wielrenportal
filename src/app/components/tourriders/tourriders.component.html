@@ -11,10 +11,13 @@
               <mat-divider [inset]="true"></mat-divider>
               <h3 matSubheader>
                 <mat-icon matListIcon>directions_bike</mat-icon>
-                Mijn Renners ({{partipantRidersForm?.riders?.length}}/{{maxParticipantRiders}})
+                Mijn Renners <span *ngIf="partipantRidersForm?.riders?.length > 0">
+                 ({{partipantRidersForm?.riders?.length}}/{{maxParticipantRiders}})
+              </span>
               </h3>
               <mat-list-item *ngFor="let rider of partipantRidersForm?.riders | orderBy : 'rider.waarde' : 'desc'">
                 <div matLine>
+                  <img style="height: 16px;" src="/assets/images/flag/{{rider?.rider?.team?.country}}.png">
                   {{rider?.rider?.rider?.firstName}}
                   {{rider?.rider?.rider?.surNameShort}}
                   ({{rider?.rider?.waarde}})
@@ -35,7 +38,8 @@
                 Mijn beschermde renner
               </h3>
               <mat-list-item>
-                <div matLine>
+                <div matLine *ngIf="partipantRidersForm?.beschermdeRenner">
+                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.beschermdeRenner?.rider?.team?.country}}.png">
                   {{partipantRidersForm?.beschermdeRenner?.rider.rider.firstName}}
                   {{partipantRidersForm?.beschermdeRenner?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.beschermdeRenner?.rider.waarde}})
@@ -50,7 +54,8 @@
                 Mijn meesterknecht
               </h3>
               <mat-list-item>
-                <div matLine>
+                <div matLine *ngIf="partipantRidersForm?.meesterknecht">
+                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.meesterknecht?.rider?.team?.country}}.png">
                   {{partipantRidersForm?.meesterknecht?.rider.rider.firstName}}
                   {{partipantRidersForm?.meesterknecht?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.meesterknecht?.rider.waarde}})
@@ -65,7 +70,8 @@
                 Mijn waterdrager
               </h3>
               <mat-list-item>
-                <div matLine>
+                <div matLine *ngIf="partipantRidersForm?.waterdrager">
+                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.waterdrager?.rider?.team?.country}}.png">
                   {{partipantRidersForm?.waterdrager?.rider.rider.firstName}}
                   {{partipantRidersForm?.waterdrager?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.waterdrager?.rider.waarde}})
@@ -80,7 +86,8 @@
                 Mijn linkebal
               </h3>
               <mat-list-item>
-                <div matLine>
+                <div matLine *ngIf="partipantRidersForm?.linkebal">
+                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.linkebal?.rider?.team?.country}}.png">
                   {{partipantRidersForm?.linkebal?.rider.rider.firstName}}
                   {{partipantRidersForm?.linkebal?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.linkebal?.rider.waarde}})
@@ -121,6 +128,7 @@
               <mat-list>
                 <mat-list-item *ngFor="let rider of team.tourRiders | orderBy : 'waarde': true">
                   <div matLine>
+                    <img style="height: 16px;" src="/assets/images/flag/{{rider?.rider?.nationality}}.png">
                     {{rider?.rider.firstNameShort}} {{rider?.rider.surNameShort}}
                     <span *ngIf="youngster(rider?.rider)">(Y)</span>
                   </div>
@@ -155,6 +163,7 @@
               <mat-list>
                 <mat-list-item *ngFor="let rider of waardeGroep.data">
                   <div matLine>
+                    <img style="height: 16px;" src="/assets/images/flag/{{rider?.rider?.nationality}}.png">
                     {{rider?.rider.firstNameShort}} {{rider?.rider.surNameShort}}
                     <span *ngIf="youngster(rider?.rider)">(Y)</span>
                   </div>
