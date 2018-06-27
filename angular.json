@@ -82,6 +82,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
             "styles": [
+              "src/wielrenportaltheme.scss",
               "src/styles.scss"
             ],
             "assets": [

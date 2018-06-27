@@ -1,31 +1,37 @@
 <mat-toolbar color="primary">Deelnemers</mat-toolbar>
 <mat-progress-bar *ngIf="!participants" mode="buffer"></mat-progress-bar>
-<mat-expansion-panel *ngFor="let participant of participants">
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-     {{participant.displayName}}
-    </mat-panel-title>
-    <mat-panel-description>
-      <!--This is a summary of the content-->
-    </mat-panel-description>
-  </mat-expansion-panel-header>
+<mat-list>
+  <mat-list-item *ngFor="let participant of participants">
+    {{participant.displayName}}
+  </mat-list-item>
+</mat-list>
 
-  <mat-list dense>
-    <div *ngFor="let prediction of participant.predictions">
-    <mat-list-item>
-      <h3 matLine>
-        {{prediction.rider.rider.firstName}} {{prediction.rider.rider.surName}} </h3>
-      <p matLine>
-        <span> {{prediction.rider.waarde}} </span>
-        <span *ngIf="prediction.isRider"> Teamrenner </span>
-        <span *ngIf="prediction.isWaterdrager"> Waterdrager </span>
-        <span *ngIf="prediction.isMeesterknecht"> Meesterknecht </span>
-        <span *ngIf="prediction.isLinkebal"> Linkebal </span>
-        <span *ngIf="prediction.isBeschermdeRenner"> Beschermde renner </span>
-      </p>
-      </mat-list-item>
-    <mat-divider [inset]="true"></mat-divider>
-    </div>
-  </mat-list>
+<!--<mat-expansion-panel *ngFor="let participant of participants">-->
+  <!--<mat-expansion-panel-header>-->
+    <!--<mat-panel-title>-->
+     <!--{{participant.displayName}}-->
+    <!--</mat-panel-title>-->
+    <!--<mat-panel-description>-->
+      <!--&lt;!&ndash;This is a summary of the content&ndash;&gt;-->
+    <!--</mat-panel-description>-->
+  <!--</mat-expansion-panel-header>-->
 
-</mat-expansion-panel>
+  <!--<mat-list dense>-->
+    <!--<div *ngFor="let prediction of participant.predictions">-->
+    <!--<mat-list-item>-->
+      <!--<h3 matLine>-->
+        <!--{{prediction.rider.rider.firstName}} {{prediction.rider.rider.surName}} </h3>-->
+      <!--<p matLine>-->
+        <!--<span> {{prediction.rider.waarde}} </span>-->
+        <!--<span *ngIf="prediction.isRider"> Teamrenner </span>-->
+        <!--<span *ngIf="prediction.isWaterdrager"> Waterdrager </span>-->
+        <!--<span *ngIf="prediction.isMeesterknecht"> Meesterknecht </span>-->
+        <!--<span *ngIf="prediction.isLinkebal"> Linkebal </span>-->
+        <!--<span *ngIf="prediction.isBeschermdeRenner"> Beschermde renner </span>-->
+      <!--</p>-->
+      <!--</mat-list-item>-->
+    <!--<mat-divider [inset]="true"></mat-divider>-->
+    <!--</div>-->
+  <!--</mat-list>-->
+
+<!--</mat-expansion-panel>-->

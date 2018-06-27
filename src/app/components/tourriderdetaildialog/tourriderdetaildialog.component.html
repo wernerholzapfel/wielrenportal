@@ -4,7 +4,12 @@
 </mat-toolbar>
 <mat-card>
   <mat-card-content>
-    <ag-grid-angular *ngIf="data"
+    <div *ngIf="data?.rider && !data?.rider?.stageclassifications">
+      {{data?.rider?.rider?.firstName}}
+      {{data?.rider?.rider?.surName}}
+      heeft geen resultaat gehaald.
+    </div>
+    <ag-grid-angular *ngIf="data?.rider?.stageclassifications"
       style="width: 100%; height: 500px;"
       class="ag-theme-balham"
       [gridOptions]="gridOptions"
