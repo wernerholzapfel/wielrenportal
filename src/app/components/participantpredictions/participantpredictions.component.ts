@@ -47,7 +47,7 @@ export class ParticipantpredictionsComponent implements OnInit {
     return (params.data.rider && params.data.rider.isOut) ? 'Ja' : 'Nee';
   }
   determineFlag(params): string {
-    const url = '/assets/images/flag/' + params.data.rider.team.country + '.png';
+    const url = '/assets/images/flag/' + params.data.rider.rider.nationality + '.png';
     return '<img class="ag-grid-icon" style="height: 18px;" src=' + url + '>';
   }
 

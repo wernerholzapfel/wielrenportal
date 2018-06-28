@@ -17,7 +17,7 @@
               </h3>
               <mat-list-item *ngFor="let rider of partipantRidersForm?.riders | orderBy : 'rider.waarde' : 'desc'">
                 <div matLine>
-                  <img style="height: 16px;" src="/assets/images/flag/{{rider?.rider?.nationality}}.png">
+                  <img style="height: 16px;" src="/assets/images/flag/{{rider?.rider?.rider?.nationality}}.png">
                   {{rider?.rider?.rider?.firstName}}
                   {{rider?.rider?.rider?.surNameShort}}
                   ({{rider?.rider?.waarde}})
@@ -39,7 +39,7 @@
               </h3>
               <mat-list-item>
                 <div matLine *ngIf="partipantRidersForm?.beschermdeRenner">
-                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.beschermdeRenner?.rider?.nationality}}.png">
+                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.beschermdeRenner?.rider?.rider?.nationality}}.png">
                   {{partipantRidersForm?.beschermdeRenner?.rider.rider.firstName}}
                   {{partipantRidersForm?.beschermdeRenner?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.beschermdeRenner?.rider.waarde}})
@@ -55,7 +55,7 @@
               </h3>
               <mat-list-item>
                 <div matLine *ngIf="partipantRidersForm?.meesterknecht">
-                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.meesterknecht?.rider?.nationality}}.png">
+                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.meesterknecht?.rider?.rider?.nationality}}.png">
                   {{partipantRidersForm?.meesterknecht?.rider.rider.firstName}}
                   {{partipantRidersForm?.meesterknecht?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.meesterknecht?.rider.waarde}})
@@ -71,7 +71,7 @@
               </h3>
               <mat-list-item>
                 <div matLine *ngIf="partipantRidersForm?.waterdrager">
-                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.waterdrager?.rider?.nationality}}.png">
+                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.waterdrager?.rider?.rider?.nationality}}.png">
                   {{partipantRidersForm?.waterdrager?.rider.rider.firstName}}
                   {{partipantRidersForm?.waterdrager?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.waterdrager?.rider.waarde}})
@@ -87,7 +87,7 @@
               </h3>
               <mat-list-item>
                 <div matLine *ngIf="partipantRidersForm?.linkebal">
-                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.linkebal?.rider?.nationality}}.png">
+                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.linkebal?.rider?.rider?.nationality}}.png">
                   {{partipantRidersForm?.linkebal?.rider.rider.firstName}}
                   {{partipantRidersForm?.linkebal?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.linkebal?.rider.waarde}})
