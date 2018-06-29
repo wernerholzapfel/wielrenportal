@@ -68,7 +68,7 @@ export function tourReducer(state = initaltourState, action): TourState {
     case tour.Set_CURRENT_RIDER_AS_SELECTED:
       return {
         ...state,
-        teams: state.teams.map(team => (team.id === action.payload.team.id ? {
+        teams: [...state.teams].map(team => (team.id === action.payload.team.id ? {
           id: team.id,
           teamName: team.teamName,
           teamAbbreviation: team.teamAbbreviation,
@@ -85,7 +85,7 @@ export function tourReducer(state = initaltourState, action): TourState {
     case tour.SAVE_RIDER_TO_TEAM_SUCCESS:
       return {
         ...state,
-        teams: state.tour.teams.map(
+        teams: [...state.teams].map(
           team => (team.id === action.payload.team.id ? {
             id: team.id,
             teamName: team.teamName,
@@ -106,9 +106,8 @@ export function tourReducer(state = initaltourState, action): TourState {
 
 export const gettourState = createFeatureSelector<TourState>('tour');
 export const getTour = createSelector(gettourState, (state: TourState) => state.tour);
-export const getTeams = createSelector(gettourState, (state: TourState) => state.teams);
 export const getTourInProgress = createSelector(gettourState, (state: TourState) => state.inProgress);
-export const getTourTeams = createSelector(gettourState, (state: TourState) => state.tour ? state.tour.teams : []);
+export const getTourTeams = createSelector(gettourState, (state: TourState) => state.teams ? state.teams : undefined);
 export const getTourRiders = createSelector(getTourTeams, (tourTeams: ITeam[]) => {
   let flattenTourRiders: ITourriders[] = [];
   tourTeams.map(tourteam => {

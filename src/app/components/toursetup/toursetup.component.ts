@@ -97,7 +97,7 @@ export class ToursetupComponent implements OnInit {
 
     Observable.combineLatest(this.tourTeams$, this.riders$).subscribe(
       ([tourTeams, riders]) => {
-        if (riders && tourTeams.length > 0) {
+        if (riders && tourTeams && tourTeams.length > 0) {
           let flattenTourRiders: ITourriders[] = [];
           tourTeams.map(tourteam => {
             flattenTourRiders = [...flattenTourRiders, ...tourteam.tourRiders];

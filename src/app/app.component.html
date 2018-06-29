@@ -1,6 +1,15 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav #sidenav mode="over" [(opened)]="opened">
-    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-toolbar color="primary">
+      <span>Menu</span>
+      <span class="example-spacer"></span>
+      <mat-select *ngIf="authService.isAdmin" placeholder="Kies de ronde" [(ngModel)]="selectedTour"
+                  (change)="fetchTour()">
+        <mat-option *ngFor="let tour of tours$ | async" [value]="tour">
+          {{ tour.tourName }}
+        </mat-option>
+      </mat-select>
+    </mat-toolbar>
     <mat-list>
       <mat-list-item (click)="opened = false" [routerLink]="['/table']">Stand</mat-list-item>
       <mat-list-item (click)="opened = false" [routerLink]="['/participants']">Deelnemers</mat-list-item>
@@ -23,29 +32,35 @@
 
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <div fxHide [fxHide.gt-xs]="false">
-        <span>Het Wielrenspel</span>
-        <button mat-flat-button [routerLink]="['/table']">Stand</button>
-        <button mat-flat-button [routerLink]="['/participants']">Deelnemers</button>
-        <button mat-flat-button [routerLink]="['/tourriders']">Renners</button>
-        <span class="example-spacer"></span>
-        <button mat-flat-button *ngIf="authService.isAdmin" [routerLink]="['/admin']">Tour admin</button>
-        <button mat-button *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
-                [routerLink]="['/inschrijven']">Mijn team
-        </button>
-        <span class="example-spacer"></span>
-        <button mat-button *ngIf="!(authService.user$ | async)" [routerLink]="['/login']">Login</button>
-        <button mat-button *ngIf="(authService.user$ | async)" (click)="logout()">Logout {{(authService.user$ |
-          async)?.displayName }}
-        </button>
-          <mat-select *ngIf="authService.isAdmin" placeholder="Kies de ronde" [(ngModel)]="selectedTour" (change)="fetchTour()">
-            <mat-option *ngFor="let tour of tours$ | async" [value]="tour">
-              {{ tour.tourName }}
-            </mat-option>
-          </mat-select>
-        <!--<button mat-button *ngIf="(authService.user$ | async)" [matMenuTriggerFor]="profileMenu">{{(authService.user$ | async)?.displayName }}</button>-->
-      </div>
-      <div xShow [fxShow.gt-xs]="false">
+      <span fxHide [fxHide.gt-xs]="false">Het Wielrenspel</span>
+      <button fxHide [fxHide.gt-xs]="false" mat-button
+              *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
+              [routerLink]="['/inschrijven']">Mijn team
+      </button>
+      <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/table']">Stand</button>
+      <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/participants']">Deelnemers</button>
+      <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/tourriders']">Renners</button>
+      <span fxHide [fxHide.gt-xs]="false" class="example-spacer"></span>
+      <button fxHide [fxHide.gt-xs]="false" mat-flat-button *ngIf="authService.isAdmin" [routerLink]="['/admin']">Tour
+        admin
+      </button>
+      <span fxHide [fxHide.gt-xs]="false" class="example-spacer"></span>
+      <button fxHide [fxHide.gt-xs]="false" mat-button *ngIf="!(authService.user$ | async)" [routerLink]="['/login']">
+        Login
+      </button>
+      <button fxHide [fxHide.gt-xs]="false" mat-button *ngIf="(authService.user$ | async)" (click)="logout()">Logout
+        {{(authService.user$ |
+        async)?.displayName }}
+      </button>
+      <mat-select fxHide [fxHide.gt-xs]="false" *ngIf="authService.isAdmin" placeholder="Kies de ronde"
+                  [(ngModel)]="selectedTour" (change)="fetchTour()">
+        <mat-option *ngFor="let tour of tours$ | async" [value]="tour">
+          {{ tour.tourName }}
+        </mat-option>
+      </mat-select>
+      <!--<button mat-button *ngIf="(authService.user$ | async)" [matMenuTriggerFor]="profileMenu">{{(authService.user$ | async)?.displayName }}</button>-->
+      <!--</div>-->
+      <div fxShow [fxShow.gt-xs]="false">
         <span class="example-spacer"></span>
         <button mat-icon-button>
           <mat-icon aria-label="menu" (click)="opened = !opened">menu</mat-icon>

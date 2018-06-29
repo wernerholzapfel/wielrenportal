@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
-import {getTeams, getTour} from '../../store/tour/tour.reducer';
+import {getTour, getTourTeams} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
 import {IPartipantRidersFormModel} from '../../models/partipantRidersForm.model';
 import {ITeam} from '../../models/team.model';
@@ -42,8 +42,7 @@ export class TourridersComponent implements OnInit {
   ngOnInit() {
 
     this.tour$ = this.store.select(getTour);
-    this.teams$ = this.store.select(getTeams);
-    const map = {};
+    this.teams$ = this.store.select(getTourTeams);
 
     this.tour$.subscribe(tour => {
       if (tour.id) {
@@ -73,16 +72,19 @@ export class TourridersComponent implements OnInit {
         this.newWaardeList = [];
 
         teams.map(team => {
+          console.log('team.tourRiders lengte: ' + team.tourRiders.length);
           this.ridersWaardeList = [...this.ridersWaardeList, ...team.tourRiders];
         });
       }
+
+      const mapList = {};
       this.ridersWaardeList.forEach(item => {
         const k = item.waarde;
-        map[k] = map[k] || [];
-        map[k].push(item);
+        mapList[k] = mapList[k] || [];
+        mapList[k].push(item);
       });
 
-      this.newWaardeList = Object.keys(map).map(k => ({key: k, data: map[k]}));
+      this.newWaardeList = Object.keys(mapList).map(k => ({key: k, data: mapList[k]}));
 
       this.newWaardeList.sort((a, b) => b.key - a.key);
     });
