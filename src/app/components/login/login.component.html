@@ -25,6 +25,13 @@
     <mat-tab label="inschrijven" *ngIf="!wachtwoordvergeten">
       <form [formGroup]="userForm" class="login-form">
         <mat-form-field class="full-width">
+          <input type="text" matInput placeholder="Naam" formControlName="displayNameFormControl"
+                 [errorStateMatcher]="matcher" [(ngModel)]="user.displayName">
+          <mat-error *ngIf="userForm.controls['displayNameFormControl'].errors?.required">
+            Naam is <strong>verplicht</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
           <input matInput placeholder="Email" formControlName="emailFormControl"
                  [errorStateMatcher]="matcher" [(ngModel)]="user.email">
           <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.email &&
@@ -48,13 +55,12 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input type="text" matInput placeholder="Naam" formControlName="displayNameFormControl"
-                 [errorStateMatcher]="matcher" [(ngModel)]="user.displayName">
-          <mat-error *ngIf="userForm.controls['displayNameFormControl'].errors?.required">
-            Naam is <strong>verplicht</strong>
+          <input type="text" matInput placeholder="Teamnaam" formControlName="displayTeamNameFormControl"
+                 [errorStateMatcher]="matcher" [(ngModel)]="user.teamName">
+          <mat-error *ngIf="userForm.controls['displayTeamNameFormControl'].errors?.required">
+            Team naam is <strong>verplicht</strong>
           </mat-error>
         </mat-form-field>
-
         <div class="form-group">
           <button mat-raised-button color="primary" (click)="signUpRegular()" [disabled]="userForm.invalid">
             Inschrijven

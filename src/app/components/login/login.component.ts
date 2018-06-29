@@ -14,7 +14,8 @@ export class LoginComponent implements OnInit {
   user = {
     email: '',
     password: '',
-    displayName: ''
+    displayName: '',
+    teamName: '',
   };
 
   constructor(public authService: AuthService, public participantService: ParticipantService, public snackBar: MatSnackBar, private router: Router) {
@@ -26,6 +27,9 @@ export class LoginComponent implements OnInit {
       Validators.email,
     ]),
     displayNameFormControl: new FormControl('', [
+      Validators.required,
+    ]),
+    displayTeamNameFormControl: new FormControl('', [
       Validators.required,
     ]),
     passwordFormControl: new FormControl('', [
