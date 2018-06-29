@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ParticipantService} from '../../services/participant.service';
 import {IParticipant} from '../../models/participant.model';
-import {getTour, getTourId} from '../../store/tour/tour.reducer';
+import {getTour} from '../../store/tour/tour.reducer';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 
