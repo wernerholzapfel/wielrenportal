@@ -18,7 +18,7 @@ export class ParticipanttableEffects {
   fetchParticipanttable$ = this.actions$
     .ofType<participanttable.FetchParticipanttable>(participanttable.FETCH_PARTICIPANTTABLE)
     .switchMap(action => {
-      return this.db.list('/server/stand')
+      return this.db.list( action.payload + '/stand/')
         .switchMap(participanttableResponse =>
           Observable.of(new participanttable.FetchParticipanttableSuccess(participanttableResponse))
         )

@@ -51,11 +51,11 @@ export class TourEffects {
         .catch(err => Observable.of(new tour.FetchTourListFailure(err)));
     });
 
-  @Effect()
-  updateTour$ = this.actions$
-    .ofType<tour.SetCurrentRiderAsSelected>(tour.FETCH_TOUR)
-    .switchMap(action => Observable.of(new tour.FetchTourSuccess(action.payload)))
-    .catch(err => Observable.of(new tour.FetchTourFailure(err)));
+  // @Effect()
+  // updateTour$ = this.actions$
+  //   .ofType<tour.SetCurrentRiderAsSelected>(tour.FETCH_TOUR)
+  //   .switchMap(action => Observable.of(new tour.FetchTourSuccess(action.payload)))
+  //   .catch(err => Observable.of(new tour.FetchTourFailure(err)));
 
   @Effect()
   saveRiderToTeam$ = this.actions$

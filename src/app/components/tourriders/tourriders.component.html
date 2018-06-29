@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">Mijn team</mat-toolbar>
-<mat-progress-bar *ngIf="!(tour$ | async)?.teams" mode="buffer"></mat-progress-bar>
+<mat-progress-bar *ngIf="isLoading" mode="buffer"></mat-progress-bar>
 <mat-card>
   <div fxLayout="column" fxLayout.gt-sm="row">
     <div fxFlex="100" fxFlex.gt-sm="30">
@@ -39,7 +39,8 @@
               </h3>
               <mat-list-item>
                 <div matLine *ngIf="partipantRidersForm?.beschermdeRenner">
-                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.beschermdeRenner?.rider?.rider?.nationality}}.png">
+                  <img style="height: 16px;"
+                       src="/assets/images/flag/{{partipantRidersForm?.beschermdeRenner?.rider?.rider?.nationality}}.png">
                   {{partipantRidersForm?.beschermdeRenner?.rider.rider.firstName}}
                   {{partipantRidersForm?.beschermdeRenner?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.beschermdeRenner?.rider.waarde}})
@@ -55,7 +56,8 @@
               </h3>
               <mat-list-item>
                 <div matLine *ngIf="partipantRidersForm?.meesterknecht">
-                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.meesterknecht?.rider?.rider?.nationality}}.png">
+                  <img style="height: 16px;"
+                       src="/assets/images/flag/{{partipantRidersForm?.meesterknecht?.rider?.rider?.nationality}}.png">
                   {{partipantRidersForm?.meesterknecht?.rider.rider.firstName}}
                   {{partipantRidersForm?.meesterknecht?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.meesterknecht?.rider.waarde}})
@@ -71,7 +73,8 @@
               </h3>
               <mat-list-item>
                 <div matLine *ngIf="partipantRidersForm?.waterdrager">
-                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.waterdrager?.rider?.rider?.nationality}}.png">
+                  <img style="height: 16px;"
+                       src="/assets/images/flag/{{partipantRidersForm?.waterdrager?.rider?.rider?.nationality}}.png">
                   {{partipantRidersForm?.waterdrager?.rider.rider.firstName}}
                   {{partipantRidersForm?.waterdrager?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.waterdrager?.rider.waarde}})
@@ -87,7 +90,8 @@
               </h3>
               <mat-list-item>
                 <div matLine *ngIf="partipantRidersForm?.linkebal">
-                  <img style="height: 16px;" src="/assets/images/flag/{{partipantRidersForm?.linkebal?.rider?.rider?.nationality}}.png">
+                  <img style="height: 16px;"
+                       src="/assets/images/flag/{{partipantRidersForm?.linkebal?.rider?.rider?.nationality}}.png">
                   {{partipantRidersForm?.linkebal?.rider.rider.firstName}}
                   {{partipantRidersForm?.linkebal?.rider.rider.surNameShort}}
                   ({{partipantRidersForm?.linkebal?.rider.waarde}})
@@ -97,14 +101,12 @@
                 </button>
               </mat-list-item>
             </mat-list>
-          </mat-card-content>
-          <mat-card-actions>
             <div fxLayout="column" fxLayoutAlign=" stretch">
               <button (click)="submitForm()" mat-raised-button color="primary"
                       [disabled]="!participantRidersComplete()">Bevestigen
               </button>
             </div>
-          </mat-card-actions>
+          </mat-card-content>
         </mat-card>
       </div>
     </div>
@@ -118,7 +120,7 @@
         </div>
       </div>
       <ng-container *ngIf="group.value === 'team'">
-        <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)" *ngFor='let team of (tour$ | async)?.teams'>
+        <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)" *ngFor="let team of (teams$ | async)">
           <mat-toolbar color="accent" fxLayoutAlign=" center">
             <img matListAvatar [src]="'assets/images/shirts/' + team.teamAbbreviation + '.jpg'">
             {{team.teamName}}

@@ -7,16 +7,17 @@ import {ITourriders} from '../../models/tourriders.model';
 export interface TourState {
   tours: ITour[];
   tour: ITour;
-  inProgress: Boolean;
+  teams: ITeam[];
+  inProgress: boolean;
   error: any;
 }
 
 const initaltourState: TourState = {
   tours: undefined,
   tour: {
-    teams: [],
     id: undefined, endDate: null, startDate: null, tourName: '', isActive: undefined
   },
+  teams: [],
   error: undefined,
   inProgress: false,
 };
@@ -25,6 +26,7 @@ export function tourReducer(state = initaltourState, action): TourState {
   switch (action.type) {
     case tour.FETCH_TOURLIST:
     case tour.FETCH_TOUR:
+    case tour.FETCH_TOUR_BY_ID:
       return {
         ...state,
         inProgress: true,
@@ -32,10 +34,22 @@ export function tourReducer(state = initaltourState, action): TourState {
     case tour.FETCH_TOUR_SUCCESS:
       return {
         ...state,
-        tour: action.payload,
+        tour: {
+          tourName: action.payload.tourName,
+          id: action.payload.id,
+          isActive: action.payload.isActive,
+          startDate: action.payload.startDate,
+          endDate: action.payload.endDate,
+        },
+        teams: action.payload.teams,
         inProgress: false,
         error: undefined
       };
+    case tour.Set_CURRENT_RIDER_AS_SELECTED_SUCCESS:
+      return {
+        ...state,
+        teams: action.payload.teams,
+    };
     case tour.FETCH_TOURLIST_SUCCESS:
       return {
         ...state,
@@ -54,47 +68,33 @@ export function tourReducer(state = initaltourState, action): TourState {
     case tour.Set_CURRENT_RIDER_AS_SELECTED:
       return {
         ...state,
-        tour: {
-          tourName: state.tour.tourName,
-          id: state.tour.id,
-          isActive: state.tour.isActive,
-          startDate: state.tour.startDate,
-          endDate: state.tour.endDate,
-          teams: state.tour.teams.map(team => (team.id === action.payload.team.id ? {
-            id: team.id,
-            teamName: team.teamName,
-            teamAbbreviation: team.teamAbbreviation,
-            selected: team.selected,
-            teamNameShort: team.teamNameShort,
-            country: team.country,
-            tourRiders: team.tourRiders.map(rider => (rider.id === action.payload.rider.id ?
-              Object.assign(rider, {isSelected: action.payload.selected}) : rider)
-            )
-          } : team)),
-        },
+        teams: state.teams.map(team => (team.id === action.payload.team.id ? {
+          id: team.id,
+          teamName: team.teamName,
+          teamAbbreviation: team.teamAbbreviation,
+          selected: team.selected,
+          teamNameShort: team.teamNameShort,
+          country: team.country,
+          tourRiders: team.tourRiders.map(rider => (rider.id === action.payload.rider.id ?
+            Object.assign(rider, {isSelected: action.payload.selected}) : rider)
+          )
+        } : team)),
         inProgress: false,
         error: undefined,
       };
     case tour.SAVE_RIDER_TO_TEAM_SUCCESS:
       return {
         ...state,
-        tour: {
-          tourName: state.tour.tourName,
-          id: state.tour.id,
-          isActive: state.tour.isActive,
-          startDate: state.tour.startDate,
-          endDate: state.tour.endDate,
-          teams: state.tour.teams.map(
-            team => (team.id === action.payload.team.id ? {
-              id: team.id,
-              teamName: team.teamName,
-              teamAbbreviation: team.teamAbbreviation,
-              selected: team.selected,
-              teamNameShort: team.teamNameShort,
-              country: team.country,
-              tourRiders: [...team.tourRiders, action.payload]
-            } : team)),
-        }
+        teams: state.tour.teams.map(
+          team => (team.id === action.payload.team.id ? {
+            id: team.id,
+            teamName: team.teamName,
+            teamAbbreviation: team.teamAbbreviation,
+            selected: team.selected,
+            teamNameShort: team.teamNameShort,
+            country: team.country,
+            tourRiders: [...team.tourRiders, action.payload]
+          } : team)),
       };
     default:
       return {
@@ -106,6 +106,8 @@ export function tourReducer(state = initaltourState, action): TourState {
 
 export const gettourState = createFeatureSelector<TourState>('tour');
 export const getTour = createSelector(gettourState, (state: TourState) => state.tour);
+export const getTeams = createSelector(gettourState, (state: TourState) => state.teams);
+export const getTourInProgress = createSelector(gettourState, (state: TourState) => state.inProgress);
 export const getTourTeams = createSelector(gettourState, (state: TourState) => state.tour ? state.tour.teams : []);
 export const getTourRiders = createSelector(getTourTeams, (tourTeams: ITeam[]) => {
   let flattenTourRiders: ITourriders[] = [];

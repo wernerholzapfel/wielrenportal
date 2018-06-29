@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {RiderService} from '../../services/rider.service';
 import {GridOptions} from 'ag-grid';
+import {IAppState} from '../../store/store';
+import {Store} from '@ngrx/store';
+import {getTour} from '../../store/tour/tour.reducer';
 
 @Component({
   selector: 'app-riderdetails',
@@ -25,17 +28,12 @@ export class RiderdetailsComponent implements OnInit {
   ];
   rowSelection = 'single';
 
-  constructor(private riderService: RiderService) {
+  constructor(private riderService: RiderService, private store: Store<IAppState>) {
   }
 
   riders: any[];
 
   ngOnInit() {
-    // todo move to store?
-    this.riderService.getDetailTourriders()
-      .subscribe(response =>
-        this.riders = response);
-
     this.gridOptions = <GridOptions>{
       columnDefs: this.agColumns,
       onGridReady: () => {
@@ -43,6 +41,14 @@ export class RiderdetailsComponent implements OnInit {
       },
       enableSorting: true,
     };
+    // todo move to store?
+    this.store.select(getTour).subscribe(tour => {
+      if (tour) {
+        this.riderService.getDetailTourriders(tour.id)
+          .subscribe(response =>
+            this.riders = response);
+      }
+    });
   }
 
   determineIsOutText(params): string {

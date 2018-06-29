@@ -7,7 +7,7 @@ import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {ITour} from '../../models/tour.model';
 import {Observable} from 'rxjs/Observable';
-import {getTours, getTourTeams} from '../../store/tour/tour.reducer';
+import {getTour, getTourInProgress, getTours, getTourTeams} from '../../store/tour/tour.reducer';
 import {ITeam} from '../../models/team.model';
 import {getTeams} from '../../store/team/team.reducer';
 import 'rxjs/add/observable/combineLatest';
@@ -47,18 +47,16 @@ export class ToursetupComponent implements OnInit {
   ];
   rowSelection = 'single';
 
+  isLoading: boolean;
   selectedTour: ITour;
   tours$: Observable<ITour[]>;
-  tours: ITour[];
   riders$: Observable<IRider[]>;
   tourTeams$: Observable<ITeam[]>;
   teams$: Observable<ITeam[]>;
-  selectedTeams$: Observable<ITeam[]>;
   selectableTeamList: ITeam[];
   selectableRiders: IRider[];
   currentRider: IRider;
   selectedTab = 0;
-  selected: ITour;
   TOURCLASSIFICATION = TOURCLASSIFICATION;
   YOUTHCLASSIFICATION = YOUTHCLASSIFICATION;
   MOUNTAINCLASSIFICATION = MOUNTAINCLASSIFICATION;
@@ -66,9 +64,19 @@ export class ToursetupComponent implements OnInit {
   filterText: string;
 
   ngOnInit() {
-    this.store.dispatch(new fromTour.FetchTourList());
     this.store.dispatch(new fromTeam.FetchTeams());
     this.store.dispatch(new fromRider.FetchRiders());
+
+    this.store.select(getTourInProgress).subscribe(inProgress => {
+      this.isLoading = inProgress;
+    });
+
+    this.store.select(getTour).subscribe(tour => {
+      if (tour) {
+        this.selectedTour = tour;
+        this.store.dispatch(new fromEtappe.FetchEtappeList(tour.id));
+      }
+    });
 
     this.tourTeams$ = this.store.select(getTourTeams);
     this.tours$ = this.store.select(getTours);
@@ -98,18 +106,10 @@ export class ToursetupComponent implements OnInit {
         }
       });
 
-    this.tours$.subscribe(tours => {
-      if (tours && tours.length > 0) {
-        this.selectedTour = tours.find(tour => tour.isActive);
-        this.store.dispatch(new fromTour.FetchTourById(this.selectedTour.id));
-        this.store.dispatch(new fromEtappe.FetchEtappeList(this.selectedTour.id));
-        this.tours = tours;
-      }
-    });
+
     this.gridOptions = <GridOptions>{
       columnDefs: this.agColumns,
       onGridReady: () => {
-        // this.gridOptions.api.sizeColumnsToFit();
       },
       enableSorting: true,
     };
@@ -131,12 +131,6 @@ export class ToursetupComponent implements OnInit {
         duration: 2000,
       });
     });
-  }
-
-  fetchTour() {
-    this.store.dispatch(new fromTour.FetchTourById(this.selectedTour.id));
-    this.store.dispatch(new fromEtappe.FetchEtappeList(this.selectedTour.id));
-
   }
 
   setCurrentRider(rider, $event) {
@@ -199,6 +193,7 @@ export class ToursetupComponent implements OnInit {
       }
     });
   }
+
   youngster(rider: IRider) {
     return moment(rider.dateOfBirth).isAfter('1993-01-01');
   }

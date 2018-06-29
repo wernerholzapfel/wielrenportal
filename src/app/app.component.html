@@ -38,6 +38,11 @@
         <button mat-button *ngIf="(authService.user$ | async)" (click)="logout()">Logout {{(authService.user$ |
           async)?.displayName }}
         </button>
+          <mat-select *ngIf="authService.isAdmin" placeholder="Kies de ronde" [(ngModel)]="selectedTour" (change)="fetchTour()">
+            <mat-option *ngFor="let tour of tours$ | async" [value]="tour">
+              {{ tour.tourName }}
+            </mat-option>
+          </mat-select>
         <!--<button mat-button *ngIf="(authService.user$ | async)" [matMenuTriggerFor]="profileMenu">{{(authService.user$ | async)?.displayName }}</button>-->
       </div>
       <div xShow [fxShow.gt-xs]="false">

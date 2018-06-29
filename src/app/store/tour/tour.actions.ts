@@ -12,12 +12,20 @@ export const FETCH_TOUR_BY_ID = '[TOUR] Fetch Tour by id';
 export const FETCH_TOUR_SUCCESS = '[TOUR] Fetch Tour Success';
 export const FETCH_TOUR_FAILURE = '[TOUR] Fetch Tour Failure';
 export const Set_CURRENT_RIDER_AS_SELECTED = '[RIDERS] Set Rider selected';
+export const Set_CURRENT_RIDER_AS_SELECTED_SUCCESS = '[RIDERS] Set Rider selected Success';
 export const SAVE_RIDER_TO_TEAM = '[RIDERS] Save Rider To Team';
 export const SAVE_RIDER_TO_TEAM_SUCCESS = '[RIDERS] Save Rider To Team Success';
 export const SAVE_RIDER_TO_TEAM_FAILURE = '[RIDERS] Save Rider To Team Failure';
 
 export class SetCurrentRiderAsSelected implements Action {
   readonly type = Set_CURRENT_RIDER_AS_SELECTED;
+
+  constructor(public payload: any) {
+  }
+}
+
+  export class SetCurrentRiderAsSelectedSuccess implements Action {
+  readonly type = Set_CURRENT_RIDER_AS_SELECTED_SUCCESS;
 
   constructor(public payload: any) {
   }

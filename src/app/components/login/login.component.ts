@@ -3,6 +3,7 @@ import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher, MatSnackBar} from '@angular/material';
+import {ParticipantService} from '../../services/participant.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
     displayName: ''
   };
 
-  constructor(public authService: AuthService, public snackBar: MatSnackBar, private router: Router) {
+  constructor(public authService: AuthService, public participantService: ParticipantService, public snackBar: MatSnackBar, private router: Router) {
   }
 
   userForm = new FormGroup({
@@ -66,6 +67,15 @@ export class LoginComponent implements OnInit {
     this.authService.signUpRegular(this.user.email, this.user.password, this.user.displayName)
       .then((res) => {
         console.log(res);
+
+        delete this.user.password;
+        this.participantService.postParticipant({
+          displayName: this.user.displayName,
+          teamName: this.user.teamName,
+          email: this.user.email
+        }).subscribe(response => {
+          console.log('user opgeslagen in database');
+        });
 
         this.router.navigate(['/tourriders']);
       })

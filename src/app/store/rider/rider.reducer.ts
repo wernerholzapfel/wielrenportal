@@ -5,7 +5,7 @@ import {IRider} from '../../models/rider.model';
 
 export interface RiderState {
   riders: IRider[];
-  inProgress: Boolean;
+  inProgress: boolean;
   error: HttpErrorResponse;
 }
 

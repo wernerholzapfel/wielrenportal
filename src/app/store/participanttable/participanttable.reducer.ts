@@ -4,7 +4,7 @@ import {IParticipanttable} from '../../models/participanttable.model';
 
 export interface ParticipanttableState {
   participanttable: IParticipanttable[];
-  inProgress: Boolean;
+  inProgress: boolean;
   error: any;
 }
 

@@ -1,14 +1,7 @@
 <mat-toolbar color="primary">Tour administratie</mat-toolbar>
-<mat-progress-bar *ngIf="!selectedTour" mode="buffer"></mat-progress-bar>
+<mat-progress-bar *ngIf="isLoading" mode="buffer"></mat-progress-bar>
 <mat-card>
   <div *ngIf="selectedTour" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start stretch" fxLayoutAlign.gt-sm="start center" fxLayoutGap="5px">
-    <mat-form-field>
-      <mat-select placeholder="Kies de ronde" [(ngModel)]="selectedTour" (change)="fetchTour()">
-        <mat-option *ngFor="let tour of tours" [value]="tour">
-          {{ tour.tourName }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
     <button mat-raised-button color="warn" [disabled]="true">Edit tour</button>
     <button mat-raised-button color="warn" (click)="openClassificationsModal(TOURCLASSIFICATION)">Eindklassement
     </button>
@@ -21,20 +14,21 @@
   </div>
     <mat-tab-group [selectedIndex]="selectedTab">
       <mat-tab label="Teams">
+        <div *ngIf="!isLoading">
         <mat-selection-list #teamsToSave>
           <mat-list-option *ngFor="let team of selectableTeamList" [value]="team" [selected]="team?.selected">
             <h3 matLine>{{team?.teamName}}</h3>
           </mat-list-option>
         </mat-selection-list>
-
         <p>
           <button mat-raised-button color="primary" (click)="saveTeams(teamsToSave)">
             Save {{teamsToSave.selectedOptions.selected.length}} teams
           </button>
         </p>
+        </div>
       </mat-tab>
       <mat-tab label="Renners">
-        <div fxLayout="columns">
+        <div fxLayout="columns"  *ngIf="!isLoading">
           <div fxFlex="70" fxLayout="row wrap" fxLayoutAlign="start start">
             <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)"
                  *ngFor='let team of (tourTeams$ | async)'>
@@ -98,7 +92,7 @@
         </div>
       </mat-tab>
       <mat-tab label="Etappes">
-        <app-etappes [selectedtour]="selectedTour"></app-etappes>
+        <app-etappes *ngIf="!isLoading" [selectedtour]="selectedTour"></app-etappes>
       </mat-tab>
     </mat-tab-group>
 </mat-card>

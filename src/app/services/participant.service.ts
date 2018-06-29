@@ -3,7 +3,6 @@ import {Observable} from 'rxjs/Observable';
 import {environment} from '../../environments/environment';
 import {IParticipant} from '../models/participant.model';
 import {HttpClient} from '@angular/common/http';
-import {IParticipanttable} from '../models/participanttable.model';
 
 @Injectable()
 export class ParticipantService {
@@ -11,8 +10,13 @@ export class ParticipantService {
   constructor(private http: HttpClient) {
   }
 
-  getParticipants(): Observable<IParticipant[]> {
+  getParticipants(tourId: string): Observable<IParticipant[]> {
 
-    return this.http.get<IParticipant[]>(`${environment.apiBaseUrl}/participants`);
+    return this.http.get<IParticipant[]>(`${environment.apiBaseUrl}/participants/` + tourId);
+  }
+
+  postParticipant(body: IParticipant): Observable<IParticipant> {
+    return this.http.post<IParticipant>(`${environment.apiBaseUrl}/participants`, body)
+      .map(res => <IParticipant>res);
   }
 }

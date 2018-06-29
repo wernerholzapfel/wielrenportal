@@ -3,12 +3,13 @@ import {IEtappe} from './etappe.model';
 import {ITeam} from './team.model';
 
 export interface IParticipant {
-  id: string;
+  id?: string;
   displayName: string;
   teamName: string;
-  predictions: IPrediction[];
-  totalPoints: number;
+  predictions?: IPrediction[];
+  totalPoints?: number;
   selectedRider?: IRider;
+  email?: string;
 }
 
 export interface ITourrider {

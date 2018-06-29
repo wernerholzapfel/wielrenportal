@@ -5,7 +5,7 @@ import {ITeam} from '../../models/team.model';
 
 export interface TeamState {
   teams: ITeam[];
-  inProgress: Boolean;
+  inProgress: boolean;
   error: HttpErrorResponse;
 }
 

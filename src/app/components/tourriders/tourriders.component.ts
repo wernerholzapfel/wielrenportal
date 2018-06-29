@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
-import {getTour} from '../../store/tour/tour.reducer';
+import {getTeams, getTour} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
 import {IPartipantRidersFormModel} from '../../models/partipantRidersForm.model';
 import {ITeam} from '../../models/team.model';
@@ -22,6 +22,7 @@ import * as moment from 'moment';
 })
 export class TourridersComponent implements OnInit {
   tour$: Observable<ITour>;
+  teams$: Observable<ITeam[]>;
   currentRider: any; // todo
   currentTeam: ITeam;
   partipantRidersForm: IPartipantRidersFormModel;
@@ -30,7 +31,7 @@ export class TourridersComponent implements OnInit {
   laagsteWaardegroep = 10;
   ridersWaardeList: any[] = [];
   newWaardeList: any[];
-
+  isLoading: boolean;
 
   constructor(private store: Store<IAppState>,
               private predictionService: PredictionService,
@@ -40,21 +41,43 @@ export class TourridersComponent implements OnInit {
 
   ngOnInit() {
 
-
-    this.store.dispatch(new fromTour.FetchTour());
     this.tour$ = this.store.select(getTour);
+    this.teams$ = this.store.select(getTeams);
+    const map = {};
 
     this.tour$.subscribe(tour => {
-      const map = {};
-      this.ridersWaardeList = [];
-      this.newWaardeList = [];
-      if (tour && tour.teams) {
-        tour.teams.map(team => {
+      if (tour.id) {
+        this.isLoading = true;
+
+        this.predictionService.getPredictionsForUser(tour.id).subscribe(predictions => {
+          this.partipantRidersForm = {
+            riders: predictions.filter(p => p.isRider),
+            beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
+            waterdrager: predictions.find(p => p.isWaterdrager),
+            linkebal: predictions.find(p => p.isLinkebal),
+            meesterknecht: predictions.find(p => p.isMeesterknecht),
+            tour: null,
+          };
+
+          predictions.forEach(prediction => {
+            this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, true);
+          });
+        });
+      }
+      this.isLoading = false;
+    });
+
+    this.teams$.subscribe(teams => {
+      if (teams) {
+        this.ridersWaardeList = [];
+        this.newWaardeList = [];
+
+        teams.map(team => {
           this.ridersWaardeList = [...this.ridersWaardeList, ...team.tourRiders];
         });
       }
       this.ridersWaardeList.forEach(item => {
-        let k = item.waarde;
+        const k = item.waarde;
         map[k] = map[k] || [];
         map[k].push(item);
       });
@@ -63,24 +86,6 @@ export class TourridersComponent implements OnInit {
 
       this.newWaardeList.sort((a, b) => b.key - a.key);
     });
-
-    this.predictionService.getPredictionsForUser().subscribe(predictions => {
-
-      this.partipantRidersForm = {
-        riders: predictions.filter(p => p.isRider),
-        beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
-        waterdrager: predictions.find(p => p.isWaterdrager),
-        linkebal: predictions.find(p => p.isLinkebal),
-        meesterknecht: predictions.find(p => p.isMeesterknecht),
-        tour: null,
-      };
-
-      predictions.forEach(prediction => {
-        this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, true);
-      });
-
-    });
-
   }
 
   setCurrentRider(rider, team, $event) {

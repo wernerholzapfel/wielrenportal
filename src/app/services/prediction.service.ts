@@ -16,7 +16,7 @@ export class PredictionService {
       .map(res => <IRider[]>res);
   }
 
-  getPredictionsForUser(): Observable<IPrediction[]> {
-    return this.http.get<IPrediction[]>(`${environment.apiBaseUrl}/predictions/user`);
+  getPredictionsForUser(tourId: string): Observable<IPrediction[]> {
+    return this.http.get<IPrediction[]>(`${environment.apiBaseUrl}/predictions/user/` + tourId);
   }
 }

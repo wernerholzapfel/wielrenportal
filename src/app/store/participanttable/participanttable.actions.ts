@@ -10,7 +10,7 @@ export const FETCH_PARTICIPANTTABLE_FAILURE = '[PARTICIPANTABLE] Fetch Participa
 export class FetchParticipanttable implements Action {
   readonly type = FETCH_PARTICIPANTTABLE;
 
-  constructor() {
+  constructor(public payload: String) {
   }
 }
 

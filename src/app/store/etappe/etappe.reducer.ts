@@ -5,7 +5,7 @@ import {ITeam} from '../../models/team.model';
 
 export interface EtappeState {
   etappes: IEtappe[];
-  inProgress: Boolean;
+  inProgress: boolean;
   error: any;
 }
 
