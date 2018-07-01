@@ -19,12 +19,24 @@ export class TokenInterceptor implements HttpInterceptor {
             .switchMap(token => {
               request = request.clone({
                 setHeaders: {
-                  Authorization: `Bearer ${token}`
+                  'Content-Type': 'application/json',
+                  'Cache-Control': 'no-cache',
+                  'Pragma': 'no-cache',
+                  'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
+                  'Authorization': `Bearer ${token}`
                 }
               });
               return next.handle(request);
             });
         } else {
+          request = request.clone({
+            setHeaders: {
+              'Cache-Control': 'no-cache',
+              'Pragma': 'no-cache',
+              'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
+              'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+          });
           return next.handle(request);
         }
       });
