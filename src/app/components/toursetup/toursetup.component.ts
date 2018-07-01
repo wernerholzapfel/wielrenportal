@@ -148,6 +148,12 @@ export class ToursetupComponent implements OnInit {
 
   }
 
+  updateTable() {
+    this.tourService.updateStand(this.selectedTour.id).subscribe(response => {
+      console.log(response);
+    });
+  }
+
   openClassificationsModal(type: string) {
     const dialogRef = this.dialog.open(AddStageClassificationsComponent, {
       data: {

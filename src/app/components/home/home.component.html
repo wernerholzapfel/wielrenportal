@@ -1,13 +1,31 @@
-<mat-toolbar color="primary">Welkom</mat-toolbar>
-<mat-card>
-  <mat-card-content>
-    <p>
-      Doe <b>gratis</b> mee en wordt de beste ploegleider van de Tour de France, Giro d’Italia of Vuelta a Espana!
-    </p>
-    <p>
-      Gebruik je <b>budget</b> om het winnende team samen te stellen, kies daarbij ook een <b>beschermde renner</b>,
-      <b>meesterknecht</b>, <b>waterdrager</b> en <b>linkebal</b>.
-    </p>
-   </mat-card-content>
-</mat-card>
- <app-login *ngIf="!(authService.user$ | async)"></app-login>
+<mat-grid-list cols="2" rowHeight="100px">
+  <mat-grid-tile>
+    Laatst bijgewerkt:
+    {{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <span *ngIf="(first$ | async)?.displayName">
+    {{(first$ | async)?.displayName}} staat eerste met {{(first$ | async)?.totalPoints}} punten.
+     </span>
+    <span *ngIf="!(first$ | async)?.displayName">
+      Wie wordt de beste ploegleider?
+     </span>
+  </mat-grid-tile>
+</mat-grid-list>
+<div fxLayoutAlign="row" fxLayout=" stretch" fxLayoutGap="1px">
+  <div fxFlex="calc(50% - 1px">
+    <mat-toolbar color="primary">Welkom</mat-toolbar>
+    <mat-card>
+      <mat-card-content>
+        <p>
+          Doe <b>gratis</b> mee en wordt de beste ploegleider van de Tour de France, Giro d’Italia of Vuelta a Espana!
+        </p>
+        <p>
+          Gebruik je <b>budget</b> om het winnende team samen te stellen, kies daarbij ook een <b>beschermde renner</b>,
+          <b>meesterknecht</b>, <b>waterdrager</b> en <b>linkebal</b>.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <app-login fxFlex="50" *ngIf="!(authService.user$ | async)"></app-login>
+</div>

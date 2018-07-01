@@ -1,5 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
+import {IAppState} from '../../store/store';
+import {Store} from '@ngrx/store';
+import {getLastUpdated, getNumberOne} from '../../store/participanttable/participanttable.reducer';
+import {Observable} from 'rxjs/Observable';
+import {IParticipanttable} from '../../models/participanttable.model';
 
 @Component({
   selector: 'app-home',
@@ -8,10 +13,15 @@ import {AuthService} from '../../services/auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public authService: AuthService) {
+  lastUpdated$: Observable<any>;
+  first$: Observable<IParticipanttable>;
+
+  constructor(public authService: AuthService, public store: Store<IAppState>) {
   }
 
   ngOnInit() {
+    this.lastUpdated$ = this.store.select(getLastUpdated);
+    this.first$ = this.store.select(getNumberOne);
   }
 
 }

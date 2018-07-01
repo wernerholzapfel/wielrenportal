@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     this.authService.signInRegular(this.user.email, this.user.password)
       .then((res) => {
         console.log(res);
-        this.router.navigate(['/participants']);
+        this.router.navigate(['/inschrijven']);
       })
       .catch((err) => {
         this.snackBar.open(err.message, 'OK', {});
@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
           console.log('user opgeslagen in database');
         });
 
-        this.router.navigate(['/tourriders']);
+        this.router.navigate(['/inschrijven']);
       })
       .catch((err) => {
         this.snackBar.open(err.message, 'OK', {});

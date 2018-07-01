@@ -120,7 +120,7 @@
         </div>
       </div>
       <ng-container *ngIf="group.value === 'team'">
-        <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)" *ngFor="let team of (teams$ | async)">
+        <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)" *ngFor="let team of (teams$ | async) | orderBy : 'teamName' : asc">
           <mat-toolbar color="accent" fxLayoutAlign=" center">
             <img matListAvatar [src]="'assets/images/shirts/' + team.teamAbbreviation + '.jpg'">
             {{team.teamName}}

@@ -14,6 +14,10 @@ export class TourService {
     return this.http.get<ITour>(`${environment.apiBaseUrl}/tourriders`);
   }
 
+  updateStand(tourId): Observable<any> {
+    return this.http.get<any>(`${environment.apiBaseUrl}/participants/table/${tourId}`);
+  }
+
   getTourById(id: string): Observable<ITour> {
     return this.http.get<ITour>(`${environment.apiBaseUrl}/tours/${id}`);
   }
@@ -31,7 +35,6 @@ export class TourService {
     return this.http.post<any>(`${environment.apiBaseUrl}/tourriders`, body)
       .map(res => <any>res);
   }
-
 
 
 }

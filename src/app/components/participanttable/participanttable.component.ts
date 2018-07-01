@@ -4,7 +4,7 @@ import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
-import {getParticipanttable} from '../../store/participanttable/participanttable.reducer';
+import {getLastUpdated, getParticipanttable} from '../../store/participanttable/participanttable.reducer';
 import {Observable} from 'rxjs/Observable';
 import {IParticipanttable} from '../../models/participanttable.model';
 
@@ -19,6 +19,7 @@ export class ParticipanttableComponent implements OnInit {
 
   data: any;
   participantstable$: Observable<IParticipanttable[]>;
+  lastUpdated$: Observable<any>;
 
   public gridOptions: GridOptions;
   agColumns = [
@@ -48,6 +49,7 @@ export class ParticipanttableComponent implements OnInit {
 
   ngOnInit() {
     this.participantstable$ = this.store.select(getParticipanttable);
+    this.lastUpdated$ = this.store.select(getLastUpdated);
 
     this.gridOptions = <GridOptions>{
       columnDefs: this.agColumns,

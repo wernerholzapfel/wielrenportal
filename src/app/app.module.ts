@@ -47,6 +47,7 @@ import { RiderdetailsComponent } from './components/riderdetails/riderdetails.co
 import { EdittourriderdialogComponent } from './components/edittourriderdialog/edittourriderdialog.component';
 import { ParticipantpredictionsComponent } from './components/participantpredictions/participantpredictions.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import { SpelregelsComponent } from './components/spelregels/spelregels.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
     TourriderdetaildialogComponent,
     RiderdetailsComponent,
     EdittourriderdialogComponent,
-    ParticipantpredictionsComponent
+    ParticipantpredictionsComponent,
+    SpelregelsComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,

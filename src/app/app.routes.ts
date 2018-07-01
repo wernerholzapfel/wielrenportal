@@ -12,45 +12,42 @@ import {ParticipantsComponent} from './components/participants/participants.comp
 import {ParticipanttableComponent} from './components/participanttable/participanttable.component';
 import {RiderdetailsComponent} from './components/riderdetails/riderdetails.component';
 import {ParticipantpredictionsComponent} from './components/participantpredictions/participantpredictions.component';
+import {SpelregelsComponent} from './components/spelregels/spelregels.component';
 
 const appRoutes: Routes = [
   {
     path: 'riders',
     component: RidersComponent
-  },
-  {
+  }, {
     path: 'inschrijven',
     canActivate: [AuthGuardService],
     component: TourridersComponent
   }, {
     path: 'tourriders',
     component: RiderdetailsComponent
-  },
-  {
+  }, {
+    path: 'spelregels',
+    component: SpelregelsComponent
+  }, {
     path: 'participants',
     component: ParticipantsComponent
-  },
-  {
+  }, {
     path: 'table',
     component: ParticipanttableComponent,
-  },
-  {
+  }, {
     path: 'table/detail/:id',
     component: ParticipantpredictionsComponent
-  },
-  {
+  }, {
     path: 'login',
     component: LoginComponent
   }, {
     path: 'admin',
     canActivate: [AdminGuardService],
     component: ToursetupComponent
-  },
-  {
+  }, {
     path: '',
     component: HomeComponent,
-  },
-  {
+  }, {
     path: '**',
     component: HomeComponent,
   }

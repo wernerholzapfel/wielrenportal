@@ -24,4 +24,16 @@ export class ParticipanttableEffects {
         )
         .catch(err => Observable.of(new participanttable.FetchParticipanttableFailure(err)));
     });
+
+  @Effect()
+  fetchLastupdated$ = this.actions$
+    .ofType<participanttable.FetchLastUpdated>(participanttable.FETCH_LASTUPDATED)
+    .switchMap(action => {
+      return this.db.object( action.payload + '/lastUpdated/')
+        .switchMap(response =>
+          Observable.of(new participanttable.FetchLastUpdatedSuccess(response))
+        )
+        .catch(err => Observable.of(new participanttable.FetchLastUpdatedFailure(err)));
+    });
+
 }

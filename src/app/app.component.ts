@@ -7,6 +7,8 @@ import * as fromTour from './store/tour/tour.actions';
 import {getTour, getTours} from './store/tour/tour.reducer';
 import {Observable} from 'rxjs/Observable';
 import {ITour} from './models/tour.model';
+import {getLastUpdated} from './store/participanttable/participanttable.reducer';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +16,7 @@ import {ITour} from './models/tour.model';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private store: Store<IAppState>, public authService: AuthService) {
+  constructor(private store: Store<IAppState>, public authService: AuthService, public snackBar: MatSnackBar) {
   }
 
   isSubmissionPossible = true;
@@ -24,6 +26,8 @@ export class AppComponent implements OnInit {
   tour$: Observable<ITour>;
   tours$: Observable<ITour[]>;
   selectedTour: ITour;
+  lastUpdated$: Observable<any>;
+  lastUpdated: any;
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTourList);
@@ -41,9 +45,20 @@ export class AppComponent implements OnInit {
       if (tour) {
         console.log('tour is gewijzigd naar: ' + tour.id);
         this.store.dispatch(new fromParticipanttable.FetchParticipanttable(tour.id));
+        this.store.dispatch(new fromParticipanttable.FetchLastUpdated(tour.id));
       }
     });
+    this.lastUpdated$ = this.store.select(getLastUpdated);
 
+    this.lastUpdated$.subscribe(response => {
+      if (response && this.lastUpdated && response.tour === this.lastUpdated.tour && response.lastUpdated !== this.lastUpdated.lastUpdated) {
+        this.lastUpdated = response;
+        this.snackBar.open('De stand is bijgewerkt.', '', {
+          duration: 2000,
+        });
+      }
+      this.lastUpdated = response;
+    });
   }
 
   fetchTour() {
