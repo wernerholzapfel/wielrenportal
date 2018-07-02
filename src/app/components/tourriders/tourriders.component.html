@@ -33,7 +33,11 @@
                 Je hebt nog {{maxParticipantRidersPunten - calculateUsedWaardepunten()}} waardepunten.
               </mat-list-item>
               <mat-divider [inset]="true"></mat-divider>
-              <h3 matSubheader>
+              <h3 matSubheader
+              matTooltip="Beschermde renner:
+Evenveel waardepunten als meesterknecht.
+Behaalde punten komen erbij.
+Geen strafpunten als hij uitvalt.">
                 <mat-icon matListIcon>verified_user</mat-icon>
                 Mijn beschermde renner
               </h3>
@@ -50,7 +54,12 @@
                 </button>
               </mat-list-item>
               <mat-divider [inset]="true"></mat-divider>
-              <h3 matSubheader matTooltip="Info about the action">
+              <h3 matSubheader
+                  class="my-tooltip"
+                  matTooltip="Meesterknecht:
+Evenveel waardepunten als beschermde renner.
+Behaalde punten worden afgetrokken.
+Als hij uitvalt strafpunten ter hoogte van zijn waarde.">
                 <mat-icon matListIcon>build</mat-icon>
                 Mijn meesterknecht
               </h3>
@@ -67,7 +76,12 @@
                 </button>
               </mat-list-item>
               <mat-divider [inset]="true"></mat-divider>
-              <h3 matSubheader>
+              <h3 matSubheader class="my-tooltip"
+                  matTooltip="Waterdrager:
+Krijgt gemiddelde punten van zijn teamgenoten erbij.
+Zelf behaalde punten worden afgetrokken.
+In elk eindklassement (4x) gaat zijn waarde aan punten eraf.
+Geen punten van teamgenoten meer vanaf moment dat hij uitvalt.">
                 <mat-icon matListIcon>delete_outline</mat-icon>
                 Mijn waterdrager
               </h3>
@@ -84,7 +98,12 @@
                 </button>
               </mat-list-item>
               <mat-divider [inset]="true"></mat-divider>
-              <h3 matSubheader>
+              <h3 matSubheader
+                  matTooltip="Linkebal:
+-Uit laagste waardegroep (10 waardepunten)
+-Krijgt dubbele punten
+-Als hij uitvalt 20 strafpunten
+">
                 <mat-icon matListIcon>new_releases</mat-icon>
                 Mijn linkebal
               </h3>
@@ -120,7 +139,8 @@
         </div>
       </div>
       <ng-container *ngIf="group.value === 'team'">
-        <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)" *ngFor="let team of (teams$ | async) | orderBy : 'teamName' : asc">
+        <div class="team_card" fxFlex="100" fxFlex.gt-sm="calc(50% - 20px)"
+             *ngFor="let team of (teams$ | async) | orderBy : 'teamName' : asc">
           <mat-toolbar color="accent" fxLayoutAlign=" center">
             <img matListAvatar [src]="'assets/images/shirts/' + team.teamAbbreviation + '.jpg'">
             {{team.teamName}}

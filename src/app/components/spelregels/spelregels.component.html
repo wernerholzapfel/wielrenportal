@@ -74,21 +74,40 @@
           (bij elk eindklassement).<br><br>
           <i>
 
-          Rekenvoorbeeld:
-          Etappes: Stel, de zeven ploeggenoten van de waterdrager pakken in de eerste etappe samen 74
-          punten, de waterdrager pakt zelf 6 punten tijdens die etappe. De waterdrager krijgt dan voor die
-          etappe het volgende aantal punten: 74 / 7 – 6 = 5 punten (afronding van 4,571).
-          Eindklassementen: Stel, de ploeggenoten van de waterdrager pakken samen 215 punten in het
-          algemeen klassement en de waterdrager pakt er zelf 10, dan krijgt hij (als zijn waarde 15 is) voor het
-          algemeen klassement het volgende aantal punten: 215 / 7 – 10 – 15 = 6 punten (afronding van
-          5,714). Dit gaat zo ook voor de andere drie eindklassementen.<br>
-          Het totaal aantal punten van de waterdrager is dan etappes+algemeen+berg+punten+jongeren.
+            Rekenvoorbeeld:
+            Etappes: Stel, de zeven ploeggenoten van de waterdrager pakken in de eerste etappe samen 74
+            punten, de waterdrager pakt zelf 6 punten tijdens die etappe. De waterdrager krijgt dan voor die
+            etappe het volgende aantal punten: 74 / 7 – 6 = 5 punten (afronding van 4,571).
+            Eindklassementen: Stel, de ploeggenoten van de waterdrager pakken samen 215 punten in het
+            algemeen klassement en de waterdrager pakt er zelf 10, dan krijgt hij (als zijn waarde 15 is) voor het
+            algemeen klassement het volgende aantal punten: 215 / 7 – 10 – 15 = 6 punten (afronding van
+            5,714). Dit gaat zo ook voor de andere drie eindklassementen.<br>
+            Het totaal aantal punten van de waterdrager is dan etappes+algemeen+berg+punten+jongeren.
           </i><br><br>
 
           <b>Linkebal:</b> van deze renner wordt eigenlijk weinig verwacht, maar gaat volgens jou ‘verrassen’ in deze
           ronde.
           De linkebal moet uit de laagste waardegroep (10 punten) komen. De punten die hij tijdens de
           wielerronde behaalt, worden verdubbeld. Als je linkebal uitvalt krijg je (gewoon) 20 strafpunten.
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="Puntentelling">
+      <mat-card>
+        <mat-card-content>
+          <ag-grid-angular
+            style="width: 100%; height: 500px;"
+            class="ag-theme-balham"
+            [gridOptions]="gridOptions"
+            [rowData]="spelregelstable">
+          </ag-grid-angular>
+<br><br>
+          Voor elke renner die uitvalt krijg je 20 strafpunten.<br>
+          Als je beschermde renner uitvalt krijg je geen strafpunten.<br>
+          Als je meesterknecht uitvalt krijg je strafpunten ter hoogte van zijn waardepunten.<br>
+          Als je waterdrager uitvalt, krijg je geen strafpunten, maar vanaf dat moment ook geen punten meer
+          voor zijn ploeggenoten.<br>
+          Als je linkebal uitvalt, krijg je 20 strafpunten.<br>
         </mat-card-content>
       </mat-card>
     </mat-tab>
