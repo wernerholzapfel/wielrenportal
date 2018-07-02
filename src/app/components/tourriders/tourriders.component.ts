@@ -73,7 +73,8 @@ export class TourridersComponent implements OnInit {
 
         teams.map(team => {
           console.log('team.tourRiders lengte: ' + team.tourRiders.length);
-          this.ridersWaardeList = [...this.ridersWaardeList, ...team.tourRiders];
+          this.ridersWaardeList = [...this.ridersWaardeList,
+            ...team.tourRiders.map(rider => Object.assign(rider, {team: {id: team.id}}))];
         });
       }
 

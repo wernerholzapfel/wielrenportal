@@ -174,7 +174,7 @@
                   <button mat-icon-button [matMenuTriggerFor]="menu"
                           *ngIf="!rider.isSelected"
                           [disabled]="participantRidersComplete()"
-                          (click)="setCurrentRider(rider, team, $event)">
+                          (click)="setCurrentRider(rider, rider.team, $event)">
                     <mat-icon matListIcon>playlist_add</mat-icon>
                   </button>
                   <button mat-icon-button *ngIf="rider.isSelected">
