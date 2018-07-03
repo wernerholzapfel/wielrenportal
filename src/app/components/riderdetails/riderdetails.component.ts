@@ -14,7 +14,8 @@ export class RiderdetailsComponent implements OnInit {
 
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: 'Renner', field: 'rider.surName', minWidth: 200},
+    {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
+    {headerName: 'Renner', cellRenderer: this.determineName, minWidth: 200},
     {headerName: 'Team', field: 'team.teamName', minWidth: 100},
     {headerName: 'Waarde', field: 'waarde', minWidth: 80},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 40},
@@ -62,7 +63,13 @@ export class RiderdetailsComponent implements OnInit {
       (params.data.tourPoints ? params.data.tourPoints : 0) +
       (params.data.pointsPoints ? params.data.pointsPoints : 0));
   }
-
+  determineName(params): string {
+      return params.data.rider.firstName + ' ' + params.data.rider.surName + '</div>';
+  }
+  determineFlag(params): string {
+    const url = '/assets/images/flag/' + params.data.rider.nationality + '.png';
+    return '<img class="ag-grid-icon" style="height: 18px;" src=' + url + '>';
+  }
   applyFilter(filterValue: string) {
     this.gridOptions.api.setQuickFilter(filterValue);
   }
