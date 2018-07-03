@@ -5,6 +5,8 @@ import {Store} from '@ngrx/store';
 import {getLastUpdated, getNumberOne} from '../../store/participanttable/participanttable.reducer';
 import {Observable} from 'rxjs/Observable';
 import {IParticipanttable} from '../../models/participanttable.model';
+import {getTour} from '../../store/tour/tour.reducer';
+import {ITour} from '../../models/tour.model';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +17,8 @@ export class HomeComponent implements OnInit {
 
   lastUpdated$: Observable<any>;
   first$: Observable<IParticipanttable>;
+  tour$: Observable<ITour>;
+  deadline: Date;
 
   constructor(public authService: AuthService, public store: Store<IAppState>) {
   }
@@ -22,6 +26,14 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.lastUpdated$ = this.store.select(getLastUpdated);
     this.first$ = this.store.select(getNumberOne);
+
+    this.tour$ = this.store.select(getTour);
+
+    this.tour$.subscribe(tour => {
+      if (tour && tour.deadline) {
+        this.deadline = tour.deadline;
+      }
+    });
   }
 
 }

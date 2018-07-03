@@ -1,7 +1,8 @@
 <mat-grid-list cols="2" rowHeight="100px">
   <mat-grid-tile>
-    Laatst bijgewerkt:
-    {{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}
+    De deadline voor inschrijving is: {{deadline | date: 'd MMMM y, H:mm'}}
+    <!--Laatst bijgewerkt:-->
+    <!--{{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}-->
   </mat-grid-tile>
   <mat-grid-tile>
     <span *ngIf="(first$ | async)?.displayName">

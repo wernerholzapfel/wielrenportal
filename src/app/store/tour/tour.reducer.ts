@@ -15,7 +15,7 @@ export interface TourState {
 const initaltourState: TourState = {
   tours: undefined,
   tour: {
-    id: undefined, endDate: null, startDate: null, tourName: '', isActive: undefined
+    id: undefined, endDate: null, startDate: null, tourName: '', isActive: undefined, deadline: undefined
   },
   teams: [],
   error: undefined,
@@ -40,6 +40,7 @@ export function tourReducer(state = initaltourState, action): TourState {
           isActive: action.payload.isActive,
           startDate: action.payload.startDate,
           endDate: action.payload.endDate,
+          deadline: action.payload.deadline,
         },
         teams: action.payload.teams,
         inProgress: false,
