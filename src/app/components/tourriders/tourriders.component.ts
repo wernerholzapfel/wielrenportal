@@ -122,7 +122,7 @@ export class TourridersComponent implements OnInit {
     if (this.partipantRidersForm.riders.length < this.maxParticipantRiders) {
       this.partipantRidersForm.riders = [...this.partipantRidersForm.riders,
         Object.assign({
-          rider: Object.assign(this.currentRider, {team: this.currentTeam}),
+          rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
           isRider: true
         })];
       console.log(this.currentRider.surName + ' toegevoegd als renner');
@@ -132,7 +132,7 @@ export class TourridersComponent implements OnInit {
   addBeschermdeRenner() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
     this.partipantRidersForm.beschermdeRenner = Object.assign({
-      rider: Object.assign(this.currentRider, {team: this.currentTeam}),
+      rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isBeschermdeRenner: true
     });
     console.log(this.currentRider.surName + ' toegevoegd als beschermderenner');
@@ -141,7 +141,7 @@ export class TourridersComponent implements OnInit {
   addMeesterknecht() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
     this.partipantRidersForm.meesterknecht = Object.assign({
-      rider: Object.assign(this.currentRider, {team: this.currentTeam}),
+      rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isMeesterknecht: true
     });
     console.log(this.currentRider.surName + ' toegevoegd als meesterknecht');
@@ -150,7 +150,7 @@ export class TourridersComponent implements OnInit {
   addLinkebal() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
     this.partipantRidersForm.linkebal = Object.assign({
-      rider: Object.assign(this.currentRider, {team: this.currentTeam}),
+      rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isLinkebal: true
     });
     console.log(this.currentRider.surName + ' toegevoegd als linkebal');
@@ -159,7 +159,7 @@ export class TourridersComponent implements OnInit {
   addWaterdrager() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
     this.partipantRidersForm.waterdrager = Object.assign({
-      rider: Object.assign(this.currentRider, {team: this.currentTeam}),
+      rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isWaterdrager: true
     });
     console.log(this.currentRider.surName + ' toegevoegd als waterdrager'
