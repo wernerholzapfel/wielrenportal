@@ -11,11 +11,11 @@ export class SpelregelsComponent implements OnInit {
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: 'Positie', field: 'positie', minWidth: 80},
-    {headerName: 'Etappe', field: 'etappe', minWidth: 80},
-    {headerName: 'Algemeen', field: 'algemeen', minWidth: 80},
-    {headerName: 'Berg', field: 'berg', minWidth: 80},
-    {headerName: 'Punten', field: 'punten', minWidth: 80},
-    {headerName: 'Jongeren', field: 'jongeren', minWidth: 80},
+    {headerName: 'Etappe *', field: 'etappe', minWidth: 80},
+    {headerName: 'Algemeen **', field: 'algemeen', minWidth: 80},
+    {headerName: 'Berg **', field: 'berg', minWidth: 80},
+    {headerName: 'Punten **', field: 'punten', minWidth: 80},
+    {headerName: 'Jongeren **', field: 'jongeren', minWidth: 80},
      ];
   constructor() { }
 

@@ -33,7 +33,7 @@
 
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <span fxHide [fxHide.gt-xs]="false">Het Wielrenspel</span>
+      <span fxHide [fxHide.gt-xs]="false" [routerLink]="'/'">Het Wielerspel</span>
       <button fxHide [fxHide.gt-xs]="false" mat-button
               *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
               [routerLink]="['/inschrijven']">Mijn team
@@ -67,7 +67,7 @@
         <button mat-icon-button>
           <mat-icon aria-label="menu" (click)="opened = !opened">menu</mat-icon>
         </button>
-        <span>Het Wielrenspel</span>
+        <span>Het Wielerspel</span>
       </div>
 
     </mat-toolbar>
