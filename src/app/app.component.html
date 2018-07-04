@@ -11,7 +11,7 @@
       </mat-select>
     </mat-toolbar>
     <mat-list>
-      <mat-list-item  *ngIf="authService.isAdmin" (click)="opened = false" [routerLink]="['/table']">Stand</mat-list-item>
+      <mat-list-item *ngIf="!(isRegistrationOpen$ | async)"  (click)="opened = false" [routerLink]="['/table']">Stand</mat-list-item>
       <mat-list-item (click)="opened = false" [routerLink]="['/participants']">Deelnemers</mat-list-item>
       <mat-list-item (click)="opened = false" [routerLink]="['/tourriders']">Renners</mat-list-item>
       <mat-list-item (click)="opened = false" [routerLink]="['/spelregels']">Spelregels</mat-list-item>
@@ -38,7 +38,7 @@
               *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
               [routerLink]="['/inschrijven']">Mijn team
       </button>
-      <button fxHide *ngIf="authService.isAdmin" [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/table']">Stand</button>
+      <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/table']">Stand</button>
       <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/participants']">Deelnemers</button>
       <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/tourriders']">Renners</button>
       <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/spelregels']">Spelregels</button>

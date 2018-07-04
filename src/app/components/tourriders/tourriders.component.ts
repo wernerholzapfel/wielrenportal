@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
-import {getTour, getTourTeams} from '../../store/tour/tour.reducer';
+import {getTour, getTourTeams, isRegistrationOpen} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
 import {IPartipantRidersFormModel} from '../../models/partipantRidersForm.model';
 import {ITeam} from '../../models/team.model';
@@ -23,6 +23,7 @@ import * as moment from 'moment';
 export class TourridersComponent implements OnInit {
   tour$: Observable<ITour>;
   teams$: Observable<ITeam[]>;
+  isRegistrationOpen$: Observable<boolean>;
   currentRider: any; // todo
   currentTeam: ITeam;
   partipantRidersForm: IPartipantRidersFormModel;
@@ -43,6 +44,7 @@ export class TourridersComponent implements OnInit {
 
     this.tour$ = this.store.select(getTour);
     this.teams$ = this.store.select(getTourTeams);
+    this.isRegistrationOpen$ = this.store.select(isRegistrationOpen);
 
     this.tour$.subscribe(tour => {
       if (tour.id) {

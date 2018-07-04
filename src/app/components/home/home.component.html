@@ -1,14 +1,17 @@
 <mat-grid-list cols="2" rowHeight="100px">
   <mat-grid-tile>
+    <span *ngIf="(isRegistrationOpen$ | async)">
     De deadline voor inschrijving is: {{deadline | date: 'd MMMM y, H:mm'}}
-    <!--Laatst bijgewerkt:-->
-    <!--{{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}-->
+    </span>
+    <span *ngIf="!(isRegistrationOpen$ | async)">
+    Laatst bijgewerkt: {{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}
+    </span>
   </mat-grid-tile>
   <mat-grid-tile>
-    <span *ngIf="(first$ | async)?.displayName">
+    <span *ngIf="!(isRegistrationOpen$ | async)">
     {{(first$ | async)?.displayName}} staat eerste met {{(first$ | async)?.totalPoints}} punten.
      </span>
-    <span *ngIf="!(first$ | async)?.displayName">
+    <span *ngIf="(isRegistrationOpen$ | async)">
       Wie wordt de beste ploegleider?
      </span>
   </mat-grid-tile>

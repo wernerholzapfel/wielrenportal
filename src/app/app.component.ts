@@ -4,7 +4,7 @@ import {Store} from '@ngrx/store';
 import {IAppState} from './store/store';
 import * as fromParticipanttable from './store/participanttable/participanttable.actions';
 import * as fromTour from './store/tour/tour.actions';
-import {getTour, getTours} from './store/tour/tour.reducer';
+import {getTour, getTours, isRegistrationOpen} from './store/tour/tour.reducer';
 import {Observable} from 'rxjs/Observable';
 import {ITour} from './models/tour.model';
 import {getLastUpdated} from './store/participanttable/participanttable.reducer';
@@ -27,11 +27,14 @@ export class AppComponent implements OnInit {
   tours$: Observable<ITour[]>;
   selectedTour: ITour;
   lastUpdated$: Observable<any>;
+  isRegistrationOpen$: Observable<boolean>;
   lastUpdated: any;
 
   ngOnInit() {
     this.store.dispatch(new fromTour.FetchTourList);
     this.store.dispatch(new fromTour.FetchTour());
+
+    this.isRegistrationOpen$ = this.store.select(isRegistrationOpen);
 
     this.tours$ = this.store.select(getTours);
     this.tours$.subscribe(tours => {

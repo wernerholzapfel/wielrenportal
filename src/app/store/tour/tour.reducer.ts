@@ -6,6 +6,7 @@ import {ITourriders} from '../../models/tourriders.model';
 
 export interface TourState {
   tours: ITour[];
+  isRegistrationOpen: boolean;
   tour: ITour;
   teams: ITeam[];
   inProgress: boolean;
@@ -14,6 +15,7 @@ export interface TourState {
 
 const initaltourState: TourState = {
   tours: undefined,
+  isRegistrationOpen: undefined,
   tour: {
     id: undefined, endDate: null, startDate: null, tourName: '', isActive: undefined, deadline: undefined
   },
@@ -34,6 +36,7 @@ export function tourReducer(state = initaltourState, action): TourState {
     case tour.FETCH_TOUR_SUCCESS:
       return {
         ...state,
+        isRegistrationOpen: Date.parse(action.payload.deadline) >= Date.now(),
         tour: {
           tourName: action.payload.tourName,
           id: action.payload.id,
@@ -106,6 +109,7 @@ export function tourReducer(state = initaltourState, action): TourState {
 
 
 export const gettourState = createFeatureSelector<TourState>('tour');
+export const isRegistrationOpen = createSelector(gettourState, (state: TourState) => state.isRegistrationOpen);
 export const getTour = createSelector(gettourState, (state: TourState) => state.tour);
 export const getTourInProgress = createSelector(gettourState, (state: TourState) => state.inProgress);
 export const getTourTeams = createSelector(gettourState, (state: TourState) => state.teams ? state.teams : undefined);

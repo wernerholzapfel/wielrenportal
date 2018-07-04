@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 
 
 import {AppComponent} from './app.component';
@@ -48,7 +48,10 @@ import { EdittourriderdialogComponent } from './components/edittourriderdialog/e
 import { ParticipantpredictionsComponent } from './components/participantpredictions/participantpredictions.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import { SpelregelsComponent } from './components/spelregels/spelregels.component';
+import { registerLocaleData } from '@angular/common';
+import localeNl from '@angular/common/locales/nl';
 
+registerLocaleData(localeNl);
 
 @NgModule({
   declarations: [
@@ -111,6 +114,7 @@ import { SpelregelsComponent } from './components/spelregels/spelregels.componen
       multi: true
     },
     {provide: MAT_DATE_LOCALE, useValue: 'nl-NL'},
+    {provide: LOCALE_ID, useValue: 'nl-NL'},
   ],
   bootstrap: [AppComponent]
 })
