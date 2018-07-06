@@ -10,6 +10,10 @@ export class ParticipantService {
   constructor(private http: HttpClient) {
   }
 
+  getParticipant(): Observable<IParticipant> {
+    return this.http.get<IParticipant>(`${environment.apiBaseUrl}/participants/loggedIn`);
+  }
+
   getParticipants(tourId: string): Observable<IParticipant[]> {
 
     return this.http.get<IParticipant[]>(`${environment.apiBaseUrl}/participants/` + tourId);
