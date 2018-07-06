@@ -21,6 +21,8 @@ import * as moment from 'moment';
   styleUrls: ['./tourriders.component.scss']
 })
 export class TourridersComponent implements OnInit {
+
+  participantId: string;
   tour$: Observable<ITour>;
   teams$: Observable<ITeam[]>;
   isRegistrationOpen$: Observable<boolean>;
@@ -33,7 +35,7 @@ export class TourridersComponent implements OnInit {
   ridersWaardeList: any[] = [];
   newWaardeList: any[];
   isLoading: boolean;
-
+  isRegistrationOpen: boolean;
   constructor(private store: Store<IAppState>,
               private predictionService: PredictionService,
               public snackBar: MatSnackBar,
@@ -41,13 +43,15 @@ export class TourridersComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.participantId = '64891092-40eb-4d32-a4dd-7998505d84f4';
     this.tour$ = this.store.select(getTour);
     this.teams$ = this.store.select(getTourTeams);
     this.isRegistrationOpen$ = this.store.select(isRegistrationOpen);
-
+    this.isRegistrationOpen$.subscribe(response => {
+      this.isRegistrationOpen = response;
+    });
     this.tour$.subscribe(tour => {
-      if (tour.id) {
+      if (tour && tour.id) {
         this.isLoading = true;
 
         this.predictionService.getPredictionsForUser(tour.id).subscribe(predictions => {
@@ -208,9 +212,15 @@ export class TourridersComponent implements OnInit {
         console.log('opslaan gelukt');
         // this.router.navigate(['/participants']);
       }, error => {
-        this.snackBar.open('Het opslaan is niet gelukt', '', {
-          duration: 2000,
-        });
+        if (error.error.statusCode === 403) {
+          this.snackBar.open(error.error.message, '', {
+            duration: 4000,
+          });
+        } else {
+          this.snackBar.open('Het opslaan is niet gelukt', '', {
+            duration: 3000,
+          });
+        }
         console.log(error);
       });
     });
