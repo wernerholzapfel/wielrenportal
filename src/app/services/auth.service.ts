@@ -13,7 +13,6 @@ export class AuthService {
     this.user$ = _firebaseAuth.authState;
 
     this.user$.subscribe(user => {
-      console.log('subscribe op user getriggerd')
       if (user) {
         this._firebaseAuth.auth.currentUser.getIdTokenResult(true).then(tokenResult => {
           this.isAdmin = tokenResult.claims.admin;
@@ -34,14 +33,7 @@ export class AuthService {
   }
 
   signUpRegular(email, password, displayName) {
-    return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password)
-      .then(value => {
-        value.updateProfile({displayName: displayName});
-        console.log('Success!', value);
-      })
-      .catch(err => {
-        console.log('Something went wrong:', err.message);
-      });
+   return this._firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
   }
 
   isLoggedIn() {

@@ -10,12 +10,12 @@ export class SpelregelsComponent implements OnInit {
   spelregelstable: any[];
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: 'Positie', field: 'positie', width: 80},
-    {headerName: 'Etappe *', field: 'etappe', width: 80},
-    {headerName: 'Algemeen **', field: 'algemeen', width: 80},
-    {headerName: 'Berg **', field: 'berg', width: 80},
-    {headerName: 'Punten **', field: 'punten', width: 80},
-    {headerName: 'Jongeren **', field: 'jongeren', width: 80},
+    {headerName: 'Positie', field: 'positie', width: 100},
+    {headerName: 'Etappe *', field: 'etappe', width: 100},
+    {headerName: 'Algemeen **', field: 'algemeen', width: 115},
+    {headerName: 'Berg **', field: 'berg', width: 100},
+    {headerName: 'Punten **', field: 'punten', width: 100},
+    {headerName: 'Jongeren **', field: 'jongeren', width: 110},
   ];
 
   constructor() {

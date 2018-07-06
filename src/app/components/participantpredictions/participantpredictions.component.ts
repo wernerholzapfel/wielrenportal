@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
@@ -18,7 +18,7 @@ export class ParticipantpredictionsComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   sub: Subscription;
-
+  @Input() participantid: string;
   participanttable$: Observable<any>;
   public gridOptions: GridOptions;
   agColumns = [
@@ -46,6 +46,7 @@ export class ParticipantpredictionsComponent implements OnInit {
   determineIsOutText(params): string {
     return (params.data.rider && params.data.rider.isOut) ? 'Ja' : 'Nee';
   }
+
   determineFlag(params): string {
     const url = '/assets/images/flag/' + params.data.rider.rider.nationality + '.png';
     return '<img class="ag-grid-icon" style="height: 18px;" src=' + url + '>';
@@ -75,7 +76,9 @@ export class ParticipantpredictionsComponent implements OnInit {
   }
 
   formatEtappeTotaalpunten(params): string {
-    const addendum: string = (params.data.deltaStagePoints > 0) ? ' (+' + params.data.deltaStagePoints + ')' : (params.data.deltaStagePoints === 0) ? '' : ' (' + params.data.deltaStagePoints + ')';
+    const addendum: string =
+      (params.data.deltaStagePoints > 0) ? ' (+' + params.data.deltaStagePoints + ')' :
+        (params.data.deltaStagePoints === 0) ? '' : ' (' + params.data.deltaStagePoints + ')';
     return params.data.totalStagePoints + addendum;
   }
 
@@ -99,7 +102,11 @@ export class ParticipantpredictionsComponent implements OnInit {
   ngOnInit() {
 
     this.sub = this.route.params.subscribe(params => {
-      this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
+      if (params['id']) {
+        this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
+      } else {
+        this.participanttable$ = this.store.select(getParticipantPredictions(this.participantid));
+      }
     });
 
 

@@ -18,7 +18,10 @@ export class LoginComponent implements OnInit {
     teamName: '',
   };
 
-  constructor(public authService: AuthService, public participantService: ParticipantService, public snackBar: MatSnackBar, private router: Router) {
+  constructor(public authService: AuthService,
+              public participantService: ParticipantService,
+              public snackBar: MatSnackBar,
+              private router: Router) {
   }
 
   userForm = new FormGroup({
@@ -70,19 +73,21 @@ export class LoginComponent implements OnInit {
   signUpRegular() {
     this.authService.signUpRegular(this.user.email, this.user.password, this.user.displayName)
       .then((res) => {
-        console.log(res);
+        res.updateProfile({displayName: this.user.displayName});
+          if (res) {
+            delete this.user.password;
+            this.participantService.postParticipant({
+              displayName: this.user.displayName,
+              teamName: this.user.teamName,
+              email: this.user.email
+            }).subscribe(response => {
+              console.log('user opgeslagen in database');
+            });
 
-        delete this.user.password;
-        this.participantService.postParticipant({
-          displayName: this.user.displayName,
-          teamName: this.user.teamName,
-          email: this.user.email
-        }).subscribe(response => {
-          console.log('user opgeslagen in database');
-        });
-
-        this.router.navigate(['/inschrijven']);
-      })
+            this.router.navigate(['/inschrijven']);
+          }
+        }
+      )
       .catch((err) => {
         this.snackBar.open(err.message, 'OK', {});
         console.log('error: ' + err);

@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">Mijn team</mat-toolbar>
 <mat-progress-bar *ngIf="isLoading" mode="buffer"></mat-progress-bar>
-<mat-card>
+<mat-card *ngIf="isRegistrationOpen && !isLoading">
   <div fxLayout="column" fxLayout.gt-sm="row">
     <div fxFlex="100" fxFlex.gt-sm="30">
       <div class="participant_team_card">
@@ -214,7 +214,7 @@ Geen punten van teamgenoten meer vanaf moment dat hij uitvalt.">
   </div>
 </mat-card>
 
-
+<app-participantpredictions *ngIf="isRegistrationOpen === false && !isLoading" [participantid]="participantId"></app-participantpredictions>
 <mat-menu #menu="matMenu">
   <mat-toolbar color="accent">
     {{currentRider?.rider.firstName}} {{currentRider?.rider.surName}} ({{currentRider?.waarde}})
