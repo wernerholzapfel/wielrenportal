@@ -86,20 +86,18 @@ export class TourridersComponent implements OnInit {
                 console.log('set selected: ' + prediction.rider.id);
                 this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, true);
               });
-              this.init.unsubscribe();
             }
-            this.participantsForm$.subscribe(predictions => {
-                this.partipantRidersForm = {
-                  riders: predictions.filter(p => p.isRider),
-                  beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
-                  waterdrager: predictions.find(p => p.isWaterdrager),
-                  linkebal: predictions.find(p => p.isLinkebal),
-                  meesterknecht: predictions.find(p => p.isMeesterknecht),
-                  tour: null,
-                };
-            });
-          }
-        );
+          });
+        this.participantsForm$.subscribe(predictions => {
+          this.partipantRidersForm = {
+            riders: predictions.filter(p => p.isRider),
+            beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
+            waterdrager: predictions.find(p => p.isWaterdrager),
+            linkebal: predictions.find(p => p.isLinkebal),
+            meesterknecht: predictions.find(p => p.isMeesterknecht),
+            tour: null,
+          };
+        });
       }
       this.isLoading = false;
     });
