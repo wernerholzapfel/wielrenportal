@@ -220,7 +220,7 @@ Geen punten van teamgenoten meer vanaf moment dat hij uitvalt.">
     {{currentRider?.rider.firstName}} {{currentRider?.rider.surName}} ({{currentRider?.waarde}})
   </mat-toolbar>
   <div fxLayout="column" fxLayoutAlign="start stretch">
-    <button *ngIf="partipantRidersForm?.riders.length < maxParticipantRiders" mat-menu-item (click)="addRenner()">
+    <button *ngIf="partipantRidersForm?.riders?.length < maxParticipantRiders" mat-menu-item (click)="addRenner()">
       <mat-icon matListIcon>add_box</mat-icon>
       Renner
     </button>

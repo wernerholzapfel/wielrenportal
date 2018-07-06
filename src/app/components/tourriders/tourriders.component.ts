@@ -59,7 +59,7 @@ export class TourridersComponent implements OnInit {
       if (tour.id) {
         this.isLoading = true;
 
-        this.init = this.participantsFormInit$.subscribe(initPredictions => {
+        this.init = this.participantsFormInit$.take(2).subscribe(initPredictions => {
             if (initPredictions.length <= 0) {
               this.store.dispatch(new fromParticipantForm.FetchParticipantform(tour.id));
             } else {
@@ -76,19 +76,17 @@ export class TourridersComponent implements OnInit {
                 this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, true);
               });
               this.init.unsubscribe();
-              this.participantsForm$.subscribe(predictions => {
-                if (predictions.length > 0) {
-                  this.partipantRidersForm = {
-                    riders: predictions.filter(p => p.isRider),
-                    beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
-                    waterdrager: predictions.find(p => p.isWaterdrager),
-                    linkebal: predictions.find(p => p.isLinkebal),
-                    meesterknecht: predictions.find(p => p.isMeesterknecht),
-                    tour: null,
-                  };
-                }
-              });
             }
+            this.participantsForm$.subscribe(predictions => {
+                this.partipantRidersForm = {
+                  riders: predictions.filter(p => p.isRider),
+                  beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
+                  waterdrager: predictions.find(p => p.isWaterdrager),
+                  linkebal: predictions.find(p => p.isLinkebal),
+                  meesterknecht: predictions.find(p => p.isMeesterknecht),
+                  tour: null,
+                };
+            });
           }
         );
       }
@@ -148,7 +146,8 @@ export class TourridersComponent implements OnInit {
 
   addRenner() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
-    if (this.partipantRidersForm.riders.length < this.maxParticipantRiders) {
+    if (!this.partipantRidersForm ||
+      (this.partipantRidersForm.riders && this.partipantRidersForm.riders.length < this.maxParticipantRiders)) {
 
       this.store.dispatch(new AddRiderToForm(Object.assign({
         rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
