@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">Mijn team</mat-toolbar>
+<mat-toolbar *ngIf="isRegistrationOpen" color="primary">Mijn team</mat-toolbar>
 <mat-progress-bar *ngIf="isLoading" mode="buffer"></mat-progress-bar>
 <mat-card *ngIf="isRegistrationOpen && !isLoading">
   <div fxLayout="column" fxLayout.gt-sm="row">

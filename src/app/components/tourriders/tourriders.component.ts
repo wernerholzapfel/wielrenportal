@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {IPrediction, ITourrider} from '../../models/participant.model';
 import {IRider} from '../../models/rider.model';
 import * as moment from 'moment';
+import {ParticipantService} from '../../services/participant.service';
 
 @Component({
   selector: 'app-tourriders',
@@ -39,11 +40,15 @@ export class TourridersComponent implements OnInit {
   constructor(private store: Store<IAppState>,
               private predictionService: PredictionService,
               public snackBar: MatSnackBar,
+              private participantService: ParticipantService,
               private router: Router) {
   }
 
   ngOnInit() {
-    this.participantId = '64891092-40eb-4d32-a4dd-7998505d84f4';
+    this.participantService.getParticipant().subscribe(user => {
+      console.log(user);
+      this.participantId = user.id;
+    });
     this.tour$ = this.store.select(getTour);
     this.teams$ = this.store.select(getTourTeams);
     this.isRegistrationOpen$ = this.store.select(isRegistrationOpen);
