@@ -13,6 +13,7 @@ import {ParticipanttableComponent} from './components/participanttable/participa
 import {RiderdetailsComponent} from './components/riderdetails/riderdetails.component';
 import {ParticipantpredictionsComponent} from './components/participantpredictions/participantpredictions.component';
 import {SpelregelsComponent} from './components/spelregels/spelregels.component';
+import {CanDeactivateGuard} from './candeactivate.guard';
 
 const appRoutes: Routes = [
   {
@@ -21,6 +22,7 @@ const appRoutes: Routes = [
   }, {
     path: 'inschrijven',
     canActivate: [AuthGuardService],
+    canDeactivate: [CanDeactivateGuard],
     component: TourridersComponent
   }, {
     path: 'tourriders',

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
@@ -43,7 +43,7 @@ export class TourridersComponent implements OnInit {
   newWaardeList: any[];
   isLoading: boolean;
   init: Subscription;
-
+  isParticipantFormDirty: boolean;
   isRegistrationOpen: boolean;
   constructor(private store: Store<IAppState>,
               private predictionService: PredictionService,
@@ -127,6 +127,16 @@ export class TourridersComponent implements OnInit {
     });
   }
 
+  @HostListener('window:beforeunload')
+  canDeactivate() {
+    console.log('i am navigating away');
+
+    if (this.isParticipantFormDirty) {
+      return window.confirm('Vergeet niet je wijzigingen op te slaan.');
+    }
+
+    return !this.isParticipantFormDirty;
+  }
   setCurrentRider(rider, team, $event) {
     this.currentRider = Object.assign(rider);
     console.log(this.currentRider);
@@ -154,6 +164,7 @@ export class TourridersComponent implements OnInit {
   }
 
   addRenner() {
+    this.isParticipantFormDirty = true;
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
     if (!this.partipantRidersForm ||
       (this.partipantRidersForm.riders && this.partipantRidersForm.riders.length < this.maxParticipantRiders)) {
@@ -167,6 +178,7 @@ export class TourridersComponent implements OnInit {
   }
 
   addBeschermdeRenner() {
+    this.isParticipantFormDirty = true;
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
 
     this.store.dispatch(new AddRiderToForm(Object.assign({
@@ -177,6 +189,7 @@ export class TourridersComponent implements OnInit {
   }
 
   addMeesterknecht() {
+    this.isParticipantFormDirty = true;
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
 
     this.store.dispatch(new AddRiderToForm(Object.assign({
@@ -188,6 +201,7 @@ export class TourridersComponent implements OnInit {
   }
 
   addLinkebal() {
+    this.isParticipantFormDirty = true;
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
 
     this.store.dispatch(new AddRiderToForm(Object.assign({
@@ -198,6 +212,8 @@ export class TourridersComponent implements OnInit {
   }
 
   addWaterdrager() {
+    this.isParticipantFormDirty = true;
+
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
 
     this.store.dispatch(new AddRiderToForm(Object.assign({
@@ -239,6 +255,7 @@ export class TourridersComponent implements OnInit {
     // update the store
     this.store.dispatch(new fromParticipantForm.DeleteRiderFromForm(Object.assign(prediction)));
     this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, false);
+    this.isParticipantFormDirty = true;
   }
 
   submitForm() {
@@ -250,6 +267,7 @@ export class TourridersComponent implements OnInit {
           duration: 2000,
         });
         console.log('opslaan gelukt');
+        this.isParticipantFormDirty = false;
         // this.router.navigate(['/participants']);
       }, error => {
         if (error.error.statusCode === 403) {

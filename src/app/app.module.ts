@@ -50,6 +50,7 @@ import {Ng2SearchPipeModule} from 'ng2-search-filter';
 import { SpelregelsComponent } from './components/spelregels/spelregels.component';
 import { registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
+import {CanDeactivateGuard} from './candeactivate.guard';
 
 registerLocaleData(localeNl);
 
@@ -108,6 +109,7 @@ registerLocaleData(localeNl);
     ParticipantService,
     EtappeService,
     ClassificationsService,
+    CanDeactivateGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
