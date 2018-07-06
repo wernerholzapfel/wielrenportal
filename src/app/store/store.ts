@@ -9,6 +9,8 @@ import {participanttableReducer, ParticipanttableState} from './participanttable
 import {ParticipanttableEffects} from './participanttable/participanttable.effects';
 import {etappeReducer, EtappeState} from './etappe/etappe.reducer';
 import {EtappeEffects} from './etappe/etappe.effects';
+import {participantformReducer, ParticipantformState} from './participantform/participantform.reducer';
+import {ParticipantformEffects} from './participantform/participantform.effects';
 
 export interface IAppState {
   riders: RiderState;
@@ -16,6 +18,7 @@ export interface IAppState {
   etappe: EtappeState;
   team: TeamState;
   participanttable: ParticipanttableState;
+  participantform: ParticipantformState;
 }
 
 export const reducers: ActionReducerMap<IAppState> = {
@@ -24,6 +27,7 @@ export const reducers: ActionReducerMap<IAppState> = {
   etappe: etappeReducer,
   team: teamReducer,
   participanttable: participanttableReducer,
+  participantform: participantformReducer
 };
 
-export const effects = [RiderEffects, TourEffects, EtappeEffects, TeamEffects, ParticipanttableEffects];
+export const effects = [RiderEffects, TourEffects, EtappeEffects, TeamEffects, ParticipanttableEffects, ParticipantformEffects];

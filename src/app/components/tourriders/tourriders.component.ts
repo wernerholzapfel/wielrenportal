@@ -14,6 +14,10 @@ import {Router} from '@angular/router';
 import {IPrediction, ITourrider} from '../../models/participant.model';
 import {IRider} from '../../models/rider.model';
 import * as moment from 'moment';
+import * as fromParticipantForm from '../../store/participantform/participantform.actions';
+import {AddRiderToForm} from '../../store/participantform/participantform.actions';
+import {getParticipantforms} from '../../store/participantform/participantform.reducer';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-tourriders',
@@ -23,6 +27,8 @@ import * as moment from 'moment';
 export class TourridersComponent implements OnInit {
   tour$: Observable<ITour>;
   teams$: Observable<ITeam[]>;
+  participantsForm$: Observable<any[]>;
+  participantsFormInit$: Observable<any[]>;
   isRegistrationOpen$: Observable<boolean>;
   currentRider: any; // todo
   currentTeam: ITeam;
@@ -33,6 +39,7 @@ export class TourridersComponent implements OnInit {
   ridersWaardeList: any[] = [];
   newWaardeList: any[];
   isLoading: boolean;
+  init: Subscription;
 
   constructor(private store: Store<IAppState>,
               private predictionService: PredictionService,
@@ -45,25 +52,45 @@ export class TourridersComponent implements OnInit {
     this.tour$ = this.store.select(getTour);
     this.teams$ = this.store.select(getTourTeams);
     this.isRegistrationOpen$ = this.store.select(isRegistrationOpen);
+    this.participantsFormInit$ = this.store.select(getParticipantforms);
+    this.participantsForm$ = this.store.select(getParticipantforms);
 
     this.tour$.subscribe(tour => {
       if (tour.id) {
         this.isLoading = true;
 
-        this.predictionService.getPredictionsForUser(tour.id).subscribe(predictions => {
-          this.partipantRidersForm = {
-            riders: predictions.filter(p => p.isRider),
-            beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
-            waterdrager: predictions.find(p => p.isWaterdrager),
-            linkebal: predictions.find(p => p.isLinkebal),
-            meesterknecht: predictions.find(p => p.isMeesterknecht),
-            tour: null,
-          };
-
-          predictions.forEach(prediction => {
-            this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, true);
-          });
-        });
+        this.init = this.participantsFormInit$.subscribe(initPredictions => {
+            if (initPredictions.length <= 0) {
+              this.store.dispatch(new fromParticipantForm.FetchParticipantform(tour.id));
+            } else {
+              this.partipantRidersForm = {
+                riders: initPredictions.filter(p => p.isRider),
+                beschermdeRenner: initPredictions.find(p => p.isBeschermdeRenner),
+                waterdrager: initPredictions.find(p => p.isWaterdrager),
+                linkebal: initPredictions.find(p => p.isLinkebal),
+                meesterknecht: initPredictions.find(p => p.isMeesterknecht),
+                tour: null,
+              };
+              initPredictions.forEach(prediction => {
+                console.log('set selected: ' + prediction.rider.id);
+                this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, true);
+              });
+              this.init.unsubscribe();
+              this.participantsForm$.subscribe(predictions => {
+                if (predictions.length > 0) {
+                  this.partipantRidersForm = {
+                    riders: predictions.filter(p => p.isRider),
+                    beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
+                    waterdrager: predictions.find(p => p.isWaterdrager),
+                    linkebal: predictions.find(p => p.isLinkebal),
+                    meesterknecht: predictions.find(p => p.isMeesterknecht),
+                    tour: null,
+                  };
+                }
+              });
+            }
+          }
+        );
       }
       this.isLoading = false;
     });
@@ -122,48 +149,53 @@ export class TourridersComponent implements OnInit {
   addRenner() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
     if (this.partipantRidersForm.riders.length < this.maxParticipantRiders) {
-      this.partipantRidersForm.riders = [...this.partipantRidersForm.riders,
-        Object.assign({
-          rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
-          isRider: true
-        })];
+
+      this.store.dispatch(new AddRiderToForm(Object.assign({
+        rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
+        isRider: true
+      })));
       console.log(this.currentRider.surName + ' toegevoegd als renner');
     }
   }
 
   addBeschermdeRenner() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
-    this.partipantRidersForm.beschermdeRenner = Object.assign({
+
+    this.store.dispatch(new AddRiderToForm(Object.assign({
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isBeschermdeRenner: true
-    });
+    })));
     console.log(this.currentRider.surName + ' toegevoegd als beschermderenner');
   }
 
   addMeesterknecht() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
-    this.partipantRidersForm.meesterknecht = Object.assign({
+
+    this.store.dispatch(new AddRiderToForm(Object.assign({
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isMeesterknecht: true
-    });
+    })));
+
     console.log(this.currentRider.surName + ' toegevoegd als meesterknecht');
   }
 
   addLinkebal() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
-    this.partipantRidersForm.linkebal = Object.assign({
+
+    this.store.dispatch(new AddRiderToForm(Object.assign({
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isLinkebal: true
-    });
+    })));
     console.log(this.currentRider.surName + ' toegevoegd als linkebal');
   }
 
   addWaterdrager() {
     this.setCurrentRiderAsSelected(this.currentRider, this.currentTeam, true);
-    this.partipantRidersForm.waterdrager = Object.assign({
+
+    this.store.dispatch(new AddRiderToForm(Object.assign({
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isWaterdrager: true
-    });
+    })));
     console.log(this.currentRider.surName + ' toegevoegd als waterdrager'
     );
   }
@@ -179,21 +211,25 @@ export class TourridersComponent implements OnInit {
   }
 
   deleteRider(prediction: IPrediction) {
-    if (prediction.isRider) {
-      this.partipantRidersForm.riders = [...this.partipantRidersForm.riders].filter(item => item.rider.id !== prediction.rider.id);
-    }
-    if (prediction.isMeesterknecht) {
-      this.partipantRidersForm.meesterknecht = null;
-    }
-    if (prediction.isLinkebal) {
-      this.partipantRidersForm.linkebal = null;
-    }
-    if (prediction.isWaterdrager) {
-      this.partipantRidersForm.waterdrager = null;
-    }
-    if (prediction.isBeschermdeRenner) {
-      this.partipantRidersForm.beschermdeRenner = null;
-    }
+    //// done directly in the ui.
+    // if (prediction.isRider) {
+    //   this.partipantRidersForm.riders = [...this.partipantRidersForm.riders].filter(item => item.rider.id !== prediction.rider.id);
+    // }
+    // if (prediction.isMeesterknecht) {
+    //   this.partipantRidersForm.meesterknecht = null;
+    // }
+    // if (prediction.isLinkebal) {
+    //   this.partipantRidersForm.linkebal = null;
+    // }
+    // if (prediction.isWaterdrager) {
+    //   this.partipantRidersForm.waterdrager = null;
+    // }
+    // if (prediction.isBeschermdeRenner) {
+    //   this.partipantRidersForm.beschermdeRenner = null;
+    // }
+
+    // update the store
+    this.store.dispatch(new fromParticipantForm.DeleteRiderFromForm(Object.assign(prediction)));
     this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, false);
   }
 
