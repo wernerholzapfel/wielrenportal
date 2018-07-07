@@ -62,69 +62,72 @@ export class TourridersComponent implements OnInit {
     this.isRegistrationOpen$ = this.store.select(isRegistrationOpen);
     this.isRegistrationOpen$.subscribe(response => {
       this.isRegistrationOpen = response;
+      if (response === true) {
+        this.tour$.subscribe(tour => {
+          if (tour && tour.id) {
+            this.isLoading = true;
+
+            this.init = this.participantsFormInit$.take(2).subscribe(initPredictions => {
+              if (initPredictions.length <= 0) {
+                this.store.dispatch(new fromParticipantForm.FetchParticipantform(tour.id));
+              } else {
+                this.partipantRidersForm = {
+                  riders: initPredictions.filter(p => p.isRider),
+                  beschermdeRenner: initPredictions.find(p => p.isBeschermdeRenner),
+                  waterdrager: initPredictions.find(p => p.isWaterdrager),
+                  linkebal: initPredictions.find(p => p.isLinkebal),
+                  meesterknecht: initPredictions.find(p => p.isMeesterknecht),
+                  tour: null,
+                };
+                initPredictions.forEach(prediction => {
+                  console.log('set selected: ' + prediction.rider.id);
+                  this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, true);
+                });
+              }
+            });
+            this.participantsForm$.subscribe(predictions => {
+              this.partipantRidersForm = {
+                riders: predictions.filter(p => p.isRider),
+                beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
+                waterdrager: predictions.find(p => p.isWaterdrager),
+                linkebal: predictions.find(p => p.isLinkebal),
+                meesterknecht: predictions.find(p => p.isMeesterknecht),
+                tour: null,
+              };
+            });
+          }
+          this.isLoading = false;
+        });
+
+        this.teams$.subscribe(teams => {
+          if (teams) {
+            this.ridersWaardeList = [];
+            this.newWaardeList = [];
+
+            teams.map(team => {
+              console.log('team.tourRiders lengte: ' + team.tourRiders.length);
+              this.ridersWaardeList = [...this.ridersWaardeList,
+                ...team.tourRiders.map(rider => Object.assign(rider, {team: {id: team.id}}))];
+            });
+          }
+
+          const mapList = {};
+          this.ridersWaardeList.forEach(item => {
+            const k = item.waarde;
+            mapList[k] = mapList[k] || [];
+            mapList[k].push(item);
+          });
+
+          this.newWaardeList = Object.keys(mapList).map(k => ({key: k, data: mapList[k]}));
+
+          this.newWaardeList.sort((a, b) => b.key - a.key);
+        });
+      }
     });
     this.participantsFormInit$ = this.store.select(getParticipantforms);
     this.participantsForm$ = this.store.select(getParticipantforms);
 
-    this.tour$.subscribe(tour => {
-      if (tour && tour.id) {
-        this.isLoading = true;
 
-        this.init = this.participantsFormInit$.take(2).subscribe(initPredictions => {
-            if (initPredictions.length <= 0) {
-              this.store.dispatch(new fromParticipantForm.FetchParticipantform(tour.id));
-            } else {
-              this.partipantRidersForm = {
-                riders: initPredictions.filter(p => p.isRider),
-                beschermdeRenner: initPredictions.find(p => p.isBeschermdeRenner),
-                waterdrager: initPredictions.find(p => p.isWaterdrager),
-                linkebal: initPredictions.find(p => p.isLinkebal),
-                meesterknecht: initPredictions.find(p => p.isMeesterknecht),
-                tour: null,
-              };
-              initPredictions.forEach(prediction => {
-                console.log('set selected: ' + prediction.rider.id);
-                this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, true);
-              });
-            }
-          });
-        this.participantsForm$.subscribe(predictions => {
-          this.partipantRidersForm = {
-            riders: predictions.filter(p => p.isRider),
-            beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
-            waterdrager: predictions.find(p => p.isWaterdrager),
-            linkebal: predictions.find(p => p.isLinkebal),
-            meesterknecht: predictions.find(p => p.isMeesterknecht),
-            tour: null,
-          };
-        });
-      }
-      this.isLoading = false;
-    });
-
-    this.teams$.subscribe(teams => {
-      if (teams) {
-        this.ridersWaardeList = [];
-        this.newWaardeList = [];
-
-        teams.map(team => {
-          console.log('team.tourRiders lengte: ' + team.tourRiders.length);
-          this.ridersWaardeList = [...this.ridersWaardeList,
-            ...team.tourRiders.map(rider => Object.assign(rider, {team: {id: team.id}}))];
-        });
-      }
-
-      const mapList = {};
-      this.ridersWaardeList.forEach(item => {
-        const k = item.waarde;
-        mapList[k] = mapList[k] || [];
-        mapList[k].push(item);
-      });
-
-      this.newWaardeList = Object.keys(mapList).map(k => ({key: k, data: mapList[k]}));
-
-      this.newWaardeList.sort((a, b) => b.key - a.key);
-    });
   }
 
   @HostListener('window:beforeunload')
