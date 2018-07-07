@@ -22,16 +22,16 @@ export class ParticipantpredictionsComponent implements OnInit {
   participanttable$: Observable<any>;
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: '', cellRenderer: this.determineFlag, width: 50},
-    {headerName: 'Renner', cellRenderer: this.determineRole, width: 210},
-    {headerName: 'Uit', valueGetter: this.determineIsOutText, width: 80},
-    {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, width: 100},
-    {headerName: 'Algemeen', field: 'tourPoints', width: 100},
-    {headerName: 'Berg', field: 'mountainPoints', width: 80},
-    {headerName: 'Punten', field: 'pointsPoints', width: 85},
-    {headerName: 'Jongeren', field: 'youthPoints', width: 100},
-    {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, width: 140},
-    {headerName: 'Waarde', field: 'rider.waarde', width: 90},
+    {headerName: '', cellRenderer: this.determineFlag, minWidth: 50},
+    {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 210},
+    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80},
+    {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, minWidth: 100},
+    {headerName: 'Algemeen', field: 'tourPoints', minWidth: 100},
+    {headerName: 'Berg', field: 'mountainPoints', minWidth: 80},
+    {headerName: 'Punten', field: 'pointsPoints', minWidth: 85},
+    {headerName: 'Jongeren', field: 'youthPoints', minWidth: 100},
+    {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 140},
+    {headerName: 'Waarde', field: 'rider.waarde', minWidth: 90},
     // {headerName: 'Totaal', field: 'totalPoints'}
   ];
   rowSelection = 'single';
