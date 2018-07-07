@@ -4,6 +4,9 @@ import {Router} from '@angular/router';
 import {FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 import {ErrorStateMatcher, MatSnackBar} from '@angular/material';
 import {ParticipantService} from '../../services/participant.service';
+import {IAppState} from '../../store/store';
+import * as fromParticipantForm from '../../store/participantform/participantform.actions';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(public authService: AuthService,
               public participantService: ParticipantService,
               public snackBar: MatSnackBar,
-              private router: Router) {
+              private router: Router,
+              private store: Store<IAppState>) {
   }
 
   userForm = new FormGroup({
@@ -51,6 +55,7 @@ export class LoginComponent implements OnInit {
     this.authService.signInRegular(this.user.email, this.user.password)
       .then((res) => {
         console.log(res);
+        this.store.dispatch(new fromParticipantForm.ClearParticipantform());
         this.router.navigate(['/inschrijven']);
       })
       .catch((err) => {
@@ -83,7 +88,7 @@ export class LoginComponent implements OnInit {
             }).subscribe(response => {
               console.log('user opgeslagen in database');
             });
-
+            this.store.dispatch(new fromParticipantForm.ClearParticipantform());
             this.router.navigate(['/inschrijven']);
           }
         }
@@ -96,6 +101,7 @@ export class LoginComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.store.dispatch(new fromParticipantForm.ClearParticipantform());
   }
 
   activateResetPassword(isTrue: boolean) {

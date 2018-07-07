@@ -38,6 +38,11 @@ export function participantformReducer(state = initalparticipantformState, actio
         ...state,
         rider: [...state.rider, action.payload],
       };
+      case participantform.CLEAR_PARTICIPANTFORM:
+      return {
+        ...state,
+        rider: [],
+      };
     case participantform.DELETE_RIDER_FROM_FORM:
       return {
         ...state,

@@ -9,6 +9,7 @@ import {Observable} from 'rxjs/Observable';
 import {ITour} from './models/tour.model';
 import {getLastUpdated} from './store/participanttable/participanttable.reducer';
 import {MatSnackBar} from '@angular/material';
+import * as fromParticipantForm from './store/participantform/participantform.actions';
 
 @Component({
   selector: 'app-root',
@@ -54,7 +55,9 @@ export class AppComponent implements OnInit {
     this.lastUpdated$ = this.store.select(getLastUpdated);
 
     this.lastUpdated$.subscribe(response => {
-      if (response && this.lastUpdated && response.tour === this.lastUpdated.tour && response.lastUpdated !== this.lastUpdated.lastUpdated) {
+      if (response &&
+        this.lastUpdated && response.tour === this.lastUpdated.tour &&
+        response.lastUpdated !== this.lastUpdated.lastUpdated) {
         this.lastUpdated = response;
         this.snackBar.open('De stand is bijgewerkt.', '', {
           duration: 2000,
@@ -70,5 +73,6 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    this.store.dispatch(new fromParticipantForm.ClearParticipantform());
   }
 }

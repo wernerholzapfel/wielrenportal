@@ -23,7 +23,7 @@ export class ParticipanttableComponent implements OnInit {
 
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: '#', field: 'position'},
+    {headerName: '#', field: 'position', width: 50},
     // {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 200},
     // {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80},
     // {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
@@ -32,8 +32,8 @@ export class ParticipanttableComponent implements OnInit {
     //   {headerName: 'Berg', field: 'mountainPoints', minWidth: 80},
     //   {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
     //   {headerName: 'Punten', field: 'pointsPoints', minWidth: 80},
-    {headerName: 'Naam', field: 'displayName', minWidth: 200},
-    {headerName: 'Totaal', field: 'totalPoints', sort: 'desc'},
+    {headerName: 'Naam', field: 'displayName', width: 200},
+    {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', width: 100},
   ];
   rowSelection = 'single';
 

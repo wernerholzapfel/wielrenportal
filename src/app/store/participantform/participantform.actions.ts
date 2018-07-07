@@ -2,6 +2,7 @@ import {Action} from '@ngrx/store';
 import {HttpErrorResponse} from '@angular/common/http';
 
 export const ADD_RIDER_TO_FORM = '[PARTICIPANTFORM] Add rider to form';
+export const CLEAR_PARTICIPANTFORM = '[PARTICIPANTFORM] Clear form';
 export const DELETE_RIDER_FROM_FORM = '[PARTICIPANTFORM] delete rider from form';
 export const FETCH_PARTICIPANTFORM = '[PARTICIPANTFORM] Fetch Participantform';
 export const FETCH_PARTICIPANTFORM_SUCCESS = '[PARTICIPANTFORM] Fetch Participantform Success';
@@ -32,6 +33,13 @@ export class FetchParticipantformSuccess implements Action {
   readonly type = FETCH_PARTICIPANTFORM_SUCCESS;
 
   constructor(public payload: any[]) {
+  }
+}
+
+export class ClearParticipantform implements Action {
+  readonly type = CLEAR_PARTICIPANTFORM;
+
+  constructor() {
   }
 }
 

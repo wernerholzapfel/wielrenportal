@@ -8,6 +8,7 @@ import {getParticipantPredictions} from '../../store/participanttable/participan
 import {Observable} from 'rxjs/Observable';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
+import {ParticipantService} from '../../services/participant.service';
 
 @Component({
   selector: 'app-participantpredictions',
@@ -18,20 +19,19 @@ export class ParticipantpredictionsComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   sub: Subscription;
-  @Input() participantid: string;
   participanttable$: Observable<any>;
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
-    {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 200},
-    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80},
-    {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, minWidth: 100},
-    {headerName: 'Algemeen', field: 'tourPoints', minWidth: 80},
-    {headerName: 'Berg', field: 'mountainPoints', minWidth: 80},
-    {headerName: 'Punten', field: 'pointsPoints', minWidth: 80},
-    {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
-    {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
-    {headerName: 'Waarde', field: 'rider.waarde', minWidth: 80},
+    {headerName: '', cellRenderer: this.determineFlag, width: 50},
+    {headerName: 'Renner', cellRenderer: this.determineRole, width: 210},
+    {headerName: 'Uit', valueGetter: this.determineIsOutText, width: 80},
+    {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, width: 100},
+    {headerName: 'Algemeen', field: 'tourPoints', width: 100},
+    {headerName: 'Berg', field: 'mountainPoints', width: 80},
+    {headerName: 'Punten', field: 'pointsPoints', width: 85},
+    {headerName: 'Jongeren', field: 'youthPoints', width: 100},
+    {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, width: 140},
+    {headerName: 'Waarde', field: 'rider.waarde', width: 90},
     // {headerName: 'Totaal', field: 'totalPoints'}
   ];
   rowSelection = 'single';
@@ -96,7 +96,10 @@ export class ParticipantpredictionsComponent implements OnInit {
 
   }
 
-  constructor(private store: Store<IAppState>, private route: ActivatedRoute, public dialog: MatDialog) {
+  constructor(private store: Store<IAppState>,
+              private route: ActivatedRoute,
+              public dialog: MatDialog,
+              private participantService: ParticipantService) {
   }
 
   ngOnInit() {
@@ -105,7 +108,10 @@ export class ParticipantpredictionsComponent implements OnInit {
       if (params['id']) {
         this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
       } else {
-        this.participanttable$ = this.store.select(getParticipantPredictions(this.participantid));
+        this.participantService.getParticipant().subscribe(user => {
+          console.log(user);
+          this.participanttable$ = this.store.select(getParticipantPredictions(user.id));
+        });
       }
     });
 
