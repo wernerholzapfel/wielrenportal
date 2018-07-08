@@ -148,6 +148,8 @@ export class ParticipantpredictionsComponent implements OnInit {
   }
 
   determineClass(params): string {
-     return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
+    // todo
+    //  return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
+     return 'tour_not_ended';
   }
 }

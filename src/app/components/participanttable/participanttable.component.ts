@@ -7,6 +7,8 @@ import {IAppState} from '../../store/store';
 import {getLastUpdated, getParticipanttable} from '../../store/participanttable/participanttable.reducer';
 import {Observable} from 'rxjs/Observable';
 import {IParticipanttable} from '../../models/participanttable.model';
+import {getTour} from '../../store/tour/tour.reducer';
+import {ITour} from '../../models/tour.model';
 
 @Component({
   selector: 'app-participanttable',
@@ -16,33 +18,22 @@ import {IParticipanttable} from '../../models/participanttable.model';
 export class ParticipanttableComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
-
+  tour: ITour;
   data: any;
   participantstable$: Observable<IParticipanttable[]>;
   lastUpdated$: Observable<any>;
 
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: '#', field: 'position', width: 50},
-    // {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 200},
-    // {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80},
-    // {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
-    //   {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, minWidth: 100},
-    //   {headerName: 'Tour', field: 'tourPoints', minWidth: 80},
-    //   {headerName: 'Berg', field: 'mountainPoints', minWidth: 80},
-    //   {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
-    //   {headerName: 'Punten', field: 'pointsPoints', minWidth: 80},
-    {headerName: 'Naam', field: 'displayName', width: 200},
-    {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', width: 100},
+    {headerName: '#', field: 'position', width: 50, maxWidth: 50},
+    {headerName: 'Naam', field: 'displayName', width: 200, maxWidth: 200},
+    {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', width: 100, maxWidth: 100},
+    {headerName: 'Algemeen', field: 'totalTourPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
+    {headerName: 'Berg', field: 'totalMountainPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
+    {headerName: 'Punten', field: 'totalPointsPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
+    {headerName: 'Jongeren', field: 'totalYouthPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
   ];
   rowSelection = 'single';
-
-  onGridReady(params) {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-
-    params.api.sizeColumnsToFit();
-  }
 
   constructor(private store: Store<IAppState>, public dialog: MatDialog, private router: Router) {
   }
@@ -52,12 +43,24 @@ export class ParticipanttableComponent implements OnInit {
     this.lastUpdated$ = this.store.select(getLastUpdated);
 
     this.gridOptions = <GridOptions>{
+      context: {parentComponent: this},
       columnDefs: this.agColumns,
+
       onGridReady: () => {
         this.gridOptions.api.sizeColumnsToFit();
       },
       enableSorting: true,
     };
+  }
+
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    this.store.select(getTour).subscribe(tour => {
+      this.tour = tour;
+    });
+
+    params.api.sizeColumnsToFit();
   }
 
   applyFilter(filterValue: string) {
@@ -68,5 +71,12 @@ export class ParticipanttableComponent implements OnInit {
     if (event.node.selected) {
       this.router.navigate(['/table/detail/', event.data.id]);
     }
+  }
+
+  determineClass(params): string {
+    // todo
+    // return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
+    return 'tour_not_ended';
+
   }
 }

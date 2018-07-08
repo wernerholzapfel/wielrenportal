@@ -10,13 +10,14 @@
         </mat-form-field>
       </div>
       <ag-grid-angular
-        style="height: 500px; width: 350px;"
+        style="height: 500px; width: 100%;"
         class="ag-theme-balham"
         [gridOptions]="gridOptions"
         [rowData]="(participantstable$ | async)"
         [enableColResize]="true"
         [rowSelection]="rowSelection"
-        (rowSelected)="onRowSelected($event)">
+        (rowSelected)="onRowSelected($event)"
+        (gridReady)="onGridReady($event)">
       </ag-grid-angular>
     </div>
   </mat-card-content>
