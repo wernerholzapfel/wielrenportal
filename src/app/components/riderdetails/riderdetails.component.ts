@@ -19,7 +19,7 @@ export class RiderdetailsComponent implements OnInit {
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
-    {headerName: 'Renner', cellRenderer: this.determineName, minWidth: 200, maxWidth: 200},
+    {headerName: 'Renner', cellRenderer: this.determineName, minWidth: 200, maxWidth: 200, getQuickFilterText: this.determineName},
     {headerName: 'Team', field: 'team.teamName', minWidth: 100, maxWidth: 100},
     {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60},
