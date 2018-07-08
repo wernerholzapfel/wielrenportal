@@ -17,7 +17,7 @@ const initaltourState: TourState = {
   tours: undefined,
   isRegistrationOpen: undefined,
   tour: {
-    id: undefined, endDate: null, startDate: null, tourName: '', isActive: undefined, deadline: undefined
+    id: undefined, endDate: null, startDate: null, tourName: '', isActive: undefined, deadline: undefined, hasEnded: undefined,
   },
   teams: [],
   error: undefined,
@@ -44,6 +44,7 @@ export function tourReducer(state = initaltourState, action): TourState {
           startDate: action.payload.startDate,
           endDate: action.payload.endDate,
           deadline: action.payload.deadline,
+          hasEnded: action.payload.hasEnded,
         },
         teams: action.payload.teams,
         inProgress: false,

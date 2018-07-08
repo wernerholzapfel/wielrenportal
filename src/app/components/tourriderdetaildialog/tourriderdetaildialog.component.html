@@ -1,19 +1,19 @@
 <mat-toolbar color="primary">
-    {{data?.rider?.rider?.firstName}}
-    {{data?.rider?.rider?.surName}}
+    {{data?.rider?.firstName}}
+    {{data?.rider?.surName}}
 </mat-toolbar>
 <mat-card>
   <mat-card-content>
-    <div *ngIf="data?.rider && !data?.rider?.stageclassifications">
-      {{data?.rider?.rider?.firstName}}
-      {{data?.rider?.rider?.surName}}
+    <div *ngIf="data && !data?.stageclassifications">
+      {{data?.rider?.firstName}}
+      {{data?.rider?.surName}}
       heeft geen resultaat gehaald.
     </div>
-    <ag-grid-angular *ngIf="data?.rider?.stageclassifications"
+    <ag-grid-angular *ngIf="data?.stageclassifications"
       style="width: 100%; height: 500px;"
       class="ag-theme-balham"
       [gridOptions]="gridOptions"
-      [rowData]="data?.rider?.stageclassifications">
+      [rowData]="data?.stageclassifications">
     </ag-grid-angular>
   </mat-card-content>
 </mat-card>

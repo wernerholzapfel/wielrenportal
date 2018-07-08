@@ -183,7 +183,7 @@ Geen punten van teamgenoten meer vanaf moment dat hij uitvalt.">
           <mat-card>
             <mat-card-content>
               <mat-list>
-                <mat-list-item *ngFor="let rider of waardeGroep.data">
+                <mat-list-item *ngFor="let rider of waardeGroep.data | orderBy : 'rider.firstNameShort' : false">
                   <div matLine>
                     <img style="height: 16px;" src="/assets/images/flag/{{rider?.rider?.nationality}}.png">
                     {{rider?.rider.firstNameShort}} {{rider?.rider.surNameShort}}

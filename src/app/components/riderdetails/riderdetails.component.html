@@ -13,6 +13,7 @@
         class="ag-theme-balham"
         [gridOptions]="gridOptions"
         [rowData]="riders"
+        (rowSelected)="onRowSelected($event)"
         [rowSelection]="rowSelection">
       </ag-grid-angular>
     </div>

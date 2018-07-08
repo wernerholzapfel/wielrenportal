@@ -53,6 +53,9 @@ export class TourridersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.participantsFormInit$ = this.store.select(getParticipantforms);
+    this.participantsForm$ = this.store.select(getParticipantforms);
+
     this.participantService.getParticipant().subscribe(user => {
       console.log(user);
       this.participantId = user.id;
@@ -61,8 +64,8 @@ export class TourridersComponent implements OnInit {
     this.teams$ = this.store.select(getTourTeams);
     this.isRegistrationOpen$ = this.store.select(isRegistrationOpen);
     this.isRegistrationOpen$.subscribe(response => {
-      this.isRegistrationOpen = response;
-      if (response === true) {
+      this.isRegistrationOpen = true;
+      if (this.isRegistrationOpen === true) {
         this.tour$.subscribe(tour => {
           if (tour && tour.id) {
             this.isLoading = true;
@@ -124,10 +127,6 @@ export class TourridersComponent implements OnInit {
         });
       }
     });
-    this.participantsFormInit$ = this.store.select(getParticipantforms);
-    this.participantsForm$ = this.store.select(getParticipantforms);
-
-
   }
 
   @HostListener('window:beforeunload')

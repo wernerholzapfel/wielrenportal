@@ -9,6 +9,8 @@ import {Observable} from 'rxjs/Observable';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {ParticipantService} from '../../services/participant.service';
+import {ITour} from '../../models/tour.model';
+import {getTour} from '../../store/tour/tour.reducer';
 
 @Component({
   selector: 'app-participantpredictions',
@@ -20,28 +22,23 @@ export class ParticipantpredictionsComponent implements OnInit {
   private gridColumnApi;
   sub: Subscription;
   participanttable$: Observable<any>;
+  tour: ITour;
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
     {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 210, maxWidth: 210},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80, maxWidth: 80},
     {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, minWidth: 100, maxWidth: 100},
-    {headerName: 'Algemeen', field: 'tourPoints', minWidth: 100, maxWidth: 100},
-    {headerName: 'Berg', field: 'mountainPoints', minWidth: 80, maxWidth: 80},
-    {headerName: 'Punten', field: 'pointsPoints', minWidth: 85, maxWidth: 85},
-    {headerName: 'Jongeren', field: 'youthPoints', minWidth: 100, maxWidth: 100},
+    {headerName: 'Algemeen', field: 'tourPoints', cellClass: this.determineClass,
+       minWidth: 100, maxWidth: 100},
+    {headerName: 'Berg', field: 'mountainPoints', cellClass: this.determineClass, minWidth: 80, maxWidth: 80},
+    {headerName: 'Punten', field: 'pointsPoints', cellClass: this.determineClass, minWidth: 85, maxWidth: 85},
+    {headerName: 'Jongeren', field: 'youthPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
     {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 140, maxWidth: 140},
     {headerName: 'Waarde', field: 'rider.waarde', minWidth: 90, maxWidth: 90},
     // {headerName: 'Totaal', field: 'totalPoints'}
   ];
   rowSelection = 'single';
-
-  onGridReady(params) {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-
-    params.api.sizeColumnsToFit();
-  }
 
   determineIsOutText(params): string {
     return (params.data.rider && params.data.rider.isOut) ? 'Ja' : 'Nee';
@@ -82,20 +79,6 @@ export class ParticipantpredictionsComponent implements OnInit {
     return params.data.totalStagePoints + addendum;
   }
 
-  determineTotaalpunten(params): number {
-    if ('todo tourisDone' !== 'todo tourisDone') {
-      return ((params.data.totalStagePoints ? params.data.totalStagePoints : 0) +
-        (params.data.youthPoints ? params.data.youthPoints : 0) +
-        (params.data.mountainPoints ? params.data.mountainPoints : 0) +
-        (params.data.tourPoints ? params.data.tourPoints : 0) +
-        (params.data.pointsPoints ? params.data.pointsPoints : 0));
-    } else {
-      return params.data.totalStagePoints ? params.data.totalStagePoints : 0;
-
-    }
-
-  }
-
   constructor(private store: Store<IAppState>,
               private route: ActivatedRoute,
               public dialog: MatDialog,
@@ -117,12 +100,20 @@ export class ParticipantpredictionsComponent implements OnInit {
 
 
     this.gridOptions = <GridOptions>{
+      context: {parentComponent: this},
       columnDefs: this.agColumns,
       onGridReady: () => {
         this.gridOptions.api.sizeColumnsToFit();
       },
       enableSorting: true,
     };
+  }
+
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    this.store.select(getTour).subscribe(tour => {this.tour = tour; });
+    params.api.sizeColumnsToFit();
   }
 
   onRowSelected(event) {
@@ -133,7 +124,7 @@ export class ParticipantpredictionsComponent implements OnInit {
 
   openTourRidersDetailDialog(data: any) {
     const dialogRef = this.dialog.open(TourriderdetaildialogComponent, {
-      data: data,
+      data: data.rider,
       width: '90%',
     });
 
@@ -141,5 +132,22 @@ export class ParticipantpredictionsComponent implements OnInit {
       console.log('closed');
       this.gridOptions.api.deselectAll();
     });
+  }
+
+  determineTotaalpunten(params): number {
+    if (params.context.parentComponent.tour && params.context.parentComponent.tour.hasEnded) {
+      return ((params.data.totalStagePoints ? params.data.totalStagePoints : 0) +
+        (params.data.youthPoints ? params.data.youthPoints : 0) +
+        (params.data.mountainPoints ? params.data.mountainPoints : 0) +
+        (params.data.tourPoints ? params.data.tourPoints : 0) +
+        (params.data.pointsPoints ? params.data.pointsPoints : 0));
+    } else {
+      return params.data.totalStagePoints ? params.data.totalStagePoints : 0;
+
+    }
+  }
+
+  determineClass(params): string {
+     return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
   }
 }
