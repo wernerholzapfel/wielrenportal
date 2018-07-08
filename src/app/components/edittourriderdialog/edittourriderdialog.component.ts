@@ -8,6 +8,7 @@ import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import * as fromTour from '../../store/tour/tour.actions';
 import {TourService} from '../../services/tour.service';
+import {getEtappes} from '../../store/etappe/etappe.reducer';
 
 @Component({
   selector: 'app-edittourriderdialog',
@@ -37,7 +38,7 @@ export class EdittourriderdialogComponent implements OnInit {
   ngOnInit() {
     // todo store in store
     // todo get tour?
-    this.etappeService.getEtappes('').subscribe(response => this.etappes = response.sort((a, b) => a.etappeNumber - b.etappeNumber));
+    this.store.select(getEtappes).subscribe(response => this.etappes = response.sort((a, b) => a.etappeNumber - b.etappeNumber));
     this.selectedEtappe = this.data.latestEtappe;
   }
 
@@ -53,16 +54,6 @@ export class EdittourriderdialogComponent implements OnInit {
     }).subscribe(response => {
      console.log('saveriderToTeam response: ' + response);
     });
-
-    // this.store.dispatch(new fromTour.SaveRiderToTeam({
-    //   id: data.id,
-    //   isOut: data.isOut,
-    //   waarde: data.waarde,
-    //   tour: data.tour,
-    //   team: data.team,
-    //   rider: data.rider,
-    //   latestEtappe: this.selectedEtappe
-    // }));
   }
 
 }
