@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
@@ -29,13 +29,16 @@ export class ParticipantpredictionsComponent implements OnInit {
     {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 210, maxWidth: 210},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80, maxWidth: 80},
     {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, minWidth: 100, maxWidth: 100},
-    {headerName: 'Algemeen', field: 'tourPoints', cellClass: this.determineClass,
-       minWidth: 100, maxWidth: 100},
+    {
+      headerName: 'Algemeen', field: 'tourPoints', cellClass: this.determineClass,
+      minWidth: 100, maxWidth: 100
+    },
     {headerName: 'Berg', field: 'mountainPoints', cellClass: this.determineClass, minWidth: 80, maxWidth: 80},
     {headerName: 'Punten', field: 'pointsPoints', cellClass: this.determineClass, minWidth: 85, maxWidth: 85},
     {headerName: 'Jongeren', field: 'youthPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
-    {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 140, maxWidth: 140},
+    {headerName: 'Tot. pt', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
     {headerName: 'Waarde', field: 'rider.waarde', minWidth: 90, maxWidth: 90},
+    {headerName: '# gekozen', valueGetter: this.determineChoosenCount, minWidth: 110, maxWidth: 110},
     // {headerName: 'Totaal', field: 'totalPoints'}
   ];
   rowSelection = 'single';
@@ -47,6 +50,14 @@ export class ParticipantpredictionsComponent implements OnInit {
   determineFlag(params): string {
     const url = '/assets/images/flag/' + params.data.rider.rider.nationality + '.png';
     return '<img class="ag-grid-icon" style="height: 18px;" src=' + url + '>';
+  }
+
+  determineChoosenCount(params): number {
+    if (params.data.isRider) {
+      return params.data.rider.predictions.filter(p => p.isRider).length;
+    } else {
+      return null;
+    }
   }
 
   determineRole(params): string {
@@ -112,7 +123,9 @@ export class ParticipantpredictionsComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.store.select(getTour).subscribe(tour => {this.tour = tour; });
+    this.store.select(getTour).subscribe(tour => {
+      this.tour = tour;
+    });
     params.api.sizeColumnsToFit();
   }
 
@@ -150,6 +163,6 @@ export class ParticipantpredictionsComponent implements OnInit {
   determineClass(params): string {
     // todo
     //  return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
-     return 'tour_not_ended';
+    return 'tour_not_ended';
   }
 }

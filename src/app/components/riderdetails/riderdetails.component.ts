@@ -19,7 +19,13 @@ export class RiderdetailsComponent implements OnInit {
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
-    {headerName: 'Renner', cellRenderer: this.determineName, minWidth: 200, maxWidth: 200, getQuickFilterText: this.determineName},
+    {
+      headerName: 'Renner',
+      cellRenderer: this.determineName,
+      minWidth: 200,
+      maxWidth: 200,
+      getQuickFilterText: this.determineName
+    },
     {headerName: 'Team', field: 'team.teamName', minWidth: 100, maxWidth: 100},
     {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60},
@@ -30,6 +36,26 @@ export class RiderdetailsComponent implements OnInit {
     {headerName: 'Jongeren', field: 'youthPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
     {headerName: 'Totaal', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
     {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 120, maxWidth: 120},
+    {
+      headerName: '# R',
+      valueGetter: this.determineRiderChoosenCount,
+      minWidth: 80,
+      maxWidth: 80,
+    },
+    {headerName: '# WD', valueGetter: this.determineWaterdragerChoosenCount, minWidth: 80, maxWidth: 80},
+    {headerName: '# LB', valueGetter: this.determineLinkebalChoosenCount, minWidth: 80, maxWidth: 80},
+    {
+      headerName: '# MK',
+      valueGetter: this.determineMeesterknechtChoosenCount,
+      minWidth: 80,
+      maxWidth: 80
+    },
+    {
+      headerName: '# BR',
+      valueGetter: this.determineBeschermderennerChoosenCount,
+      minWidth: 80,
+      maxWidth: 80
+    },
   ];
   rowSelection = 'single';
 
@@ -83,6 +109,26 @@ export class RiderdetailsComponent implements OnInit {
     return params.data.rider.firstName + ' ' + params.data.rider.surName + '</div>';
   }
 
+  determineRiderChoosenCount(params): number {
+    return params.data.predictions.filter(p => p.isRider).length;
+  }
+
+  determineWaterdragerChoosenCount(params): number {
+    return params.data.predictions.filter(p => p.isWaterdrager).length;
+  }
+
+  determineLinkebalChoosenCount(params): number {
+    return params.data.predictions.filter(p => p.isLinkebal).length;
+  }
+
+  determineBeschermderennerChoosenCount(params): number {
+    return params.data.predictions.filter(p => p.isBeschermdeRenner).length;
+  }
+
+  determineMeesterknechtChoosenCount(params): number {
+    return params.data.predictions.filter(p => p.isMeesterknecht).length;
+  }
+
   determineFlag(params): string {
     const url = '/assets/images/flag/' + params.data.rider.nationality + '.png';
     return '<img class="ag-grid-icon" style="height: 18px;" src=' + url + '>';
@@ -109,9 +155,11 @@ export class RiderdetailsComponent implements OnInit {
       this.openTourRidersDetailDialog(event.data);
     }
   }
+
   determineClass(params): string {
     // todo
     //  return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
     return 'tour_not_ended';
   }
 }
+
