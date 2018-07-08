@@ -64,7 +64,7 @@ export class TourridersComponent implements OnInit {
     this.teams$ = this.store.select(getTourTeams);
     this.isRegistrationOpen$ = this.store.select(isRegistrationOpen);
     this.isRegistrationOpen$.subscribe(response => {
-      this.isRegistrationOpen = true;
+      this.isRegistrationOpen = response;
       if (this.isRegistrationOpen === true) {
         this.tour$.subscribe(tour => {
           if (tour && tour.id) {
