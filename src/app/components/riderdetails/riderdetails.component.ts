@@ -6,6 +6,7 @@ import {Store} from '@ngrx/store';
 import {getTour} from '../../store/tour/tour.reducer';
 import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
 import {MatDialog} from '@angular/material';
+import {ITour} from '../../models/tour.model';
 
 @Component({
   selector: 'app-riderdetails',
@@ -14,20 +15,21 @@ import {MatDialog} from '@angular/material';
 })
 export class RiderdetailsComponent implements OnInit {
 
+  tour: ITour;
   public gridOptions: GridOptions;
   agColumns = [
     {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
-    {headerName: 'Renner', cellRenderer: this.determineName, minWidth: 200},
-    {headerName: 'Team', field: 'team.teamName', minWidth: 100},
-    {headerName: 'Waarde', field: 'waarde', minWidth: 80},
-    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 40},
-    {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 80},
-    {headerName: 'Algemeen', field: 'tourPoints', minWidth: 80},
-    {headerName: 'Berg', field: 'mountainPoints', minWidth: 80},
-    {headerName: 'Punten', field: 'pointsPoints', minWidth: 80},
-    {headerName: 'Jongeren', field: 'youthPoints', minWidth: 80},
-    {headerName: 'Totaalpunten', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 80},
-    {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 80},
+    {headerName: 'Renner', cellRenderer: this.determineName, minWidth: 200, maxWidth: 200},
+    {headerName: 'Team', field: 'team.teamName', minWidth: 100, maxWidth: 100},
+    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
+    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60},
+    {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
+    {headerName: 'Algemeen', field: 'tourPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
+    {headerName: 'Berg', field: 'mountainPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
+    {headerName: 'Punten', field: 'pointsPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
+    {headerName: 'Jongeren', field: 'youthPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
+    {headerName: 'Totaal', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
+    {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 120, maxWidth: 120},
   ];
   rowSelection = 'single';
 
@@ -41,9 +43,10 @@ export class RiderdetailsComponent implements OnInit {
 
   ngOnInit() {
     this.gridOptions = <GridOptions>{
-      columnDefs: this.agColumns,
       context: {parentComponent: this},
+      columnDefs: this.agColumns,
       onGridReady: () => {
+        this.store.select(getTour).subscribe(tour => {this.tour = tour; });
         this.gridOptions.api.sizeColumnsToFit();
       },
       enableSorting: true,
@@ -105,5 +108,10 @@ export class RiderdetailsComponent implements OnInit {
     if (event.node.selected) {
       this.openTourRidersDetailDialog(event.data);
     }
+  }
+  determineClass(params): string {
+    // todo
+    //  return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
+    return 'tour_not_ended';
   }
 }
