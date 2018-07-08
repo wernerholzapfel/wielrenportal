@@ -25,9 +25,9 @@ export class ParticipanttableComponent implements OnInit {
 
   public gridOptions: GridOptions;
   agColumns = [
-    {headerName: '#', field: 'position', width: 50, maxWidth: 50},
-    {headerName: 'Naam', field: 'displayName', width: 200, maxWidth: 200},
-    {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', width: 100, maxWidth: 100},
+    {headerName: '#', field: 'position', minWidth: 50, maxWidth: 50},
+    {headerName: 'Naam', field: 'displayName', minWidth: 200, maxWidth: 200},
+    {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', minWidth: 100, maxWidth: 100},
     {headerName: 'Algemeen', field: 'totalTourPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
     {headerName: 'Berg', field: 'totalMountainPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
     {headerName: 'Punten', field: 'totalPointsPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
