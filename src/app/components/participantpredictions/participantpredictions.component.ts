@@ -139,6 +139,7 @@ export class ParticipantpredictionsComponent implements OnInit {
     const dialogRef = this.dialog.open(TourriderdetaildialogComponent, {
       data: data.rider,
       width: '90%',
+      height: '90%'
     });
 
     dialogRef.afterClosed().subscribe(result => {

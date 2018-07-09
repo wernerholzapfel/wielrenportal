@@ -140,6 +140,7 @@ export class RiderdetailsComponent implements OnInit {
     const dialogRef = this.dialog.open(TourriderdetaildialogComponent, {
       data: data,
       width: '90%',
+      height: '90%'
     });
 
     dialogRef.afterClosed().subscribe(result => {
