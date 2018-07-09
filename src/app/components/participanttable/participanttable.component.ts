@@ -28,6 +28,14 @@ export class ParticipanttableComponent implements OnInit {
     {headerName: '#', field: 'position', minWidth: 50, maxWidth: 50},
     {headerName: 'Naam', field: 'displayName', minWidth: 200, maxWidth: 200},
     {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', minWidth: 100, maxWidth: 100},
+    {headerName: 'Etappe', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
+    {
+      headerName: 'Truien',
+      valueGetter: this.determineTruienPoints,
+      cellClass: this.determineClass,
+      minWidth: 100,
+      maxWidth: 100
+    },
     {headerName: 'Algemeen', field: 'totalTourPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
     {headerName: 'Berg', field: 'totalMountainPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
     {headerName: 'Punten', field: 'totalPointsPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
@@ -78,5 +86,9 @@ export class ParticipanttableComponent implements OnInit {
     // return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
     return 'tour_not_ended';
 
+  }
+
+  determineTruienPoints(params): number {
+    return params.data.totalTourPoints + params.data.totalMountainPoints + params.data.totalPointsPoints + params.data.totalYouthPoints;
   }
 }

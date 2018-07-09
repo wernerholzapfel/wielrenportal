@@ -37,25 +37,21 @@ export class RiderdetailsComponent implements OnInit {
     {headerName: 'Totaal', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
     {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 120, maxWidth: 120},
     {
-      headerName: '# R',
+      headerName: '# RE',
       valueGetter: this.determineRiderChoosenCount,
       minWidth: 80,
       maxWidth: 80,
     },
-    {headerName: '# WD', valueGetter: this.determineWaterdragerChoosenCount, minWidth: 80, maxWidth: 80},
-    {headerName: '# LB', valueGetter: this.determineLinkebalChoosenCount, minWidth: 80, maxWidth: 80},
     {
       headerName: '# MK',
       valueGetter: this.determineMeesterknechtChoosenCount,
       minWidth: 80,
       maxWidth: 80
     },
-    {
-      headerName: '# BR',
-      valueGetter: this.determineBeschermderennerChoosenCount,
-      minWidth: 80,
-      maxWidth: 80
-    },
+    {headerName: '# BR', valueGetter: this.determineBeschermderennerChoosenCount, minWidth: 80, maxWidth: 80},
+    {headerName: '# WD', valueGetter: this.determineWaterdragerChoosenCount, minWidth: 80, maxWidth: 80},
+    {headerName: '# LB', valueGetter: this.determineLinkebalChoosenCount, minWidth: 80, maxWidth: 80},
+
   ];
   rowSelection = 'single';
 
@@ -72,7 +68,9 @@ export class RiderdetailsComponent implements OnInit {
       context: {parentComponent: this},
       columnDefs: this.agColumns,
       onGridReady: () => {
-        this.store.select(getTour).subscribe(tour => {this.tour = tour; });
+        this.store.select(getTour).subscribe(tour => {
+          this.tour = tour;
+        });
         this.gridOptions.api.sizeColumnsToFit();
       },
       enableSorting: true,
