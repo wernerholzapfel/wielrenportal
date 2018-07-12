@@ -7,6 +7,7 @@ import {getTour} from '../../store/tour/tour.reducer';
 import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
 import {MatDialog} from '@angular/material';
 import {ITour} from '../../models/tour.model';
+import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
 
 @Component({
   selector: 'app-riderdetails',
@@ -27,33 +28,37 @@ export class RiderdetailsComponent implements OnInit {
       getQuickFilterText: this.determineName
     },
     {headerName: 'Team', field: 'team.teamName', minWidth: 100, maxWidth: 100},
-    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
-    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60},
+
     {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
-    {headerName: 'Algemeen', field: 'tourPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
-    {headerName: 'Berg', field: 'mountainPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
-    {headerName: 'Punten', field: 'pointsPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
-    {headerName: 'Jongeren', field: 'youthPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
+    {headerName: 'Algemeen', field: 'tourPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
+    {headerName: 'Berg', field: 'mountainPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
+    {headerName: 'Punten', field: 'pointsPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
+    {headerName: 'Jongeren', field: 'youthPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
     {headerName: 'Totaal', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
     {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 120, maxWidth: 120},
-    {
+    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
+    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60},  {
       headerName: '# RE',
       valueGetter: this.determineRiderChoosenCount,
       minWidth: 80,
       maxWidth: 80,
     },
+    {headerName: '# BR', valueGetter: this.determineBeschermderennerChoosenCount, minWidth: 80, maxWidth: 80},
     {
       headerName: '# MK',
       valueGetter: this.determineMeesterknechtChoosenCount,
       minWidth: 80,
       maxWidth: 80
     },
-    {headerName: '# BR', valueGetter: this.determineBeschermderennerChoosenCount, minWidth: 80, maxWidth: 80},
     {headerName: '# WD', valueGetter: this.determineWaterdragerChoosenCount, minWidth: 80, maxWidth: 80},
     {headerName: '# LB', valueGetter: this.determineLinkebalChoosenCount, minWidth: 80, maxWidth: 80},
 
   ];
   rowSelection = 'single';
+  context = { parentComponent: this };
+  frameworkComponents = {
+    hasTourEndedClass: HastourendedclassComponent,
+  };
 
   constructor(private riderService: RiderService,
               public dialog: MatDialog,
@@ -153,12 +158,6 @@ export class RiderdetailsComponent implements OnInit {
     if (event.node.selected) {
       this.openTourRidersDetailDialog(event.data);
     }
-  }
-
-  determineClass(params): string {
-    // todo
-    //  return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
-    return 'tour_not_ended';
   }
 }
 

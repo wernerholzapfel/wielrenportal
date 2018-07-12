@@ -9,6 +9,7 @@ import {Observable} from 'rxjs/Observable';
 import {IParticipanttable} from '../../models/participanttable.model';
 import {getTour} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
+import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
 
 @Component({
   selector: 'app-participanttable',
@@ -18,35 +19,45 @@ import {ITour} from '../../models/tour.model';
 export class ParticipanttableComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
+  private frameworkComponents;
+  private context;
+  private agColumns;
+  private rowSelection;
+
   tour: ITour;
   data: any;
   participantstable$: Observable<IParticipanttable[]>;
   lastUpdated$: Observable<any>;
 
   public gridOptions: GridOptions;
-  agColumns = [
-    {headerName: '#', field: 'position', minWidth: 50, maxWidth: 50},
-    {headerName: 'Naam', field: 'displayName', minWidth: 200, maxWidth: 200},
-    {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', minWidth: 100, maxWidth: 100},
-    {headerName: 'Etappe', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
-    {
-      headerName: 'Truien',
-      valueGetter: this.determineTruienPoints,
-      cellClass: this.determineClass,
-      minWidth: 100,
-      maxWidth: 100
-    },
-    {headerName: 'Algemeen', field: 'totalTourPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
-    {headerName: 'Berg', field: 'totalMountainPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
-    {headerName: 'Punten', field: 'totalPointsPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
-    {headerName: 'Jongeren', field: 'totalYouthPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
-  ];
-  rowSelection = 'single';
 
   constructor(private store: Store<IAppState>, public dialog: MatDialog, private router: Router) {
+    this.agColumns = [
+      {headerName: '#', field: 'position', minWidth: 50, maxWidth: 50},
+      {headerName: 'Naam', field: 'displayName', minWidth: 200, maxWidth: 200},
+      {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', minWidth: 100, maxWidth: 100},
+      {headerName: 'Etappe', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
+      {
+        headerName: 'Truien',
+        valueGetter: this.determineTruienPoints,
+        cellRenderer: 'hasTourEndedClass',
+        minWidth: 100,
+        maxWidth: 100
+      },
+      {headerName: 'Algemeen', field: 'totalTourPoints', cellRenderer: 'hasTourEndedClass',  minWidth: 100, maxWidth: 100},
+      {headerName: 'Berg', field: 'totalMountainPoints', cellRenderer: 'hasTourEndedClass',  minWidth: 100, maxWidth: 100},
+      {headerName: 'Punten', field: 'totalPointsPoints', cellRenderer: 'hasTourEndedClass',  minWidth: 100, maxWidth: 100},
+      {headerName: 'Jongeren',  field: 'totalYouthPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
+    ];
+    this.rowSelection = 'single';
+    this.context = { componentParent: this };
+    this.frameworkComponents = {
+      hasTourEndedClass: HastourendedclassComponent,
+    };
   }
 
   ngOnInit() {
+
     this.participantstable$ = this.store.select(getParticipanttable);
     this.lastUpdated$ = this.store.select(getLastUpdated);
 
@@ -79,13 +90,6 @@ export class ParticipanttableComponent implements OnInit {
     if (event.node.selected) {
       this.router.navigate(['/table/detail/', event.data.id]);
     }
-  }
-
-  determineClass(params): string {
-    // todo
-    // return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
-    return 'tour_not_ended';
-
   }
 
   determineTruienPoints(params): number {

@@ -16,6 +16,8 @@
         [rowData]="(participantstable$ | async)"
         [enableColResize]="true"
         [rowSelection]="rowSelection"
+        [context]="context"
+        [frameworkComponents]="frameworkComponents"
         (rowSelected)="onRowSelected($event)"
         (gridReady)="onGridReady($event)">
       </ag-grid-angular>

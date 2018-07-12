@@ -51,6 +51,7 @@ import { SpelregelsComponent } from './components/spelregels/spelregels.componen
 import { registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
 import {CanDeactivateGuard} from './candeactivate.guard';
+import { HastourendedclassComponent } from './aggridcomponents/hastourendedclass/hastourendedclass.component';
 
 registerLocaleData(localeNl);
 
@@ -72,7 +73,8 @@ registerLocaleData(localeNl);
     RiderdetailsComponent,
     EdittourriderdialogComponent,
     ParticipantpredictionsComponent,
-    SpelregelsComponent
+    SpelregelsComponent,
+    HastourendedclassComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,
@@ -96,7 +98,7 @@ registerLocaleData(localeNl);
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot(effects),
     Ng2SearchPipeModule,
-    AgGridModule.withComponents([]),
+    AgGridModule.withComponents([HastourendedclassComponent]),
   ],
   providers: [
     RiderService,

@@ -14,7 +14,9 @@
         [gridOptions]="gridOptions"
         [rowData]="riders"
         (rowSelected)="onRowSelected($event)"
-        [rowSelection]="rowSelection">
+        [rowSelection]="rowSelection"
+        [context]="context"
+        [frameworkComponents]="frameworkComponents">
       </ag-grid-angular>
     </div>
 </mat-card-content>

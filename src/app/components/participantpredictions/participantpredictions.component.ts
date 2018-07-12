@@ -11,6 +11,7 @@ import {Store} from '@ngrx/store';
 import {ParticipantService} from '../../services/participant.service';
 import {ITour} from '../../models/tour.model';
 import {getTour} from '../../store/tour/tour.reducer';
+import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
 
 @Component({
   selector: 'app-participantpredictions',
@@ -27,21 +28,31 @@ export class ParticipantpredictionsComponent implements OnInit {
   agColumns = [
     {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
     {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 210, maxWidth: 210},
-    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80, maxWidth: 80},
+    {headerName: 'Tot. pt', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
     {headerName: 'Etappes', valueGetter: this.formatEtappeTotaalpunten, minWidth: 100, maxWidth: 100},
     {
-      headerName: 'Algemeen', field: 'tourPoints', cellClass: this.determineClass,
+      headerName: 'Truien',
+      valueGetter: this.determineTruienPoints,
+      cellRenderer: 'hasTourEndedClass',
+      minWidth: 100,
+      maxWidth: 100
+    },
+    {
+      headerName: 'Algemeen', field: 'tourPoints', cellRenderer: 'hasTourEndedClass',
       minWidth: 100, maxWidth: 100
     },
-    {headerName: 'Berg', field: 'mountainPoints', cellClass: this.determineClass, minWidth: 80, maxWidth: 80},
-    {headerName: 'Punten', field: 'pointsPoints', cellClass: this.determineClass, minWidth: 85, maxWidth: 85},
-    {headerName: 'Jongeren', field: 'youthPoints', cellClass: this.determineClass, minWidth: 100, maxWidth: 100},
-    {headerName: 'Tot. pt', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
+    {headerName: 'Berg', field: 'mountainPoints', cellRenderer: 'hasTourEndedClass', minWidth: 80, maxWidth: 80},
+    {headerName: 'Punten', field: 'pointsPoints', cellRenderer: 'hasTourEndedClass', minWidth: 85, maxWidth: 85},
+    {headerName: 'Jongeren', field: 'youthPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
     {headerName: 'Waarde', field: 'rider.waarde', minWidth: 90, maxWidth: 90},
+    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 80, maxWidth: 80},
     {headerName: '# gekozen', valueGetter: this.determineChoosenCount, minWidth: 110, maxWidth: 110},
     // {headerName: 'Totaal', field: 'totalPoints'}
   ];
   rowSelection = 'single';
+  frameworkComponents = {
+    hasTourEndedClass: HastourendedclassComponent,
+  };
 
   determineIsOutText(params): string {
     return (params.data.rider && params.data.rider.isOut) ? 'Ja' : 'Nee';
@@ -88,6 +99,14 @@ export class ParticipantpredictionsComponent implements OnInit {
       (params.data.deltaStagePoints > 0) ? ' (+' + params.data.deltaStagePoints + ')' :
         (params.data.deltaStagePoints === 0) ? '' : ' (' + params.data.deltaStagePoints + ')';
     return params.data.totalStagePoints + addendum;
+  }
+
+  determineTruienPoints(params): number {
+    const tourPoints = params.data.tourPoints ? params.data.tourPoints : 0;
+    const mountainPoints = params.data.mountainPoints ? params.data.mountainPoints : 0;
+    const pointsPoints = params.data.pointsPoints ? params.data.pointsPoints : 0;
+    const youthPoints = params.data.youthPoints ? params.data.youthPoints : 0;
+    return tourPoints + mountainPoints + pointsPoints + youthPoints;
   }
 
   constructor(private store: Store<IAppState>,
@@ -159,11 +178,5 @@ export class ParticipantpredictionsComponent implements OnInit {
       return params.data.totalStagePoints ? params.data.totalStagePoints : 0;
 
     }
-  }
-
-  determineClass(params): string {
-    // todo
-    //  return (params.context.parentComponent.tour && !params.context.parentComponent.tour.hasEnded ? 'tour_not_ended' : '');
-    return 'tour_not_ended';
   }
 }
