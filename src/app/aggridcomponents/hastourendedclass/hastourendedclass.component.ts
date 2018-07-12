@@ -16,7 +16,7 @@ export class HastourendedclassComponent implements ICellRendererAngularComp {
   }
 
   private params: any;
-  private tour: ITour;
+  public tour: ITour;
   private content: string;
 
   // called on init

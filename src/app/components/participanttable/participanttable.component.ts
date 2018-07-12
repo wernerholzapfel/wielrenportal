@@ -19,11 +19,11 @@ import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedcla
 export class ParticipanttableComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
-  private frameworkComponents;
-  private context;
   private agColumns;
-  private rowSelection;
 
+  rowSelection;
+  frameworkComponents;
+  context;
   tour: ITour;
   data: any;
   participantstable$: Observable<IParticipanttable[]>;
