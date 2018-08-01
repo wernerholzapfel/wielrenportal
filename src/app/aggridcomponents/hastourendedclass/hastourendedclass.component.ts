@@ -32,11 +32,7 @@ export class HastourendedclassComponent implements ICellRendererAngularComp {
   }
 
   public value(): string {
-    // if (this.tour.hasEnded) {
-      this.content = this.params.value;
-    // } else {
-    //   this.content = '<div class="tour_not_ended"> ' + this.params.value + '</div>';
-    // }
+    this.content = this.params.value;
     return this.content;
   }
 }

@@ -144,6 +144,13 @@ export class ParticipantpredictionsComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
     this.store.select(getTour).subscribe(tour => {
       this.tour = tour;
+      // todo refactor for example  subscribe until
+      const data = this.participanttable$.subscribe(participanttable => {
+          if (participanttable) {
+            this.gridApi.setRowData(participanttable.predictions);
+          }
+        }
+      );
     });
     params.api.sizeColumnsToFit();
   }

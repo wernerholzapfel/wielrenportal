@@ -8,7 +8,6 @@
       [rowSelection]="rowSelection"
       [frameworkComponents]="frameworkComponents"
       (rowSelected)="onRowSelected($event)"
-      [rowData]="(participanttable$ | async)?.predictions"
       [gridAutoHeight]="true"
       [enableColResize]="true"
       (gridReady)="onGridReady($event)">
