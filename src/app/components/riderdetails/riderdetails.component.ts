@@ -15,6 +15,8 @@ import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedcla
   styleUrls: ['./riderdetails.component.scss']
 })
 export class RiderdetailsComponent implements OnInit {
+  private gridApi;
+  private gridColumnApi;
 
   tour: ITour;
   public gridOptions: GridOptions;
@@ -35,9 +37,9 @@ export class RiderdetailsComponent implements OnInit {
     {headerName: 'Punten', field: 'pointsPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
     {headerName: 'Jongeren', field: 'youthPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
     {headerName: 'Totaal', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
-    {headerName: 'Waterdrager', field: 'waterdragerPoints', minWidth: 120, maxWidth: 120},
+    {headerName: 'Waterdrager', valueGetter: this.determineWDTotaalpunten, minWidth: 120, maxWidth: 120},
     {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
-    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60},  {
+    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60}, {
       headerName: '# RE',
       valueGetter: this.determineRiderChoosenCount,
       minWidth: 80,
@@ -55,7 +57,6 @@ export class RiderdetailsComponent implements OnInit {
 
   ];
   rowSelection = 'single';
-  context = { parentComponent: this };
   frameworkComponents = {
     hasTourEndedClass: HastourendedclassComponent,
   };
@@ -65,38 +66,44 @@ export class RiderdetailsComponent implements OnInit {
               private store: Store<IAppState>) {
   }
 
-  riders: any[];
-  hasTourEnded: boolean;
-
   ngOnInit() {
     this.gridOptions = <GridOptions>{
       context: {parentComponent: this},
       columnDefs: this.agColumns,
-      onGridReady: () => {
+      onGridReady: (params) => {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+
         this.store.select(getTour).subscribe(tour => {
           this.tour = tour;
+
+          // todo refactor for example  subscribe until
+          // todo move to store?
+          this.riderService.getDetailTourriders(tour.id)
+            .subscribe(response =>
+              this.gridApi.setRowData(response));
         });
+
         this.gridOptions.api.sizeColumnsToFit();
       },
       enableSorting: true,
     };
-    // todo move to store?
-    this.store.select(getTour).subscribe(tour => {
-      if (tour) {
-        this.hasTourEnded = tour.hasEnded;
-        this.riderService.getDetailTourriders(tour.id)
-          .subscribe(response =>
-            this.riders = response);
-      }
-    });
   }
 
   determineIsOutText(params): string {
     return (params.data && params.data.isOut) ? 'Ja' : 'Nee';
   }
 
+  determineWDTotaalpunten(params): number {
+    if (params.context.parentComponent.tour && params.context.parentComponent.tour.hasEnded) {
+      return params.data.waterdragerTruienPoints + params.data.waterdragerEtappePoints;
+    } else {
+      return params.data.waterdragerEtappePoints;
+    }
+  }
+
   determineTotaalpunten(params): number {
-    if (params.context.parentComponent.hasTourEnded) {
+    if (params.context.parentComponent.tour.hasTourEnded) {
       return ((params.data.totalStagePoints ? params.data.totalStagePoints : 0) +
         (params.data.youthPoints ? params.data.youthPoints : 0) +
         (params.data.mountainPoints ? params.data.mountainPoints : 0) +
