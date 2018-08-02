@@ -22,7 +22,7 @@ export class ParticipantpredictionsComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
   sub: Subscription;
-  participanttable$: Observable<any>;
+  participanttable: any;
   tour: ITour;
   public gridOptions: GridOptions;
   agColumns = [
@@ -117,16 +117,16 @@ export class ParticipantpredictionsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.sub = this.route.params.subscribe(params => {
-      if (params['id']) {
-        this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
-      } else {
-        this.participantService.getParticipant().subscribe(user => {
-          console.log(user);
-          this.participanttable$ = this.store.select(getParticipantPredictions(user.id));
-        });
-      }
-    });
+    // this.sub = this.route.params.subscribe(params => {
+    //   if (params['id']) {
+    //     this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
+    //   } else {
+    //     this.participantService.getParticipant().subscribe(user => {
+    //       console.log(user);
+    //       this.participanttable$ = this.store.select(getParticipantPredictions(user.id));
+    //     });
+    //   }
+    // });
 
 
     this.gridOptions = <GridOptions>{
@@ -145,12 +145,26 @@ export class ParticipantpredictionsComponent implements OnInit {
     this.store.select(getTour).subscribe(tour => {
       this.tour = tour;
       // todo refactor for example  subscribe until
-      const data = this.participanttable$.subscribe(participanttable => {
-          if (participanttable) {
-            this.gridApi.setRowData(participanttable.predictions);
-          }
+      this.sub = this.route.params.subscribe(routeParams => {
+        if (routeParams['id']) {
+          this.store.select(getParticipantPredictions(routeParams['id'])).subscribe(participanttable => {
+            if (participanttable) {
+              this.participanttable = participanttable;
+              this.gridApi.setRowData(participanttable.predictions);
+            }
+          });
+        } else {
+          this.participantService.getParticipant().subscribe(user => {
+            console.log(user);
+            this.store.select(getParticipantPredictions(user.id)).subscribe(participanttable => {
+              if (participanttable) {
+                this.participanttable = participanttable;
+                this.gridApi.setRowData(participanttable.predictions);
+              }
+            });
+          });
         }
-      );
+      });
     });
     params.api.sizeColumnsToFit();
   }
