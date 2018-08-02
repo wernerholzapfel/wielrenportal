@@ -36,7 +36,7 @@ export class ParticipanttableComponent implements OnInit {
       {headerName: '#', field: 'position', minWidth: 50, maxWidth: 50},
       {headerName: 'Naam', field: 'displayName', minWidth: 200, maxWidth: 200},
       {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', minWidth: 100, maxWidth: 100},
-      {headerName: 'Etappe', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
+      {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
       {
         headerName: 'Truien',
         valueGetter: this.determineTruienPoints,
