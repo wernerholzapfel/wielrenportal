@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
@@ -45,6 +45,7 @@ export class TourridersComponent implements OnInit {
   init: Subscription;
   isParticipantFormDirty: boolean;
   isRegistrationOpen: boolean;
+
   constructor(private store: Store<IAppState>,
               private predictionService: PredictionService,
               public snackBar: MatSnackBar,
@@ -139,6 +140,7 @@ export class TourridersComponent implements OnInit {
 
     return !this.isParticipantFormDirty;
   }
+
   setCurrentRider(rider, team, $event) {
     this.currentRider = Object.assign(rider);
     console.log(this.currentRider);
@@ -175,6 +177,7 @@ export class TourridersComponent implements OnInit {
         rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
         isRider: true
       })));
+      this.submitForm(false);
       console.log(this.currentRider.surName + ' toegevoegd als renner');
     }
   }
@@ -187,6 +190,8 @@ export class TourridersComponent implements OnInit {
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isBeschermdeRenner: true
     })));
+    this.submitForm(false);
+
     console.log(this.currentRider.surName + ' toegevoegd als beschermderenner');
   }
 
@@ -198,7 +203,7 @@ export class TourridersComponent implements OnInit {
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isMeesterknecht: true
     })));
-
+    this.submitForm(false);
     console.log(this.currentRider.surName + ' toegevoegd als meesterknecht');
   }
 
@@ -210,6 +215,8 @@ export class TourridersComponent implements OnInit {
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isLinkebal: true
     })));
+    this.submitForm(false);
+
     console.log(this.currentRider.surName + ' toegevoegd als linkebal');
   }
 
@@ -222,6 +229,8 @@ export class TourridersComponent implements OnInit {
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isWaterdrager: true
     })));
+    this.submitForm(false);
+
     console.log(this.currentRider.surName + ' toegevoegd als waterdrager'
     );
   }
@@ -237,38 +246,42 @@ export class TourridersComponent implements OnInit {
   }
 
   deleteRider(prediction: IPrediction) {
-    //// done directly in the ui.
-    // if (prediction.isRider) {
-    //   this.partipantRidersForm.riders = [...this.partipantRidersForm.riders].filter(item => item.rider.id !== prediction.rider.id);
-    // }
-    // if (prediction.isMeesterknecht) {
-    //   this.partipantRidersForm.meesterknecht = null;
-    // }
-    // if (prediction.isLinkebal) {
-    //   this.partipantRidersForm.linkebal = null;
-    // }
-    // if (prediction.isWaterdrager) {
-    //   this.partipantRidersForm.waterdrager = null;
-    // }
-    // if (prediction.isBeschermdeRenner) {
-    //   this.partipantRidersForm.beschermdeRenner = null;
-    // }
-
     // update the store
     this.store.dispatch(new fromParticipantForm.DeleteRiderFromForm(Object.assign(prediction)));
     this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, false);
     this.isParticipantFormDirty = true;
+
+    this.submitForm(false);
+
   }
 
-  submitForm() {
+  submitForm(isComplete: boolean) {
     this.tour$.take(1).subscribe(tour => {
       this.partipantRidersForm.tour = tour;
+      if (this.partipantRidersForm.waterdrager) {
+        this.partipantRidersForm.waterdrager.isComplete = isComplete;
+      }
+
+      if (this.partipantRidersForm.meesterknecht) {
+        this.partipantRidersForm.meesterknecht.isComplete = isComplete;
+      }
+      if (this.partipantRidersForm.linkebal) {
+        this.partipantRidersForm.linkebal.isComplete = isComplete;
+      }
+
+      if (this.partipantRidersForm.beschermdeRenner) {
+        this.partipantRidersForm.beschermdeRenner.isComplete = isComplete;
+      }
+
+      this.partipantRidersForm.riders.map(rider => rider.isComplete = isComplete);
 
       this.predictionService.submitPrediction(this.partipantRidersForm).subscribe(response => {
-        this.snackBar.open('Het opslaan is gelukt', '', {
-          duration: 2000,
-        });
-        console.log('opslaan gelukt');
+        if (isComplete) {
+          this.snackBar.open('Het opslaan is gelukt', '', {
+            duration: 2000,
+          });
+          console.log('opslaan gelukt');
+        }
         this.isParticipantFormDirty = false;
         // this.router.navigate(['/participants']);
       }, error => {
