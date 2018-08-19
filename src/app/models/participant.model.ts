@@ -41,6 +41,7 @@ export interface IPrediction {
   mountainPoints?: number;
   youthPoints?: number;
   waarde?: number;
+  isComplete?: boolean;
 }
 
 
