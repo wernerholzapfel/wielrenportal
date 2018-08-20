@@ -1,17 +1,18 @@
-<mat-toolbar color="primary">De stand per {{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}</mat-toolbar>
-<!--todo show progress bar-->
-<!--<mat-progress-bar *ngIf="!(participantstable$ | async)?.length >= 0" mode="buffer"></mat-progress-bar>-->
-<ng-container>
-  <mat-card-content>
-    <div class="mat-elevation-z8">
+<div class="mat-elevation-z8">
+  <mat-toolbar color="primary">De stand per {{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}
+  </mat-toolbar>
+  <!--todo show progress bar-->
+  <!--<mat-progress-bar *ngIf="!(participantstable$ | async)?.length >= 0" mode="buffer"></mat-progress-bar>-->
+  <ng-container>
+    <mat-card-content>
       <div class="container-header">
         <mat-form-field>
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
       </div>
       <ag-grid-angular
-        style="height: 500px; width: 100%;"
-        class="ag-theme-balham"
+        style=""
+        class="ag-theme-balham inside_card"
         [gridOptions]="gridOptions"
         [rowData]="(participantstable$ | async)"
         [enableColResize]="true"
@@ -19,8 +20,9 @@
         [context]="context"
         [frameworkComponents]="frameworkComponents"
         (rowSelected)="onRowSelected($event)"
+        [gridAutoHeight]="true"
         (gridReady)="onGridReady($event)">
       </ag-grid-angular>
-    </div>
-  </mat-card-content>
-</ng-container>
+    </mat-card-content>
+  </ng-container>
+</div>

@@ -17,19 +17,20 @@
   </mat-grid-tile>
 </mat-grid-list>
 <div fxLayoutAlign="row" fxLayout=" stretch" fxLayoutGap="1px">
-  <div fxFlex="calc(50% - 1px">
+  <div class="mat-elevation-z8" fxFlex="calc(50% - 1px">
     <mat-toolbar color="primary">Welkom</mat-toolbar>
-    <mat-card>
+    <ng-container>
       <mat-card-content>
         <p>
           Doe <b>gratis</b> mee en wordt de beste ploegleider van de Tour de France, Giro d’Italia of Vuelta a Espana!
         </p>
         <p>
-          Gebruik je <b>budget</b> om het winnende team samen te stellen, kies daarbij ook een <b>beschermde renner</b>,
+          Gebruik je <b>budget</b> om het winnende team samen te stellen, kies daarbij ook een <b>beschermde
+          renner</b>,
           <b>meesterknecht</b>, <b>waterdrager</b> en <b>linkebal</b>.
         </p>
       </mat-card-content>
-    </mat-card>
+    </ng-container>
   </div>
   <app-login fxFlex="50" *ngIf="!(authService.user$ | async)"></app-login>
 </div>

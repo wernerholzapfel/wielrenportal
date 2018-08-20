@@ -52,6 +52,7 @@ import { registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
 import {CanDeactivateGuard} from './candeactivate.guard';
 import { HastourendedclassComponent } from './aggridcomponents/hastourendedclass/hastourendedclass.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 registerLocaleData(localeNl);
 
@@ -88,6 +89,7 @@ registerLocaleData(localeNl);
     OrderModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    FlexLayoutModule,
     SharedModule,
     ReactiveFormsModule,
     AppRoutes,

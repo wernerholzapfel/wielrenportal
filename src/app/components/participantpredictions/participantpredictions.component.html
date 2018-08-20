@@ -1,16 +1,24 @@
-<mat-toolbar color="primary">Team van {{participanttable?.displayName}} ({{participanttable?.totalPoints}})</mat-toolbar>
-<div fxLayout="row">
-  <div fxFlex="100">
-    <ag-grid-angular
-      style="width: 100%;"
-      class="ag-theme-balham"
-      [gridOptions]="gridOptions"
-      [rowSelection]="rowSelection"
-      [frameworkComponents]="frameworkComponents"
-      (rowSelected)="onRowSelected($event)"
-      [gridAutoHeight]="true"
-      [enableColResize]="true"
-      (gridReady)="onGridReady($event)">
-    </ag-grid-angular>
-  </div>
-</div>
+<mat-toolbar color="primary">Team van {{participanttable?.displayName}} ({{participanttable?.totalPoints}})
+</mat-toolbar>
+<!--<div fxLayout="row">-->
+<!--<div fxFlex="100">-->
+<ng-container>
+  <mat-card-content>
+    <div class="mat-elevation-z8">
+      <ag-grid-angular
+        style=""
+        class="ag-theme-balham inside_card"
+        [gridOptions]="gridOptions"
+        [rowSelection]="rowSelection"
+        [frameworkComponents]="frameworkComponents"
+        (rowSelected)="onRowSelected($event)"
+        [gridAutoHeight]="true"
+        [enableColResize]="true"
+        (gridReady)="onGridReady($event)">
+      </ag-grid-angular>
+    </div>
+  </mat-card-content>
+</ng-container>
+
+<!--</div>-->
+<!--</div>-->
