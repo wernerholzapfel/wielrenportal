@@ -135,7 +135,7 @@ export class TourridersComponent implements OnInit {
     console.log('i am navigating away');
 
     if (this.isParticipantFormDirty) {
-      return window.confirm('Vergeet niet je wijzigingen op te slaan.');
+      return window.confirm('Je tijdelijke team is opgeslagen maar nog niet compleet. Vergeet niet om je team later compleet te maken.');
     }
 
     return !this.isParticipantFormDirty;
@@ -177,7 +177,7 @@ export class TourridersComponent implements OnInit {
         rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
         isRider: true
       })));
-      this.submitForm(false);
+      this.submitForm();
       console.log(this.currentRider.surName + ' toegevoegd als renner');
     }
   }
@@ -190,7 +190,7 @@ export class TourridersComponent implements OnInit {
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isBeschermdeRenner: true
     })));
-    this.submitForm(false);
+    this.submitForm();
 
     console.log(this.currentRider.surName + ' toegevoegd als beschermderenner');
   }
@@ -203,7 +203,7 @@ export class TourridersComponent implements OnInit {
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isMeesterknecht: true
     })));
-    this.submitForm(false);
+    this.submitForm();
     console.log(this.currentRider.surName + ' toegevoegd als meesterknecht');
   }
 
@@ -215,7 +215,7 @@ export class TourridersComponent implements OnInit {
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isLinkebal: true
     })));
-    this.submitForm(false);
+    this.submitForm();
 
     console.log(this.currentRider.surName + ' toegevoegd als linkebal');
   }
@@ -229,7 +229,7 @@ export class TourridersComponent implements OnInit {
       rider: Object.assign(this.currentRider, {team: {id: this.currentTeam.id}}),
       isWaterdrager: true
     })));
-    this.submitForm(false);
+    this.submitForm();
 
     console.log(this.currentRider.surName + ' toegevoegd als waterdrager'
     );
@@ -251,11 +251,12 @@ export class TourridersComponent implements OnInit {
     this.setCurrentRiderAsSelected(prediction.rider, prediction.rider.team, false);
     this.isParticipantFormDirty = true;
 
-    this.submitForm(false);
+    this.submitForm();
 
   }
 
-  submitForm(isComplete: boolean) {
+  submitForm() {
+    const isComplete: boolean = this.participantRidersComplete();
     this.tour$.take(1).subscribe(tour => {
       this.partipantRidersForm.tour = tour;
       if (this.partipantRidersForm.waterdrager) {
@@ -277,13 +278,12 @@ export class TourridersComponent implements OnInit {
 
       this.predictionService.submitPrediction(this.partipantRidersForm).subscribe(response => {
         if (isComplete) {
-          this.snackBar.open('Het opslaan is gelukt', '', {
+          this.snackBar.open('Je team is compleet en opgeslagen!', '', {
             duration: 2000,
           });
+          this.isParticipantFormDirty = false;
           console.log('opslaan gelukt');
         }
-        this.isParticipantFormDirty = false;
-        // this.router.navigate(['/participants']);
       }, error => {
         if (error.error.statusCode === 403) {
           this.snackBar.open(error.error.message, '', {
