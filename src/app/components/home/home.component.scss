@@ -1,5 +1,4 @@
-:host
-{
+:host {
   .mat-grid-tile {
     background-color: #f9a825;
   }
@@ -10,5 +9,10 @@
   mat-card-content {
     padding: 8px;
     background-color: white;
+  }
+
+  .card-container-xs {
+    height: calc(100% - 64px);
+    overflow-y: auto;
   }
 }

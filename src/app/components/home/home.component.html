@@ -1,36 +1,46 @@
-<mat-grid-list cols="2" rowHeight="100px">
-  <mat-grid-tile>
-    <span *ngIf="(isRegistrationOpen$ | async)">
-    De deadline voor inschrijving is: {{deadline | date: 'd MMMM y, H:mm'}}
-    </span>
-    <span *ngIf="!(isRegistrationOpen$ | async)">
-    Laatst bijgewerkt: {{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}
-    </span>
-  </mat-grid-tile>
-  <mat-grid-tile>
-    <span *ngIf="!(isRegistrationOpen$ | async)">
-    {{(first$ | async)?.displayName}} staat eerste met {{(first$ | async)?.totalPoints}} punten.
-     </span>
-    <span *ngIf="(isRegistrationOpen$ | async)">
-      Wie wordt de beste ploegleider?
-     </span>
-  </mat-grid-tile>
-</mat-grid-list>
-<div fxLayoutAlign="row" fxLayout=" stretch" fxLayoutGap="1px">
-  <div class="mat-elevation-z8" fxFlex="calc(50% - 1px">
-    <mat-toolbar color="primary">Welkom</mat-toolbar>
-    <ng-container>
-      <mat-card-content>
-        <p>
-          Doe <b>gratis</b> mee en wordt de beste ploegleider van de Tour de France, Giro d’Italia of Vuelta a Espana!
-        </p>
-        <p>
-          Gebruik je <b>budget</b> om het winnende team samen te stellen, kies daarbij ook een <b>beschermde
-          renner</b>,
-          <b>meesterknecht</b>, <b>waterdrager</b> en <b>linkebal</b>.
-        </p>
-      </mat-card-content>
-    </ng-container>
+<div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
+  <div fxLayoutAlign="row"  fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
+    <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+      <mat-toolbar color="accent">
+          <span *ngIf="(isRegistrationOpen$ | async)">
+          De deadline voor inschrijving is: {{deadline | date: 'd MMMM y, H:mm'}}
+          </span>
+        <span *ngIf="!(isRegistrationOpen$ | async)">
+          Laatst bijgewerkt: {{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}
+          </span>
+      </mat-toolbar>
+    </div>
+    <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
+    <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+      <mat-toolbar color="accent">
+          <span *ngIf="!(isRegistrationOpen$ | async)">
+          {{(first$ | async)?.displayName}} staat eerste met {{(first$ | async)?.totalPoints}} punten.
+          </span>
+        <span *ngIf="(isRegistrationOpen$ | async)">
+          Wie wordt de beste ploegleider?
+          </span>
+      </mat-toolbar>
+    </div>
   </div>
-  <app-login fxFlex="50" *ngIf="!(authService.user$ | async)"></app-login>
+  <div class="spacing-xs"></div>
+  <div fxLayoutAlign="column" fxLayout=" stretch" fxLayoutGap.gt-xs="8px">
+    <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+      <mat-toolbar color="primary">Welkom</mat-toolbar>
+      <ng-container>
+        <mat-card-content>
+          <p>
+            Doe <b>gratis</b> mee en wordt de beste ploegleider van de Tour de France, Giro d’Italia of Vuelta a
+            Espana!
+          </p>
+          <p>
+            Gebruik je <b>budget</b> om het winnende team samen te stellen, kies daarbij ook een <b>beschermde
+            renner</b>,
+            <b>meesterknecht</b>, <b>waterdrager</b> en <b>linkebal</b>.
+          </p>
+        </mat-card-content>
+      </ng-container>
+    </div>
+    <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
+    <app-login fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" *ngIf="!(authService.user$ | async)"></app-login>
+  </div>
 </div>

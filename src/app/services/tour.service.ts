@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {AddTeamsRequest, ITour} from '../models/tour.model';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class TourService {
@@ -28,12 +29,12 @@ export class TourService {
 
   addTeams(body: AddTeamsRequest): Observable<ITour> {
     return this.http.post<ITour>(`${environment.apiBaseUrl}/tours/setteams`, body)
-      .map(res => <ITour>res);
+      .pipe(map(res => <ITour>res));
   }
 
   addRidertoTeam(body: any): Observable<ITour> {
     return this.http.post<any>(`${environment.apiBaseUrl}/tourriders`, body)
-      .map(res => <any>res);
+      .pipe(map(res => <any>res));
   }
 
 

@@ -6,8 +6,8 @@ import {getTour, getTourTeams, isRegistrationOpen} from '../../store/tour/tour.r
 import {ITour} from '../../models/tour.model';
 import {IPartipantRidersFormModel} from '../../models/partipantRidersForm.model';
 import {ITeam} from '../../models/team.model';
-import 'rxjs/add/operator/take';
-import {Observable} from 'rxjs/Observable';
+import { map, take } from 'rxjs/operators';
+import {Observable, Subscription} from 'rxjs';
 import {PredictionService} from '../../services/prediction.service';
 import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
@@ -17,7 +17,6 @@ import * as moment from 'moment';
 import * as fromParticipantForm from '../../store/participantform/participantform.actions';
 import {AddRiderToForm} from '../../store/participantform/participantform.actions';
 import {getParticipantforms} from '../../store/participantform/participantform.reducer';
-import {Subscription} from 'rxjs/Subscription';
 import {ParticipantService} from '../../services/participant.service';
 
 @Component({
@@ -71,7 +70,7 @@ export class TourridersComponent implements OnInit {
           if (tour && tour.id) {
             this.isLoading = true;
 
-            this.init = this.participantsFormInit$.take(2).subscribe(initPredictions => {
+            this.init = this.participantsFormInit$.pipe(take(2)).subscribe(initPredictions => {
               if (initPredictions.length <= 0) {
                 this.store.dispatch(new fromParticipantForm.FetchParticipantform(tour.id));
               } else {
@@ -256,8 +255,10 @@ export class TourridersComponent implements OnInit {
   }
 
   submitForm() {
+    const item: Element = document.querySelector('#voorspellings_kaart');
+    item.scrollIntoView();
     const isComplete: boolean = this.participantRidersComplete();
-    this.tour$.take(1).subscribe(tour => {
+    this.tour$.pipe(take(1)).subscribe(tour => {
       this.partipantRidersForm.tour = tour;
       if (this.partipantRidersForm.waterdrager) {
         this.partipantRidersForm.waterdrager.isComplete = isComplete;

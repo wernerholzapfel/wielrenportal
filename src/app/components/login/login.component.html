@@ -1,94 +1,95 @@
-<mat-toolbar color="primary">Inloggen</mat-toolbar>
-<mat-card>
-  <mat-tab-group *ngIf="!(authService.user$ | async)">
-    <mat-tab label="inloggen" *ngIf="!wachtwoordvergeten">
-      <form class="login-form">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Email" name="inlogEmail" [(ngModel)]="user.email">
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input type="password" name="inlogPassword" matInput placeholder="Password"
-                 [(ngModel)]="user.password">
-        </mat-form-field>
-        <div class="form-group">
-          <div fxLayout="row" fxLayoutAlign="start center">
-            <button mat-raised-button color="primary" (click)="signInWithEmail()"
-                    [disabled]="!user.email || !user.password">
-              Inloggen
-            </button>
-            <div class="clickable_div" (click)="activateResetPassword(true)">Wachtwoord vergeten</div>
+<div class="mat-elevation-z8">
+  <mat-toolbar color="primary">Inloggen</mat-toolbar>
+  <mat-card>
+    <mat-tab-group *ngIf="!(authService.user$ | async)">
+      <mat-tab label="inloggen" *ngIf="!wachtwoordvergeten">
+        <form class="login-form">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Email" name="inlogEmail" [(ngModel)]="user.email">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input type="password" autocomplete="password" name="inlogPassword" matInput placeholder="Password"
+                   [(ngModel)]="user.password">
+          </mat-form-field>
+          <div class="form-group">
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <button mat-raised-button color="primary" (click)="signInWithEmail()"
+                      [disabled]="!user.email || !user.password">
+                Inloggen
+              </button>
+              <div class="clickable_div" (click)="activateResetPassword(true)">Wachtwoord vergeten</div>
+            </div>
           </div>
-        </div>
-      </form>
-    </mat-tab>
+        </form>
+      </mat-tab>
 
-    <mat-tab label="inschrijven" *ngIf="!wachtwoordvergeten">
-      <form [formGroup]="userForm" class="login-form">
-        <mat-form-field class="full-width">
-          <input type="text" matInput placeholder="Naam" formControlName="displayNameFormControl"
-                 [errorStateMatcher]="matcher" [(ngModel)]="user.displayName">
-          <mat-error *ngIf="userForm.controls['displayNameFormControl'].errors?.required">
-            Naam is <strong>verplicht</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Email" formControlName="emailFormControl"
-                 [errorStateMatcher]="matcher" [(ngModel)]="user.email">
-          <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.email &&
+      <mat-tab label="inschrijven" *ngIf="!wachtwoordvergeten">
+        <form [formGroup]="userForm" class="login-form">
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="Naam" formControlName="displayNameFormControl"
+                   [errorStateMatcher]="matcher" [(ngModel)]="user.displayName">
+            <mat-error *ngIf="userForm.controls['displayNameFormControl'].errors?.required">
+              Naam is <strong>verplicht</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Email" formControlName="emailFormControl"
+                   [errorStateMatcher]="matcher" [(ngModel)]="user.email">
+            <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.email &&
     !userForm.controls['emailFormControl'].errors?.required">
-            Vul een valide emailadres in.
-          </mat-error>
-          <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.required">
-            Email is <strong>verplicht</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input type="password" matInput placeholder="Password" formControlName="passwordFormControl"
-                 [(ngModel)]="user.password">
-          <!--<mat-hint>Het wachtwoord moet minimaal 8 tekens lang zijn</mat-hint>-->
-          <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.minlength &&
+              Vul een valide emailadres in.
+            </mat-error>
+            <mat-error *ngIf="userForm.controls['emailFormControl'].errors?.required">
+              Email is <strong>verplicht</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input type="password" matInput autocomplete="password" placeholder="Password" formControlName="passwordFormControl"
+                   [(ngModel)]="user.password">
+            <!--<mat-hint>Het wachtwoord moet minimaal 8 tekens lang zijn</mat-hint>-->
+            <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.minlength &&
     !userForm.controls['passwordFormControl'].errors?.required">
-            Het wachtwoord moet minstens 8 tekens lang zijn.
-          </mat-error>
-          <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.required">
-            Paswoord is <strong>verplicht</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <input type="text" matInput placeholder="Teamnaam" formControlName="displayTeamNameFormControl"
-                 [errorStateMatcher]="matcher" [(ngModel)]="user.teamName">
-          <mat-error *ngIf="userForm.controls['displayTeamNameFormControl'].errors?.required">
-            Team naam is <strong>verplicht</strong>
-          </mat-error>
-        </mat-form-field>
-        <div class="form-group">
-          <button mat-raised-button color="primary" (click)="signUpRegular()" [disabled]="userForm.invalid">
-            Inschrijven
-          </button>
-        </div>
-      </form>
-    </mat-tab>
-    <mat-tab *ngIf="wachtwoordvergeten" label="wachtwoord vergeten">
-      <form class="login-form">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Email" name="inlogEmail" [(ngModel)]="user.email">
-        </mat-form-field>
-        <div class="form-group">
-          <div fxLayout="row" fxLayoutAlign="start center">
-            <button mat-raised-button color="primary" (click)="sendPasswordResetEmail()"
-                    [disabled]="!user.email">
-              Reset wachtwoord
+              Het wachtwoord moet minstens 8 tekens lang zijn.
+            </mat-error>
+            <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.required">
+              Paswoord is <strong>verplicht</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input type="text" matInput placeholder="Teamnaam" formControlName="displayTeamNameFormControl"
+                   [errorStateMatcher]="matcher" [(ngModel)]="user.teamName">
+            <mat-error *ngIf="userForm.controls['displayTeamNameFormControl'].errors?.required">
+              Team naam is <strong>verplicht</strong>
+            </mat-error>
+          </mat-form-field>
+          <div class="form-group">
+            <button mat-raised-button color="primary" (click)="signUpRegular()" [disabled]="userForm.invalid">
+              Inschrijven
             </button>
-            <div class="clickable_div" (click)="activateResetPassword(false)">Login</div>
           </div>
-        </div>
-      </form>
-    </mat-tab>
-  </mat-tab-group>
-  <button mat-raised-button color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout
-    {{(authService.user$ | async)?.displayName }}
-  </button>
-</mat-card>
-
+        </form>
+      </mat-tab>
+      <mat-tab *ngIf="wachtwoordvergeten" label="wachtwoord vergeten">
+        <form class="login-form">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Email" name="inlogEmail" [(ngModel)]="user.email">
+          </mat-form-field>
+          <div class="form-group">
+            <div fxLayout="row" fxLayoutAlign="start center">
+              <button mat-raised-button color="primary" (click)="sendPasswordResetEmail()"
+                      [disabled]="!user.email">
+                Reset wachtwoord
+              </button>
+              <div class="clickable_div" (click)="activateResetPassword(false)">Login</div>
+            </div>
+          </div>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+    <button mat-raised-button color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout
+      {{(authService.user$ | async)?.displayName }}
+    </button>
+  </mat-card>
+</div>
 
 

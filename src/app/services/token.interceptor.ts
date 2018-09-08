@@ -1,8 +1,8 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import {Observable, from as fromPromise} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
-import {fromPromise} from 'rxjs/observable/fromPromise';
+import {switchMap} from 'rxjs/operators';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -13,10 +13,10 @@ export class TokenInterceptor implements HttpInterceptor {
 
     // todo asks codereview
     return this.authService.isLoggedIn()
-      .switchMap((value) => {
+      .pipe(switchMap((value) => {
         if (value) {
           return fromPromise(this.authService.getToken())
-            .switchMap(token => {
+            .pipe(switchMap(token => {
               request = request.clone({
                 setHeaders: {
                   'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 }
               });
               return next.handle(request);
-            });
+            }));
         } else {
           request = request.clone({
             setHeaders: {
@@ -39,6 +39,6 @@ export class TokenInterceptor implements HttpInterceptor {
           });
           return next.handle(request);
         }
-      });
+      }));
   }
 }

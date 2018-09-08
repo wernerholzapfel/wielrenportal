@@ -5,9 +5,81 @@
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~@angular/material/theming';
 
-@include mat-core();
-$primary: mat-palette($mat-yellow, 800);
-$accent: mat-palette($mat-amber, 600, 100, 800);
+$general-typography: mat-typography-config(
+  $font-family: '"PT Sans", "Helvetica Neue", sans-serif',
+  $body-2: mat-typography-level(14px, 24px, 600)
+);
+
+$md-vuelta: (
+  50 : #fae6e5,
+  100 : #f3c0be,
+  200 : #ec9693,
+  300 : #e46b67,
+  400 : #de4c47,
+  500 : #d82c26,
+  600 : #d42722,
+  700 : #ce211c,
+  800 : #c81b17,
+  900 : #bf100d,
+  A100 : #ffeceb,
+  A200 : #ffb9b8,
+  A400 : #ff8785,
+  A700 : #ff6e6c,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$md-black: (
+  50 : #e0e0e0,
+  100 : #b3b3b3,
+  200 : #808080,
+  300 : #4d4d4d,
+  400 : #262626,
+  500 : #000000,
+  600 : #000000,
+  700 : #000000,
+  800 : #000000,
+  900 : #000000,
+  A100 : #a6a6a6,
+  A200 : #8c8c8c,
+  A400 : #737373,
+  A700 : #666666,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
+);
+
+
+@include mat-core($general-typography);
+$primary: mat-palette($md-vuelta, 800);
+$accent: mat-palette($md-black, 600, 100, 800);
 $warn: mat-palette($mat-blue-grey, 600);
 $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
@@ -26,9 +98,11 @@ html, body {
 }
 .banner_image {
   width: 100%;
+  height: 130px;
 }
 
 .mat-card {
+  height: 100%;
   padding: 8px !important;
 }
 
@@ -81,4 +155,21 @@ html, body {
 
 ag-grid-angular.inside_card {
   padding: 8px 24px;
+}
+
+.card-container {
+  height: calc(100vh - 338px);
+  overflow-y: auto;
+}
+
+.card-container-xs {
+  height: calc(100vh - 184px);
+  overflow-y: auto;
+}
+.spacing-xs {
+  height: 8px;
+  width: 8px;
+}
+.spacing {
+  height: 20px;
 }

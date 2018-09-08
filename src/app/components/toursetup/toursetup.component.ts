@@ -6,15 +6,16 @@ import * as fromRider from '../../store/rider/rider.actions';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {ITour} from '../../models/tour.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable, combineLatest } from 'rxjs';
+
 import {getTour, getTourInProgress, getTours, getTourTeams} from '../../store/tour/tour.reducer';
 import {ITeam} from '../../models/team.model';
 import {getTeams} from '../../store/team/team.reducer';
-import 'rxjs/add/observable/combineLatest';
+
 import {TourService} from '../../services/tour.service';
 import {IRider} from '../../models/rider.model';
 import {getRiders} from '../../store/rider/rider.reducer';
-import 'rxjs/add/operator/mergeMap';
+
 import {ITourriders} from '../../models/tourriders.model';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {GridOptions} from 'ag-grid';
@@ -83,7 +84,7 @@ export class ToursetupComponent implements OnInit {
     this.teams$ = this.store.select(getTeams);
     this.riders$ = this.store.select(getRiders);
 
-    Observable.combineLatest(this.teams$, this.tourTeams$).subscribe(
+    combineLatest(this.teams$, this.tourTeams$).subscribe(
       ([teams, tourteams]) => {
         this.selectableTeamList = Object.assign(teams.map(team => {
           if (tourteams && tourteams.find(tt => tt.id === team.id)) {
@@ -95,7 +96,7 @@ export class ToursetupComponent implements OnInit {
         console.log(this.selectableTeamList);
       });
 
-    Observable.combineLatest(this.tourTeams$, this.riders$).subscribe(
+    combineLatest(this.tourTeams$, this.riders$).subscribe(
       ([tourTeams, riders]) => {
         if (riders && tourTeams && tourTeams.length > 0) {
           let flattenTourRiders: ITourriders[] = [];

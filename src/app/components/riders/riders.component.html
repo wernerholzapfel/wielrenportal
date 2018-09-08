@@ -1,6 +1,5 @@
-<mat-card>
 <mat-toolbar color="primary">Renners</mat-toolbar>
-  <mat-progress-bar *ngIf="!(riders$ | async)" mode="buffer"></mat-progress-bar>
+<mat-progress-bar *ngIf="!(riders$ | async)" mode="buffer"></mat-progress-bar>
   <mat-card-content>
     <div class="riders-container mat-elevation-z8">
       <div class="riders-header">
@@ -18,4 +17,3 @@
       </ag-grid-angular>
     </div>
   </mat-card-content>
-</mat-card>

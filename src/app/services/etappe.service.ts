@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {IEtappe} from '../models/etappe.model';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class EtappeService {
@@ -17,6 +18,6 @@ export class EtappeService {
 
   saveEtappe(body: IEtappe): Observable<IEtappe> {
     return this.http.post<IEtappe>(`${environment.apiBaseUrl}/etappes`, body)
-      .map(res => <IEtappe>res);
+      .pipe(map(res => <IEtappe>res));
   }
 }

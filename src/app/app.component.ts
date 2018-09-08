@@ -5,7 +5,7 @@ import {IAppState} from './store/store';
 import * as fromParticipanttable from './store/participanttable/participanttable.actions';
 import * as fromTour from './store/tour/tour.actions';
 import {getTour, getTours, isRegistrationOpen} from './store/tour/tour.reducer';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ITour} from './models/tour.model';
 import {getLastUpdated} from './store/participanttable/participanttable.reducer';
 import {MatSnackBar} from '@angular/material';

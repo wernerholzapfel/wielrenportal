@@ -12,12 +12,21 @@
   }
 
   mat-sidenav {
-    width: 80vw;
+    width: 90vw;
   }
 
   .mat-select {
     font-size: 14px;
     width: 160px;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .banner_image_div {
+    height: 8px;
   }
 }
 

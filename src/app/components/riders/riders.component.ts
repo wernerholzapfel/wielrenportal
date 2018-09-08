@@ -6,7 +6,7 @@ import {Store} from '@ngrx/store';
 import {RiderService} from '../../services/rider.service';
 import {FetchRiders} from '../../store/rider/rider.actions';
 import {getRiders} from '../../store/rider/rider.reducer';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {GridOptions} from 'ag-grid';
 import {getTourRiders} from '../../store/tour/tour.reducer';
 import {ITourriders} from '../../models/tourriders.model';

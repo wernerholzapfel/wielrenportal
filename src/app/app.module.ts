@@ -12,10 +12,9 @@ import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {RidersComponent} from './components/riders/riders.component';
-import {AngularFireModule} from 'angularfire2';
+import { AngularFireModule } from '@angular/fire';
 import {environment} from '../environments/environment';
-import {AngularFireDatabaseModule} from 'angularfire2/database-deprecated';
-import {AngularFireAuthModule} from 'angularfire2/auth';
+import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AuthService} from './services/auth.service';
 import {LoginComponent} from './components/login/login.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -36,8 +35,7 @@ import {EtappesComponent} from './components/etappes/etappes.component';
 import {EtappeService} from './services/etappe.service';
 import {AddEtappeDialogComponent} from './components/etappes/dialog/add-etappe-dialog/add-etappe-dialog.component';
 import {OrderModule} from 'ngx-order-pipe';
-import { AddStageClassificationsComponent }
-from './components/etappes/dialog/add-stage-classifications/add-stage-classifications.component';
+import { AddStageClassificationsComponent } from './components/etappes/dialog/add-stage-classifications/add-stage-classifications.component';
 import {MAT_DATE_LOCALE} from '@angular/material';
 import {AgGridModule} from 'ag-grid-angular';
 import {ClassificationsService} from './services/stageclassifications.service';
@@ -53,6 +51,7 @@ import localeNl from '@angular/common/locales/nl';
 import {CanDeactivateGuard} from './candeactivate.guard';
 import { HastourendedclassComponent } from './aggridcomponents/hastourendedclass/hastourendedclass.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
 
 registerLocaleData(localeNl);
 

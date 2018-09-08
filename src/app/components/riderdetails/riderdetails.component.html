@@ -1,18 +1,22 @@
-<mat-toolbar color="primary">Rennerspunten</mat-toolbar>
-  <mat-card-content>
-    <div class="riders-container mat-elevation-z8">
-      <div class="riders-header">
-        <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-        </mat-form-field>
-      </div>
+<div class="mat-elevation-z8">
+  <mat-toolbar color="primary">Rennerspunten</mat-toolbar>
+<mat-card>
+  <div class="riders-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+  <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
+    <mat-card-content>
       <ag-grid-angular
-        style="height: 500px;"
+        style="height: 100%"
         class="ag-theme-balham inside_card"
         [gridOptions]="gridOptions"
         (rowSelected)="onRowSelected($event)"
         [rowSelection]="rowSelection"
         [frameworkComponents]="frameworkComponents">
       </ag-grid-angular>
-    </div>
-</mat-card-content>
+    </mat-card-content>
+  </div>
+</mat-card>
+</div>

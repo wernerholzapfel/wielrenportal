@@ -3,9 +3,8 @@ import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourrider
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription, Observable} from 'rxjs';
 import {getParticipantPredictions} from '../../store/participanttable/participanttable.reducer';
-import {Observable} from 'rxjs/Observable';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {ParticipantService} from '../../services/participant.service';

@@ -78,7 +78,6 @@ export class LoginComponent implements OnInit {
   signUpRegular() {
     this.authService.signUpRegular(this.user.email, this.user.password, this.user.displayName)
       .then((res) => {
-        res.updateProfile({displayName: this.user.displayName});
           if (res) {
             delete this.user.password;
             this.participantService.postParticipant({

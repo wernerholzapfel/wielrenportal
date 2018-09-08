@@ -4,6 +4,7 @@
   <!--todo show progress bar-->
   <!--<mat-progress-bar *ngIf="!(participantstable$ | async)?.length >= 0" mode="buffer"></mat-progress-bar>-->
   <ng-container>
+    <div [ngClass.xs]="{'card-container':false, 'card-container-xs':true}" class="card-container">
     <mat-card-content>
       <div class="container-header">
         <mat-form-field>
@@ -24,5 +25,6 @@
         (gridReady)="onGridReady($event)">
       </ag-grid-angular>
     </mat-card-content>
+    </div>
   </ng-container>
 </div>

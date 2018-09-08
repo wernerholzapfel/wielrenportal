@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from './auth.service';
-import {Observable} from 'rxjs/Observable';
-import {falseIfMissing} from 'protractor/built/util';
+import {of} from 'rxjs';
+import {catchError, map} from 'rxjs/operators';
 
 @Injectable()
 export class AuthGuardService {
@@ -12,16 +12,17 @@ export class AuthGuardService {
   }
 
   canActivate() {
-    return this.authService.isLoggedIn().map(user => {
-      if (user) {
-        return true;
-      } else {
+    return this.authService.isLoggedIn().pipe(map(user => {
+        if (user) {
+          return true;
+        } else {
+          this.router.navigate(['']);
+          return false;
+        }
+      }),
+      catchError(() => {
         this.router.navigate(['']);
-        return false;
-      }
-    }).catch(() => {
-      this.router.navigate(['']);
-      return Observable.of(false);
-    });
+        return of(false);
+      }));
   }
 }

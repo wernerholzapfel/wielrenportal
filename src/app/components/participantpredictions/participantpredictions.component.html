@@ -1,24 +1,23 @@
-<mat-toolbar color="primary">Team van {{participanttable?.displayName}} ({{participanttable?.totalPoints}})
-</mat-toolbar>
-<!--<div fxLayout="row">-->
-<!--<div fxFlex="100">-->
-<ng-container>
-  <mat-card-content>
-    <div class="mat-elevation-z8">
-      <ag-grid-angular
-        style=""
-        class="ag-theme-balham inside_card"
-        [gridOptions]="gridOptions"
-        [rowSelection]="rowSelection"
-        [frameworkComponents]="frameworkComponents"
-        (rowSelected)="onRowSelected($event)"
-        [gridAutoHeight]="true"
-        [enableColResize]="true"
-        (gridReady)="onGridReady($event)">
-      </ag-grid-angular>
+<div class="mat-elevation-z8">
+  <mat-toolbar color="primary">Team van {{participanttable?.displayName}} ({{participanttable?.totalPoints}})
+  </mat-toolbar>
+  <!--<div fxLayout="row">-->
+  <!--<div fxFlex="100">-->
+  <ng-container>
+    <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
+      <mat-card-content>
+        <ag-grid-angular
+          style=""
+          class="ag-theme-balham inside_card"
+          [gridOptions]="gridOptions"
+          [rowSelection]="rowSelection"
+          [frameworkComponents]="frameworkComponents"
+          (rowSelected)="onRowSelected($event)"
+          [gridAutoHeight]="true"
+          [enableColResize]="true"
+          (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+      </mat-card-content>
     </div>
-  </mat-card-content>
-</ng-container>
-
-<!--</div>-->
-<!--</div>-->
+  </ng-container>
+</div>

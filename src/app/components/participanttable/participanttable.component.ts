@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
 import {getLastUpdated, getParticipanttable} from '../../store/participanttable/participanttable.reducer';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {IParticipanttable} from '../../models/participanttable.model';
 import {getTour} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';

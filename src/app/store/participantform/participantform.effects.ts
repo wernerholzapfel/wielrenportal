@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
 import * as participantform from './participantform.actions';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
+import {Observable} from 'rxjs';
+
+
 import {PredictionService} from '../../services/prediction.service';
+import {catchError, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs/internal/observable/of';
 
 @Injectable()
 export class ParticipantformEffects {
@@ -17,11 +17,10 @@ export class ParticipantformEffects {
   @Effect()
   fetchParticipantform$ = this.actions$
     .ofType<participantform.FetchParticipantform>(participantform.FETCH_PARTICIPANTFORM)
-    .switchMap(action => {
+    .pipe(switchMap(action => {
       return this.predictionService.getPredictionsForUser(action.payload)
-        .switchMap(participantformResponse =>
-          Observable.of(new participantform.FetchParticipantformSuccess(participantformResponse))
-        )
-        .catch(err => Observable.of(new participantform.FetchParticipantformFailure(err)));
-    });
+        .pipe(switchMap(participantformResponse =>
+            of(new participantform.FetchParticipantformSuccess(participantformResponse))),
+          catchError(err => of(new participantform.FetchParticipantformFailure(err))));
+    }));
 }

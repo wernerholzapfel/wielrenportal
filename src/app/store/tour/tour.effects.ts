@@ -1,13 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
 import * as tour from './tour.actions';
-import * as etappe from '../etappe/etappe.actions';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
+
+
 import {TourService} from '../../services/tour.service';
+import {of} from 'rxjs/internal/observable/of';
+import {catchError, switchMap} from 'rxjs/operators';
 
 @Injectable()
 export class TourEffects {
@@ -18,38 +16,37 @@ export class TourEffects {
   @Effect()
   fetchTour$ = this.actions$
     .ofType<tour.FetchTour>(tour.FETCH_TOUR)
-    .switchMap(action => {
+    .pipe(switchMap(action => {
       return this.tourService
         .getTour()
-        .switchMap(tourResponse =>
-          Observable.of(new tour.FetchTourSuccess(tourResponse))
-        )
-        .catch(err => Observable.of(new tour.FetchTourFailure(err)));
-    });
+        .pipe(switchMap(tourResponse =>
+            of(new tour.FetchTourSuccess(tourResponse))),
+          catchError(err => of(new tour.FetchTourFailure(err))));
+    }));
 
   @Effect()
   fetchTourById$ = this.actions$
     .ofType<tour.FetchTourById>(tour.FETCH_TOUR_BY_ID)
-    .switchMap(action => {
+    .pipe(switchMap(action => {
       return this.tourService
         .getTourById(action.payload)
-        .switchMap(tourResponse =>
-          Observable.of(new tour.FetchTourSuccess(tourResponse)))
-        .catch(err => Observable.of(new tour.FetchTourFailure(err)));
-    });
+        .pipe(switchMap(tourResponse =>
+            of(new tour.FetchTourSuccess(tourResponse))),
+          catchError(err => of(new tour.FetchTourFailure(err))));
+    }));
 
 
   @Effect()
   fetchTourList$ = this.actions$
     .ofType<tour.FetchTourList>(tour.FETCH_TOURLIST)
-    .switchMap(action => {
+    .pipe(switchMap(action => {
       return this.tourService
         .getTourlist()
-        .switchMap(tourResponse =>
-          Observable.of(new tour.FetchTourListSuccess(tourResponse))
-        )
-        .catch(err => Observable.of(new tour.FetchTourListFailure(err)));
-    });
+        .pipe(switchMap(tourResponse =>
+            of(new tour.FetchTourListSuccess(tourResponse))
+          ),
+          catchError(err => of(new tour.FetchTourListFailure(err))));
+    }));
 
   // @Effect()
   // updateTour$ = this.actions$
@@ -60,9 +57,11 @@ export class TourEffects {
   @Effect()
   saveRiderToTeam$ = this.actions$
     .ofType<tour.SaveRiderToTeam>(tour.SAVE_RIDER_TO_TEAM)
-    .switchMap(action => {
-      return this.tourService.addRidertoTeam(action.payload);
-    })
-    .switchMap(action => Observable.of(new tour.SaveRiderToTeamSuccess(action)))
-    .catch(err => Observable.of(new tour.SaveRiderToTeamFailure(err)));
+    .pipe(
+      switchMap(action => {
+        return this.tourService.addRidertoTeam(action.payload);
+      }))
+    .pipe(
+      switchMap(action => of(new tour.SaveRiderToTeamSuccess(action))),
+      catchError(err => of(new tour.SaveRiderToTeamFailure(err))));
 }
