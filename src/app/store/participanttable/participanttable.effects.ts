@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect} from '@ngrx/effects';
+import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as participanttable from './participanttable.actions';
 import {catchError, switchMap} from 'rxjs/operators';
-import {of} from 'rxjs/internal/observable/of';
+import {of} from 'rxjs';
 import {IParticipanttable} from '../../models/participanttable.model';
 import {AngularFireDatabase} from '@angular/fire/database';
 
@@ -13,8 +13,9 @@ export class ParticipanttableEffects {
 
   @Effect()
   fetchParticipanttable$ = this.actions$
-    .ofType<participanttable.FetchParticipanttable>(participanttable.FETCH_PARTICIPANTTABLE)
-    .pipe(switchMap(action => {
+    .pipe(
+      ofType<participanttable.FetchParticipanttable>(participanttable.FETCH_PARTICIPANTTABLE),
+      switchMap(action => {
       return this.db.list<IParticipanttable>(action.payload + '/stand/').valueChanges()
         .pipe(
           switchMap(participanttableResponse =>
@@ -24,8 +25,8 @@ export class ParticipanttableEffects {
 
   @Effect()
   fetchLastupdated$ = this.actions$
-    .ofType<participanttable.FetchLastUpdated>(participanttable.FETCH_LASTUPDATED)
-    .pipe(switchMap(action => {
+    .pipe(ofType<participanttable.FetchLastUpdated>(participanttable.FETCH_LASTUPDATED),
+      switchMap(action => {
       return this.db.object<IParticipanttable[]>(action.payload + '/lastUpdated/').valueChanges()
         .pipe(switchMap(response =>
             of(new participanttable.FetchLastUpdatedSuccess(response))),
