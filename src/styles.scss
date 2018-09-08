@@ -76,14 +76,12 @@ $md-black: (
   )
 );
 
-
 @include mat-core($general-typography);
-$primary: mat-palette($md-vuelta, 800);
+$primary: mat-palette($md-vuelta, 500);
 $accent: mat-palette($md-black, 600, 100, 800);
 $warn: mat-palette($mat-blue-grey, 600);
 $theme: mat-light-theme($primary, $accent, $warn);
 @include angular-material-theme($theme);
-
 
 @import "~ag-grid/dist/styles/ag-grid.css";
 @import "~ag-grid/dist/styles/ag-theme-material.css";
@@ -116,7 +114,7 @@ html, body {
 
 .ag-row-selected {
   // todo get from colors
-  background-color: #f9a825 !important;
+  background-color: #d82c26 !important;
 }
 
 //$ag-range-selected-color-1:  #ff4081;
