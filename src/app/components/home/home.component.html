@@ -5,10 +5,10 @@
           <span *ngIf="(isRegistrationOpen$ | async)">
           De deadline voor inschrijving is: {{deadline | date: 'd MMMM y, H:mm'}}
           </span>
-        <span *ngIf="!(isRegistrationOpen$ | async) && (lastUpdated$ | async)?.lastUpdated">
-          Laatst bijgewerkt: {{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}
+        <span *ngIf="!(isRegistrationOpen$ | async) && lastUpdated">
+          Laatst bijgewerkt: {{lastUpdated}}
           </span>
-        <span *ngIf="(!(isRegistrationOpen$ | async) && !(lastUpdated$ | async)?.lastUpdated)">
+        <span *ngIf="(!(isRegistrationOpen$ | async) && !lastUpdated)">
           Aan het laden...
           </span>
       </mat-toolbar>
