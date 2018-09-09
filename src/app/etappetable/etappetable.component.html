@@ -1,4 +1,12 @@
-  <mat-toolbar color="primary">Etappestand</mat-toolbar>
+  <mat-toolbar color="primary">
+    <span>Etappestand</span>
+    <span class="example-spacer"></span>
+    <mat-select placeholder="Kies etappe" [(ngModel)]="selectedEtappe"
+                (selectionChange)="fetchEtappe()">
+      <mat-option *ngFor="let etappe of etappes$ | async" [value]="etappe">
+        {{ etappe.etappeName }}
+      </mat-option>
+    </mat-select></mat-toolbar>
   <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
   <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
     <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">

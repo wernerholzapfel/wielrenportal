@@ -5,7 +5,7 @@
         <span>Menu</span>
         <span class="example-spacer"></span>
         <mat-select *ngIf="authService.isAdmin" placeholder="Kies de ronde" [(ngModel)]="selectedTour"
-                    (change)="fetchTour()">
+                    (selectionChange)="fetchTour()">
           <mat-option *ngFor="let tour of tours$ | async" [value]="tour">
             {{ tour.tourName }}
           </mat-option>
@@ -81,7 +81,7 @@ true}">Home</button>
             async)?.displayName }}
           </button>
           <mat-select fxHide [fxHide.gt-xs]="false" *ngIf="authService.isAdmin" placeholder="Kies de ronde"
-                      [(ngModel)]="selectedTour" (change)="fetchTour()">
+                      [(ngModel)]="selectedTour" (selectionChange)="fetchTour()">
             <mat-option *ngFor="let tour of tours$ | async" [value]="tour">
               {{ tour.tourName }}
             </mat-option>

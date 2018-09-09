@@ -45,3 +45,5 @@ export function etappeReducer(state = initaletappeState, action): EtappeState {
 
 export const getetappeState = createFeatureSelector<EtappeState>('etappe');
 export const getEtappes = createSelector(getetappeState, (state: EtappeState) => state.etappes);
+export const getDrivenEtappes = createSelector(getetappeState, (state: EtappeState) =>
+  state.etappes ? state.etappes.filter(item => item.isDriven).sort((a, b) => b.etappeNumber - a.etappeNumber) : []);

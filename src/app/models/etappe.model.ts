@@ -8,6 +8,7 @@ export interface IEtappe {
   date: Date;
   type?: string;
   tour: ITour;
+  isDriven: boolean;
 }
 
 export interface IStageClassification {

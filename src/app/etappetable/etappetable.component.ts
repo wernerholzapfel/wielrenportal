@@ -2,6 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ClassificationsService} from '../services/stageclassifications.service';
 import {GridOptions} from 'ag-grid';
 import {TourService} from '../services/tour.service';
+import {Observable} from 'rxjs/internal/Observable';
+import {select, Store} from '@ngrx/store';
+import {getDrivenEtappes, getEtappes} from '../store/etappe/etappe.reducer';
+import {IAppState} from '../store/store';
+import {getTour} from '../store/tour/tour.reducer';
+import * as fromEtappe from '../store/etappe/etappe.actions';
 
 @Component({
   selector: 'app-etappetable',
@@ -20,11 +26,16 @@ export class EtappetableComponent implements OnInit {
   public etappeStandGridOptions: GridOptions;
   public etappeStandRowData: any[];
   public rowClassRules;
+  etappes$: Observable<any>;
+  selectedEtappe: any;
   etappe: any[];
   rowSelection = 'single';
-  etappeId = 'e12be468-790e-48c2-ae4e-4279ded23059';
+  etappeId: string;
+  tourId: string;
 
-  constructor(private stageClassificationsService: ClassificationsService, private tourService: TourService) {
+  constructor(private stageClassificationsService: ClassificationsService,
+              private tourService: TourService,
+              private store: Store<IAppState>) {
     this.etappeAgColumns = [
       {headerName: '#', field: 'position', minWidth: 50, maxWidth: 50},
       {headerName: 'Naam', cellRenderer: this.determineRiderName, minWidth: 200, maxWidth: 200},
@@ -43,13 +54,22 @@ export class EtappetableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stageClassificationsService.getStageClassifications(this.etappeId).subscribe(
-      response => this.etappeRowData = response
-    );
+    this.store.pipe(select(getTour)).subscribe(tour => {
+      if (tour && tour.id) {
+        this.tourId = tour.id;
+        this.store.dispatch(new fromEtappe.FetchEtappeList(tour.id));
+      }
+    });
 
-    this.tourService.getEtappeStand('8d24f654-b615-45be-b3c5-846ea256064a', this.etappeId).subscribe(
-      response => this.etappeStandRowData = response
-    );
+    this.etappes$ = this.store.pipe(select(getDrivenEtappes));
+
+    this.etappes$.subscribe(etappes => {
+      if (etappes.length > 0) {
+        this.selectedEtappe = etappes[0];
+        this.fetchData();
+      }
+    });
+
 
     this.etappeGridOptions = <GridOptions>{
       context: {parentComponent: this},
@@ -97,6 +117,23 @@ export class EtappetableComponent implements OnInit {
       });
       this.etappeGridApi.setRowData(this.etappeRowData);
     }
+  }
+
+  fetchEtappe() {
+    this.fetchData();
+  }
+
+  fetchData() {
+    this.etappeRowData = [];
+    this.etappeStandRowData = [];
+    this.stageClassificationsService.getStageClassifications(this.selectedEtappe.id).subscribe(
+      response => this.etappeRowData = response
+    );
+
+    // todo combineLatest
+    this.tourService.getEtappeStand(this.tourId, this.selectedEtappe.id).subscribe(
+      response => this.etappeStandRowData = response
+    );
   }
 
   // onEtappeStandRowSelected(params) {
