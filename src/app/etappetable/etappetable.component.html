@@ -1,0 +1,31 @@
+  <mat-toolbar color="primary">Etappestand</mat-toolbar>
+  <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
+  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
+    <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+
+      <ag-grid-angular
+        style=""
+        class="ag-theme-balham inside_card"
+        [gridOptions]="etappeGridOptions"
+        [rowData]="etappeRowData"
+        [enableColResize]="true"
+        rowSelection="multiple"
+        [rowClassRules]="rowClassRules"
+        [gridAutoHeight]="true">
+      </ag-grid-angular>
+    </div>
+    <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+
+      <ag-grid-angular
+        style=""
+        class="ag-theme-balham inside_card"
+        [gridOptions]="etappeStandGridOptions"
+        [rowData]="etappeStandRowData"
+        (rowSelected)="onEtappeStandRowSelected($event)"
+        [rowSelection]="rowSelection"
+        [enableColResize]="true"
+        [gridAutoHeight]="true">
+      </ag-grid-angular>
+    </div>
+  </div>
+</div>

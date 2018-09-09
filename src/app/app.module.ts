@@ -52,6 +52,7 @@ import {CanDeactivateGuard} from './candeactivate.guard';
 import { HastourendedclassComponent } from './aggridcomponents/hastourendedclass/hastourendedclass.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
+import { EtappetableComponent } from './etappetable/etappetable.component';
 
 registerLocaleData(localeNl);
 
@@ -74,7 +75,8 @@ registerLocaleData(localeNl);
     EdittourriderdialogComponent,
     ParticipantpredictionsComponent,
     SpelregelsComponent,
-    HastourendedclassComponent
+    HastourendedclassComponent,
+    EtappetableComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,

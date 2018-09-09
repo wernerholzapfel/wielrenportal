@@ -19,6 +19,10 @@ export class TourService {
     return this.http.get<any>(`${environment.apiBaseUrl}/participants/table/${tourId}`);
   }
 
+  getEtappeStand(tourId: string, etappeId: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiBaseUrl}/participants/table/${tourId}/etappe/${etappeId}`);
+  }
+
   getTourById(id: string): Observable<ITour> {
     return this.http.get<ITour>(`${environment.apiBaseUrl}/tours/${id}`);
   }

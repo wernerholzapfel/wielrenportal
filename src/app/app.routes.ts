@@ -14,6 +14,7 @@ import {RiderdetailsComponent} from './components/riderdetails/riderdetails.comp
 import {ParticipantpredictionsComponent} from './components/participantpredictions/participantpredictions.component';
 import {SpelregelsComponent} from './components/spelregels/spelregels.component';
 import {CanDeactivateGuard} from './candeactivate.guard';
+import {EtappetableComponent} from './etappetable/etappetable.component';
 
 const appRoutes: Routes = [
   {
@@ -36,6 +37,9 @@ const appRoutes: Routes = [
   }, {
     path: 'table',
     component: ParticipanttableComponent,
+  }, {
+    path: 'etappestand',
+    component: EtappetableComponent,
   }, {
     path: 'table/detail/:id',
     component: ParticipantpredictionsComponent
