@@ -89,24 +89,25 @@ export class EtappetableComponent implements OnInit {
     return 0;
   }
 
-  // onEtappeStandRowSelected(params) {
-  //   this.etappeRowData.map(etappe => {
-  //     console.log(etappe.tourrider.id);
-  //     return etappe.selected = !!params.data.predictions.find(item => item.rider.id === etappe.tourrider.id);
-  //   });
-  //   this.etappeGridApi.setRowData(this.etappeRowData);
-  // }
-
   onEtappeStandRowSelected(params) {
-    this.etappeGridApi.forEachNode(function (node) {
-      if (!!params.data.predictions.find(item => item.rider.id === node.data.tourrider.id)) {
-        node.setSelected(true);
-      } else {
-        node.setSelected(false);
-      }
-    });
-    // this.etappeGridApi.setRowData(this.etappeRowData);
+    if (params.node.selected) {
+      this.etappeRowData.map(etappe => {
+        console.log(etappe.tourrider.rider.surName);
+        return etappe.selected = !!params.data.predictions.find(item => item.rider.id === etappe.tourrider.id);
+      });
+      this.etappeGridApi.setRowData(this.etappeRowData);
+    }
   }
+
+  // onEtappeStandRowSelected(params) {
+  //   this.etappeGridApi.forEachNode(function (node) {
+  //     if (!!params.data.predictions.find(item => item.rider.id === node.data.tourrider.id)) {
+  //       node.setSelected(true);
+  //     } else {
+  //       node.setSelected(false);
+  //     }
+  //   });
+  // }
 }
 
 
