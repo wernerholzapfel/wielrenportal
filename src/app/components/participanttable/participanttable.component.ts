@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
 import {getLastUpdated, getParticipanttable} from '../../store/participanttable/participanttable.reducer';
 import {Observable} from 'rxjs';
@@ -10,6 +10,7 @@ import {IParticipanttable} from '../../models/participanttable.model';
 import {getTour} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-participanttable',
@@ -30,12 +31,15 @@ export class ParticipanttableComponent implements OnInit {
   lastUpdated$: Observable<any>;
 
   public gridOptions: GridOptions;
+  public lastUpdated: string;
 
   constructor(private store: Store<IAppState>, public dialog: MatDialog, private router: Router) {
+    moment.locale('nl');
+
     this.agColumns = [
       {headerName: '#', field: 'position', minWidth: 50, maxWidth: 50},
       {headerName: 'Naam', field: 'displayName', minWidth: 200, maxWidth: 200},
-      {headerName: 'Totaal', field: 'totalPoints', sort: 'desc', minWidth: 100, maxWidth: 100},
+      {headerName: 'Totaal', valueGetter: this.formatTotaalpunten, sort: 'desc', minWidth: 100, maxWidth: 100},
       {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
       {
         headerName: 'Truien',
@@ -58,9 +62,14 @@ export class ParticipanttableComponent implements OnInit {
 
   ngOnInit() {
 
-    this.participantstable$ = this.store.select(getParticipanttable);
-    this.lastUpdated$ = this.store.select(getLastUpdated);
+    this.participantstable$ = this.store.pipe(select(getParticipanttable));
+    this.lastUpdated$ = this.store.pipe(select(getLastUpdated));
 
+    this.lastUpdated$.subscribe(lastupdated => {
+      if (lastupdated) {
+        this.lastUpdated = moment(lastupdated.lastUpdated).fromNow();
+      }
+    });
     this.gridOptions = <GridOptions>{
       context: {parentComponent: this},
       columnDefs: this.agColumns,
@@ -94,5 +103,12 @@ export class ParticipanttableComponent implements OnInit {
 
   determineTruienPoints(params): number {
     return params.data.totalTourPoints + params.data.totalMountainPoints + params.data.totalPointsPoints + params.data.totalYouthPoints;
+  }
+
+  formatTotaalpunten(params): string {
+    const addendum: string =
+      (params.data.deltaTotalStagePoints > 0) ? ' (+' + params.data.deltaTotalStagePoints + ')' :
+        (params.data.deltaTotalStagePoints === 0) ? '' : ' (' + params.data.deltaTotalStagePoints + ')';
+    return params.data.totalPoints + addendum;
   }
 }

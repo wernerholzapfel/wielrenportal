@@ -1,5 +1,5 @@
 <div class="mat-elevation-z8">
-  <mat-toolbar color="primary">De stand per {{(lastUpdated$ | async)?.lastUpdated | date: 'd MMM y, H:mm' }}
+  <mat-toolbar color="primary">De stand<span *ngIf="lastUpdated">: bijgewerkt {{lastUpdated}} </span>
   </mat-toolbar>
   <!--todo show progress bar-->
   <!--<mat-progress-bar *ngIf="!(participantstable$ | async)?.length >= 0" mode="buffer"></mat-progress-bar>-->
