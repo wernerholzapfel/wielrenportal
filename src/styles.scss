@@ -161,7 +161,7 @@ ag-grid-angular.inside_card {
 }
 
 .card-container-xs {
-  height: calc(100vh - 184px);
+  height: calc(var(--vh, 1vh) - 184px);
   overflow-y: auto;
 }
 .spacing-xs {

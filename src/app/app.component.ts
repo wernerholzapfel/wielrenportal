@@ -32,6 +32,11 @@ export class AppComponent implements OnInit {
   lastUpdated: any;
 
   ngOnInit() {
+    this.setViewHeight();
+    window.addEventListener('resize', () => {
+      this.setViewHeight();
+    });
+
     this.store.dispatch(new fromTour.FetchTourList);
     this.store.dispatch(new fromTour.FetchTour());
 
@@ -74,5 +79,10 @@ export class AppComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.store.dispatch(new fromParticipantForm.ClearParticipantform());
+  }
+
+  setViewHeight() {
+    const vh = window.innerHeight;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 }

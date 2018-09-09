@@ -19,7 +19,7 @@
   }
 
   .card-container-xs {
-    height: calc(100vh - 272px);
+    height: calc(var(--vh, 1vh) - 272px);
     overflow-y: auto;
   }
 }
