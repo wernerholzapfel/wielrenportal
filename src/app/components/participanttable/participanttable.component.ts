@@ -37,7 +37,7 @@ export class ParticipanttableComponent implements OnInit {
     moment.locale('nl');
 
     this.agColumns = [
-      {headerName: '#', field: 'position', minWidth: 50, maxWidth: 50},
+      {headerName: '#', valueGetter: this.formatPosition, minWidth: 75, maxWidth: 75},
       {headerName: 'Naam', field: 'displayName', minWidth: 200, maxWidth: 200},
       {headerName: 'Totaal', valueGetter: this.formatTotaalpunten, sort: 'desc', minWidth: 100, maxWidth: 100},
       {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
@@ -48,13 +48,37 @@ export class ParticipanttableComponent implements OnInit {
         minWidth: 100,
         maxWidth: 100
       },
-      {headerName: 'Algemeen', field: 'totalTourPoints', cellRenderer: 'hasTourEndedClass',  minWidth: 100, maxWidth: 100},
-      {headerName: 'Berg', field: 'totalMountainPoints', cellRenderer: 'hasTourEndedClass',  minWidth: 100, maxWidth: 100},
-      {headerName: 'Punten', field: 'totalPointsPoints', cellRenderer: 'hasTourEndedClass',  minWidth: 100, maxWidth: 100},
-      {headerName: 'Jongeren',  field: 'totalYouthPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
+      {
+        headerName: 'Algemeen',
+        field: 'totalTourPoints',
+        cellRenderer: 'hasTourEndedClass',
+        minWidth: 100,
+        maxWidth: 100
+      },
+      {
+        headerName: 'Berg',
+        field: 'totalMountainPoints',
+        cellRenderer: 'hasTourEndedClass',
+        minWidth: 100,
+        maxWidth: 100
+      },
+      {
+        headerName: 'Punten',
+        field: 'totalPointsPoints',
+        cellRenderer: 'hasTourEndedClass',
+        minWidth: 100,
+        maxWidth: 100
+      },
+      {
+        headerName: 'Jongeren',
+        field: 'totalYouthPoints',
+        cellRenderer: 'hasTourEndedClass',
+        minWidth: 100,
+        maxWidth: 100
+      },
     ];
     this.rowSelection = 'single';
-    this.context = { componentParent: this };
+    this.context = {componentParent: this};
     this.frameworkComponents = {
       hasTourEndedClass: HastourendedclassComponent,
     };
@@ -98,6 +122,18 @@ export class ParticipanttableComponent implements OnInit {
   onRowSelected(event) {
     if (event.node.selected) {
       this.router.navigate(['/table/detail/', event.data.id]);
+    }
+  }
+
+  formatPosition(params): string {
+    const deltaPositie = params.data.previousPosition - params.data.position;
+    if (deltaPositie > 0) {
+      return params.data.position + ' (+' + deltaPositie + ')';
+    } else {
+      if (deltaPositie !== 0) {
+        return params.data.position + ' (' + deltaPositie + ')';
+      }
+      return params.data.position;
     }
   }
 
