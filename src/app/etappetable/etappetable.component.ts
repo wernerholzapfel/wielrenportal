@@ -147,7 +147,7 @@ export class EtappetableComponent implements OnInit {
       this.etappeRowData = [...this.etappeRowData, ...waterdragerEnUitvallers];
       setTimeout(() => {
         this.etappeGridApi.setRowData(this.etappeRowData);
-      }, 2000);
+      }, 500);
     }
   }
 
