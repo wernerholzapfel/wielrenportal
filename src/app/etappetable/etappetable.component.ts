@@ -4,7 +4,7 @@ import {GridOptions} from 'ag-grid';
 import {TourService} from '../services/tour.service';
 import {Observable} from 'rxjs/internal/Observable';
 import {select, Store} from '@ngrx/store';
-import {getDrivenEtappes, getEtappes} from '../store/etappe/etappe.reducer';
+import {getDrivenEtappes} from '../store/etappe/etappe.reducer';
 import {IAppState} from '../store/store';
 import {getTour} from '../store/tour/tour.reducer';
 import * as fromEtappe from '../store/etappe/etappe.actions';
@@ -103,19 +103,51 @@ export class EtappetableComponent implements OnInit {
   }
 
   calculatePoints(params) {
-    if (params.data.position) {
+    if (params.data.position && params.data.selected) {
+      return params.data.rolscore;
+    } else if (params.data.position) {
       return eval('etappe' + params.data.position);
+    } else {
+      return 0;
     }
-    return 0;
   }
 
   onEtappeStandRowSelected(params) {
     if (params.node.selected) {
-      this.etappeRowData.map(etappe => {
-        console.log(etappe.tourrider.rider.surName);
-        return etappe.selected = !!params.data.predictions.find(item => item.rider.id === etappe.tourrider.id);
-      });
-      this.etappeGridApi.setRowData(this.etappeRowData);
+
+      // vorige uitvallers + waterdragers uitfilteren
+      this.etappeRowData = this.etappeRowData
+        .filter(item => item.position !== 'Uit' && item.position !== 'WD')
+        .map(etappe => {
+          // rolscore toevoegen indien renner in uitslag voorkomt
+          const zitinuitslag = params.data.predictions.find(item => item.rider.id === etappe.tourrider.id);
+          if (zitinuitslag) {
+            etappe.rolscore = zitinuitslag.totalStagePoints;
+          }
+          etappe.selected = !!params.data.predictions.find(item => item.rider.id === etappe.tourrider.id);
+          return etappe;
+        });
+
+      // waterdagers en uitvallers kunnen zonder in uitslag te zitten toch punten hebben behaald, vandaar deze toevoegen.
+      const waterdragerEnUitvallers = params.data.predictions
+      // waterdager alleen tonen indien hij niet in etappeRowData zit
+        .filter(prediction => prediction.isWaterdrager && !this.etappeRowData.find(item => item.tourrider.id === prediction.rider.id) ||
+          (prediction.rider.isOut && prediction.rider.latestEtappe.id === this.selectedEtappe.id))
+        .map(item => {
+          return {
+            id: item.id,
+            position: item.rider.isOut ? 'Uit' : 'WD',
+            rolscore: item.totalStagePoints,
+            selected: true,
+            tourrider: item.rider,
+          };
+        });
+
+
+      this.etappeRowData = [...this.etappeRowData, ...waterdragerEnUitvallers];
+      setTimeout(() => {
+        this.etappeGridApi.setRowData(this.etappeRowData);
+      }, 2000);
     }
   }
 
@@ -168,4 +200,6 @@ const etappe17 = 8;
 const etappe18 = 6;
 const etappe19 = 4;
 const etappe20 = 2;
+const etappeUit = -20;
+const etappeWD = 0;
 
