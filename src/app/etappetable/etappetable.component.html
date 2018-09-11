@@ -1,6 +1,4 @@
   <mat-toolbar color="primary">
-    <span>Etappestand</span>
-    <span class="example-spacer"></span>
     <mat-select placeholder="Kies etappe" [(ngModel)]="selectedEtappe"
                 (selectionChange)="fetchEtappe()">
       <mat-option *ngFor="let etappe of etappes$ | async" [value]="etappe">

@@ -38,7 +38,7 @@ const appRoutes: Routes = [
     path: 'table',
     component: ParticipanttableComponent,
   }, {
-    path: 'etappestand',
+    path: 'etappes',
     component: EtappetableComponent,
   }, {
     path: 'table/detail/:id',
