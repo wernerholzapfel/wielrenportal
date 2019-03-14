@@ -51,29 +51,29 @@
       <mat-toolbar color="primary">
         <div fxFlexOffset.gt-xs="5">
           <span fxHide [fxHide.gt-xs]="false" [routerLink]="'/'">Het Wielerspel</span>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/']"  routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
+          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/']"  routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
 true}">Home</button>
           <button fxHide [fxHide.gt-xs]="false" mat-button
                   *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
                   [routerLink]="['/inschrijven']" routerLinkActive="active-link">Mijn team
           </button>
-          <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-flat-button
+          <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button
                   [routerLink]="['/table']" routerLinkActive="active-link">Stand
           </button>
-          <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-flat-button
+          <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button
                   [routerLink]="['/etappes']" routerLinkActive="active-link">Etappes
           </button>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/participants']"
+          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/participants']"
                   routerLinkActive="active-link">Deelnemers
           </button>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/tourriders']"
+          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/tourriders']"
                   routerLinkActive="active-link">Renners
           </button>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/spelregels']"
+          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/spelregels']"
                   routerLinkActive="active-link">Spelregels
           </button>
           <span fxHide [fxHide.gt-xs]="false" class="example-spacer"></span>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button *ngIf="authService.isAdmin" [routerLink]="['/admin']"
+          <button fxHide [fxHide.gt-xs]="false" mat-button *ngIf="authService.isAdmin" [routerLink]="['/admin']"
                   routerLinkActive="active-link">Tour
             admin
           </button>

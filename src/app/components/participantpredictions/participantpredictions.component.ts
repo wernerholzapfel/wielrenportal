@@ -3,7 +3,7 @@ import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourrider
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute} from '@angular/router';
-import {Subscription, Observable} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {getParticipantPredictions} from '../../store/participanttable/participanttable.reducer';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
@@ -24,6 +24,7 @@ export class ParticipantpredictionsComponent implements OnInit {
   participanttable: any;
   tour: ITour;
   public gridOptions: GridOptions;
+  public isLoading: Boolean;
   agColumns = [
     {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
     {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 210, maxWidth: 210},
@@ -115,7 +116,6 @@ export class ParticipantpredictionsComponent implements OnInit {
   }
 
   ngOnInit() {
-
     // this.sub = this.route.params.subscribe(params => {
     //   if (params['id']) {
     //     this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
@@ -139,6 +139,7 @@ export class ParticipantpredictionsComponent implements OnInit {
   }
 
   onGridReady(params) {
+    this.isLoading = true;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.store.select(getTour).subscribe(tour => {
@@ -156,9 +157,13 @@ export class ParticipantpredictionsComponent implements OnInit {
           this.participantService.getParticipant().subscribe(user => {
             console.log(user);
             this.store.select(getParticipantPredictions(user.id)).subscribe(participanttable => {
+              this.isLoading = false;
               if (participanttable) {
                 this.participanttable = participanttable;
                 this.gridApi.setRowData(participanttable.predictions);
+              } else {
+                this.participanttable = null;
+                this.gridApi.setRowData([]);
               }
             });
           });

@@ -22,7 +22,6 @@ import {AuthGuardService} from './services/auth-guard.service';
 import {AppRoutes} from './app.routes';
 import {HomeComponent} from './components/home/home.component';
 import {TokenInterceptor} from './services/token.interceptor';
-import {UsermanagementComponent} from './components/usermanagement/usermanagement.component';
 import {TourridersComponent} from './components/tourriders/tourriders.component';
 import {TourService} from './services/tour.service';
 import {ToursetupComponent} from './components/toursetup/toursetup.component';
@@ -62,7 +61,6 @@ registerLocaleData(localeNl);
     RidersComponent,
     LoginComponent,
     HomeComponent,
-    UsermanagementComponent,
     TourridersComponent,
     ToursetupComponent,
     ParticipantsComponent,

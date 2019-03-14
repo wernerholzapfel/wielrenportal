@@ -1,8 +1,9 @@
 <div class="mat-elevation-z8">
-  <mat-toolbar color="primary">Team van {{participanttable?.displayName}} ({{participanttable?.totalPoints}})
+  <mat-toolbar color="primary">
+    <span *ngIf="isLoading">Bezig met het ophalen van je team...</span>
+    <span *ngIf="participanttable && !isLoading">Team van {{participanttable?.displayName}} ({{participanttable?.totalPoints}})</span>
+    <span *ngIf="!participanttable && !isLoading">De deadline voor inschrijving is verstreken</span>
   </mat-toolbar>
-  <!--<div fxLayout="row">-->
-  <!--<div fxFlex="100">-->
   <ng-container>
     <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
       <mat-card-content>
