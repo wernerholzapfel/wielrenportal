@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {getTopX} from '../../store/participanttable/participanttable.reducer';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
@@ -12,8 +12,11 @@ import {IParticipanttable} from '../../models/participanttable.model';
 })
 export class Top5Component implements OnInit {
   top = 5;
+
   constructor(public store: Store<IAppState>) {
   }
+
+  @Input() isRegistrationOpen$: Observable<boolean>;
   stand$: Observable<IParticipanttable[]>;
 
   ngOnInit() {
