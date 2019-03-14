@@ -72,6 +72,7 @@ export function participanttableReducer(state = initalparticipanttableState, act
 export const getparticipanttableState = createFeatureSelector<ParticipanttableState>('participanttable');
 export const getParticipanttable = createSelector(getparticipanttableState, (state: ParticipanttableState) => state.participanttable);
 export const getNumberOne = createSelector(getparticipanttableState, (state: ParticipanttableState) => state.participanttable[0]);
+export const getTopX = x => createSelector(getparticipanttableState, (state: ParticipanttableState) => state.participanttable.slice(0, x));
 export const getLastUpdated = createSelector(getparticipanttableState, (state: ParticipanttableState) => state.lastUpdated);
 export const getParticipantPredictions = id =>
   createSelector(getparticipanttableState, (state: ParticipanttableState) =>

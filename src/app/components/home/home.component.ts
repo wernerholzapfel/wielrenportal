@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {IAppState} from '../../store/store';
 import {select, Store} from '@ngrx/store';
-import {getLastUpdated, getNumberOne} from '../../store/participanttable/participanttable.reducer';
+import {getLastUpdated, getNumberOne, getTopX} from '../../store/participanttable/participanttable.reducer';
 import {Observable} from 'rxjs';
 import {IParticipanttable} from '../../models/participanttable.model';
 import {getTour, isRegistrationOpen} from '../../store/tour/tour.reducer';

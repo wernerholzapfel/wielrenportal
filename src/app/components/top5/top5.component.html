@@ -1,0 +1,19 @@
+<div class="mat-elevation-z8">
+  <mat-toolbar color="primary">De top {{top}}</mat-toolbar>
+  <mat-card color="accent">
+    <mat-card-content>
+      <ng-container *ngIf="!(isRegistrationOpen$ | async) && (stand$ | async)?.length > 1">
+             <div *ngFor="let stand of (stand$ | async); let i = index">
+               {{i+1}} {{stand.displayName}} met {{stand.totalPoints}} punten.
+          </div>
+    </ng-container>
+    <span *ngIf="(isRegistrationOpen$ | async)">
+          Wie wordt de beste ploegleider?
+          </span>
+    <span *ngIf="!(isRegistrationOpen$ | async) && (stand$ | async)?.length <= 1">
+          Aan het laden...
+          </span>
+    </mat-card-content>
+
+  </mat-card>
+</div>

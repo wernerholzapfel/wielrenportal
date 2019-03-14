@@ -12,7 +12,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {RidersComponent} from './components/riders/riders.component';
-import { AngularFireModule } from '@angular/fire';
+import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AuthService} from './services/auth.service';
@@ -34,24 +34,25 @@ import {EtappesComponent} from './components/etappes/etappes.component';
 import {EtappeService} from './services/etappe.service';
 import {AddEtappeDialogComponent} from './components/etappes/dialog/add-etappe-dialog/add-etappe-dialog.component';
 import {OrderModule} from 'ngx-order-pipe';
-import { AddStageClassificationsComponent } from './components/etappes/dialog/add-stage-classifications/add-stage-classifications.component';
+import {AddStageClassificationsComponent} from './components/etappes/dialog/add-stage-classifications/add-stage-classifications.component';
 import {MAT_DATE_LOCALE} from '@angular/material';
 import {AgGridModule} from 'ag-grid-angular';
 import {ClassificationsService} from './services/stageclassifications.service';
-import { ParticipanttableComponent } from './components/participanttable/participanttable.component';
-import { TourriderdetaildialogComponent } from './components/tourriderdetaildialog/tourriderdetaildialog.component';
-import { RiderdetailsComponent } from './components/riderdetails/riderdetails.component';
-import { EdittourriderdialogComponent } from './components/edittourriderdialog/edittourriderdialog.component';
-import { ParticipantpredictionsComponent } from './components/participantpredictions/participantpredictions.component';
+import {ParticipanttableComponent} from './components/participanttable/participanttable.component';
+import {TourriderdetaildialogComponent} from './components/tourriderdetaildialog/tourriderdetaildialog.component';
+import {RiderdetailsComponent} from './components/riderdetails/riderdetails.component';
+import {EdittourriderdialogComponent} from './components/edittourriderdialog/edittourriderdialog.component';
+import {ParticipantpredictionsComponent} from './components/participantpredictions/participantpredictions.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter';
-import { SpelregelsComponent } from './components/spelregels/spelregels.component';
-import { registerLocaleData } from '@angular/common';
+import {SpelregelsComponent} from './components/spelregels/spelregels.component';
+import {registerLocaleData} from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
 import {CanDeactivateGuard} from './candeactivate.guard';
-import { HastourendedclassComponent } from './aggridcomponents/hastourendedclass/hastourendedclass.component';
+import {HastourendedclassComponent} from './aggridcomponents/hastourendedclass/hastourendedclass.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
-import { EtappetableComponent } from './etappetable/etappetable.component';
+import {EtappetableComponent} from './etappetable/etappetable.component';
+import {Top5Component} from './components/top5/top5.component';
 
 registerLocaleData(localeNl);
 
@@ -74,7 +75,8 @@ registerLocaleData(localeNl);
     ParticipantpredictionsComponent,
     SpelregelsComponent,
     HastourendedclassComponent,
-    EtappetableComponent
+    EtappetableComponent,
+    Top5Component
   ],
   entryComponents: [
     AddEtappeDialogComponent,
