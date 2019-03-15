@@ -1,7 +1,7 @@
 <div class="mat-elevation-z8">
   <mat-toolbar color="primary">Headlines</mat-toolbar>
   <mat-card color="accent">
-    <ng-container *ngFor="let headline of headlines | orderBy : 'createdDate' : desc">
+    <ng-container *ngFor="let headline of headlines | orderBy : 'createdDate' : 'desc'">
       <mat-card-header>
         <mat-card-title>{{headline.title}}</mat-card-title>
         <mat-card-subtitle>{{headline.schrijver}} {{headline.createdDate | date}}

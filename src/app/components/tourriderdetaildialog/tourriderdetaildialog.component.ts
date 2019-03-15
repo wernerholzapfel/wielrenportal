@@ -47,7 +47,7 @@ export class TourriderdetaildialogComponent implements OnInit {
       enableSorting: true,
     };
 
-    this.stageclassifications = this.data.stageclassifications ? this.data.stageclassifications : []
+    this.stageclassifications = this.data.stageclassifications ? this.data.stageclassifications : [];
   }
 
   determineRole(params): string {
