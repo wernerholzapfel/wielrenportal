@@ -21,7 +21,13 @@ export class RiderdetailsComponent implements OnInit {
   totalRiders: IRider[];
   tour: ITour;
   public gridOptions: GridOptions;
-  defaultHeaders = [  {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
+  defaultRowClassRules = {
+    'uitgevallen': function (params) {
+      return params.data.isOut;
+    }
+  };
+
+  defaultHeaders = [{headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
     {
       headerName: 'Renner',
       cellRenderer: this.determineName,
@@ -32,6 +38,7 @@ export class RiderdetailsComponent implements OnInit {
     {headerName: 'Team', field: 'team.teamName', minWidth: 100, maxWidth: 100}];
 
   defaultAgColumns = [
+    {valueGetter: 'node.rowIndex + 1', minWidth: 50, maxWidth: 50},
     ...this.defaultHeaders,
     {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
     {headerName: 'Algemeen', field: 'tourPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
@@ -102,6 +109,7 @@ export class RiderdetailsComponent implements OnInit {
         this.gridOptions.api.sizeColumnsToFit();
       },
       enableSorting: true,
+      rowClassRules: this.defaultRowClassRules
     };
   }
 
@@ -180,18 +188,26 @@ export class RiderdetailsComponent implements OnInit {
     this.gridOptions.api.setRowData(this.totalRiders.filter(rider => rider.isOut));
     this.gridOptions.api.setColumnDefs(this.uitgevallenAgColumns);
     this.gridOptions.api.sizeColumnsToFit();
+    this.gridOptions.rowClassRules = {
+      '': function (params) {
+        return params.data.isOut;
+      }
+    };
   }
 
   defaultTabel() {
     this.gridOptions.api.setRowData(this.totalRiders);
     this.gridOptions.api.setColumnDefs(this.defaultAgColumns);
     this.gridOptions.api.sizeColumnsToFit();
+    this.gridOptions.rowClassRules = this.defaultRowClassRules;
   }
 
   aantalKeerGekozenTabel() {
     this.gridOptions.api.setRowData(this.totalRiders);
     this.gridOptions.api.setColumnDefs(this.aantalKeerGekozenAgColumns);
     this.gridOptions.api.sizeColumnsToFit();
+    this.gridOptions.rowClassRules = this.defaultRowClassRules;
+
   }
 
   onRowSelected(event) {
