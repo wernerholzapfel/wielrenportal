@@ -17,6 +17,7 @@ export interface IRider {
   isWaterdrager?: boolean;
   isRenner?: boolean;
   isSelected?: boolean;
+  isOut?: boolean;
   waarde?: number;
   position?: number;
   stageclassifications?: IStageclassifications[];

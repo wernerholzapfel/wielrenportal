@@ -5,6 +5,11 @@
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
+    <mat-button-toggle-group>
+      <mat-button-toggle value="Punten" checked (click)="defaultTabel()">Punten</mat-button-toggle>
+      <mat-button-toggle value="Gekozen" (click)="aantalKeerGekozenTabel()">Gekozen</mat-button-toggle>
+      <mat-button-toggle value="Uitgevallen" (click)="uitgevallenTabel()">Uitgevallen</mat-button-toggle>
+    </mat-button-toggle-group>
   </div>
   <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
     <mat-card-content>

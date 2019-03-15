@@ -8,6 +8,7 @@ import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourrider
 import {MatDialog} from '@angular/material';
 import {ITour} from '../../models/tour.model';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
+import {IRider} from '../../models/rider.model';
 
 @Component({
   selector: 'app-riderdetails',
@@ -17,11 +18,10 @@ import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedcla
 export class RiderdetailsComponent implements OnInit {
   private gridApi;
   private gridColumnApi;
-
+  totalRiders: IRider[];
   tour: ITour;
   public gridOptions: GridOptions;
-  agColumns = [
-    {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
+  defaultHeaders = [  {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
     {
       headerName: 'Renner',
       cellRenderer: this.determineName,
@@ -29,8 +29,10 @@ export class RiderdetailsComponent implements OnInit {
       maxWidth: 200,
       getQuickFilterText: this.determineName
     },
-    {headerName: 'Team', field: 'team.teamName', minWidth: 100, maxWidth: 100},
+    {headerName: 'Team', field: 'team.teamName', minWidth: 100, maxWidth: 100}];
 
+  defaultAgColumns = [
+    ...this.defaultHeaders,
     {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
     {headerName: 'Algemeen', field: 'tourPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
     {headerName: 'Berg', field: 'mountainPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
@@ -38,8 +40,11 @@ export class RiderdetailsComponent implements OnInit {
     {headerName: 'Jongeren', field: 'youthPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
     {headerName: 'Totaal', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
     {headerName: 'Waterdrager', valueGetter: this.determineWDTotaalpunten, minWidth: 120, maxWidth: 120},
-    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
-    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60}, {
+    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100}];
+
+  aantalKeerGekozenAgColumns = [
+    ...this.defaultHeaders,
+    {
       headerName: '# RE',
       valueGetter: this.determineRiderChoosenCount,
       minWidth: 80,
@@ -54,8 +59,15 @@ export class RiderdetailsComponent implements OnInit {
     },
     {headerName: '# WD', valueGetter: this.determineWaterdragerChoosenCount, minWidth: 80, maxWidth: 80},
     {headerName: '# LB', valueGetter: this.determineLinkebalChoosenCount, minWidth: 80, maxWidth: 80},
-
   ];
+
+  uitgevallenAgColumns = [
+    ...this.defaultHeaders,
+    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
+    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60},
+    {headerName: 'Etappe', field: 'latestEtappe.etappeNumber', minWidth: 100, maxWidth: 100}
+  ];
+
   rowSelection = 'single';
   frameworkComponents = {
     hasTourEndedClass: HastourendedclassComponent,
@@ -69,7 +81,7 @@ export class RiderdetailsComponent implements OnInit {
   ngOnInit() {
     this.gridOptions = <GridOptions>{
       context: {parentComponent: this},
-      columnDefs: this.agColumns,
+      columnDefs: this.defaultAgColumns,
       onGridReady: (params) => {
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
@@ -80,8 +92,10 @@ export class RiderdetailsComponent implements OnInit {
           // todo refactor for example  subscribe until
           // todo move to store?
           this.riderService.getDetailTourriders(tour.id)
-            .subscribe(response =>
-              this.gridApi.setRowData(response));
+            .subscribe(response => {
+              this.totalRiders = response;
+              this.gridApi.setRowData(response);
+            });
         });
 
         this.gridOptions.api.sizeColumnsToFit();
@@ -159,6 +173,24 @@ export class RiderdetailsComponent implements OnInit {
       console.log('closed');
       this.gridOptions.api.deselectAll();
     });
+  }
+
+  uitgevallenTabel() {
+    this.gridOptions.api.setRowData(this.totalRiders.filter(rider => rider.isOut));
+    this.gridOptions.api.setColumnDefs(this.uitgevallenAgColumns);
+    this.gridOptions.api.sizeColumnsToFit();
+  }
+
+  defaultTabel() {
+    this.gridOptions.api.setRowData(this.totalRiders);
+    this.gridOptions.api.setColumnDefs(this.defaultAgColumns);
+    this.gridOptions.api.sizeColumnsToFit();
+  }
+
+  aantalKeerGekozenTabel() {
+    this.gridOptions.api.setRowData(this.totalRiders);
+    this.gridOptions.api.setColumnDefs(this.aantalKeerGekozenAgColumns);
+    this.gridOptions.api.sizeColumnsToFit();
   }
 
   onRowSelected(event) {
