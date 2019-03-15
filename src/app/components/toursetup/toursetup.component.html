@@ -101,6 +101,9 @@
         <mat-tab label="Etappes">
           <app-etappes *ngIf="!isLoading" [selectedtour]="selectedTour"></app-etappes>
         </mat-tab>
+        <mat-tab label="Headlines">
+          <app-headlines-edit *ngIf="!isLoading" [selectedtour]="selectedTour"></app-headlines-edit>
+        </mat-tab>
       </mat-tab-group>
     </mat-card>
   </div>

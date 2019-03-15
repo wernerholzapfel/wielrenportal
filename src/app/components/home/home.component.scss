@@ -1,11 +1,16 @@
 
 :host {
-  .mat-grid-list {
-    padding-bottom: 8px;
-  }
-  mat-card-content {
-    padding: 8px;
-    background-color: white;
+  //.mat-grid-list {
+  //  padding-bottom: 8px;
+  //}
+  //mat-card-content {
+  //  padding: 8px;
+  //  background-color: white;
+  //}
+
+  .card-container {
+    height: calc(100vh - 275px);
+    overflow-y: auto;
   }
 
   .card-container-xs {

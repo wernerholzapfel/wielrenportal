@@ -15,6 +15,7 @@ import {ParticipantpredictionsComponent} from './components/participantpredictio
 import {SpelregelsComponent} from './components/spelregels/spelregels.component';
 import {CanDeactivateGuard} from './candeactivate.guard';
 import {EtappetableComponent} from './etappetable/etappetable.component';
+import {HeadlinesEditComponent} from './components/headlines-edit/headlines-edit.component';
 
 const appRoutes: Routes = [
   {

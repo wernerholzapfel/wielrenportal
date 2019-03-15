@@ -53,6 +53,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
 import {EtappetableComponent} from './etappetable/etappetable.component';
 import {Top5Component} from './components/top5/top5.component';
+import {HeadlinesEditComponent} from './components/headlines-edit/headlines-edit.component';
+import { AddHeadlineDialogComponent } from './components/headlines-edit/dialog/add-headline-dialog/add-headline-dialog.component';
+import { HeadlinesComponent } from './components/headlines/headlines.component';
 
 registerLocaleData(localeNl);
 
@@ -76,13 +79,17 @@ registerLocaleData(localeNl);
     SpelregelsComponent,
     HastourendedclassComponent,
     EtappetableComponent,
-    Top5Component
+    Top5Component,
+    HeadlinesEditComponent,
+    AddHeadlineDialogComponent,
+    HeadlinesComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,
     AddStageClassificationsComponent,
     TourriderdetaildialogComponent,
-    EdittourriderdialogComponent
+    EdittourriderdialogComponent,
+    AddHeadlineDialogComponent
   ],
   imports: [
     BrowserModule,

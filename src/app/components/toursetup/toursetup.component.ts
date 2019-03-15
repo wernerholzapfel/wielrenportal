@@ -6,7 +6,7 @@ import * as fromRider from '../../store/rider/rider.actions';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {ITour} from '../../models/tour.model';
-import {Observable, combineLatest } from 'rxjs';
+import {combineLatest, Observable} from 'rxjs';
 
 import {getTour, getTourInProgress, getTours, getTourTeams} from '../../store/tour/tour.reducer';
 import {ITeam} from '../../models/team.model';
@@ -28,6 +28,7 @@ import {
 } from '../../models/constants';
 import {EdittourriderdialogComponent} from '../edittourriderdialog/edittourriderdialog.component';
 import * as moment from 'moment';
+import {HeadlinesEditComponent} from '../headlines-edit/headlines-edit.component';
 
 @Component({
   selector: 'app-toursetup',
@@ -168,8 +169,6 @@ export class ToursetupComponent implements OnInit {
       height: '90%'
     });
 
-    // todo move to store ?
-    // todo check voor wijzigingen
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);

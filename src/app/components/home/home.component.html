@@ -1,5 +1,5 @@
 <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
-  <div fxLayoutAlign="row"  fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
+  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
     <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
       <mat-toolbar color="accent">
           <span *ngIf="(isRegistrationOpen$ | async)">
@@ -29,11 +29,10 @@
     </div>
   </div>
   <div class="spacing-xs"></div>
-  <div fxLayoutAlign="column" fxLayout=" stretch" fxLayoutGap.gt-xs="8px">
-    <app-top5 [isRegistrationOpen$]="isRegistrationOpen$" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)"></app-top5>
-    <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch">
+    <div class="mat-elevation-z8" fxFlex="100">
       <mat-toolbar color="primary">Welkom</mat-toolbar>
-      <ng-container>
+      <mat-card color="accent">
         <mat-card-content>
           <p>
             Doe <b>gratis</b> mee en wordt de beste ploegleider van de Tour de France, Giro d’Italia of Vuelta a
@@ -45,8 +44,13 @@
             <b>meesterknecht</b>, <b>waterdrager</b> en <b>linkebal</b>.
           </p>
         </mat-card-content>
-      </ng-container>
+      </mat-card>
     </div>
+    <div class="spacing-xs"></div>
+  </div>
+  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
+    <app-headlines fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)"></app-headlines>
+    <app-top5 [isRegistrationOpen$]="isRegistrationOpen$" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)"></app-top5>
     <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
     <app-login fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" *ngIf="!(authService.user$ | async)"></app-login>
   </div>
