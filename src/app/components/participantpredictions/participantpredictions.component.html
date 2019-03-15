@@ -1,7 +1,7 @@
 <div class="mat-elevation-z8">
   <mat-toolbar color="primary">
-    <span *ngIf="isLoading">Bezig met het ophalen van je team...</span>
-    <span *ngIf="participanttable && !isLoading">Team van {{participanttable?.displayName}} ({{participanttable?.totalPoints}})</span>
+    <span *ngIf="isLoading && !participanttable?.displayName">Bezig met het ophalen van het team...</span>
+    <span *ngIf="participanttable && participanttable?.displayName">Team van {{participanttable?.displayName}} ({{participanttable?.totalPoints}})</span>
     <span *ngIf="!participanttable && !isLoading">De deadline voor inschrijving is verstreken</span>
   </mat-toolbar>
   <ng-container>
