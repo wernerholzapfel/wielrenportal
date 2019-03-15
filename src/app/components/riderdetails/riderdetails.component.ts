@@ -47,6 +47,7 @@ export class RiderdetailsComponent implements OnInit {
     {
       headerName: '# RE',
       valueGetter: this.determineRiderChoosenCount,
+      sort: 'desc',
       minWidth: 80,
       maxWidth: 80,
     },
@@ -65,7 +66,7 @@ export class RiderdetailsComponent implements OnInit {
     ...this.defaultHeaders,
     {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
     {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60},
-    {headerName: 'Etappe', field: 'latestEtappe.etappeNumber', minWidth: 100, maxWidth: 100}
+    {headerName: 'Etappe', field: 'latestEtappe.etappeNumber', sort: 'desc', minWidth: 100, maxWidth: 100}
   ];
 
   rowSelection = 'single';
