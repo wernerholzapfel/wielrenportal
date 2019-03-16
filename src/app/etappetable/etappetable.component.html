@@ -14,9 +14,8 @@
         class="ag-theme-balham inside_card"
         [gridOptions]="etappeGridOptions"
         [rowData]="etappeRowData"
-        [enableColResize]="true"
         [rowClassRules]="rowClassRules"
-        [gridAutoHeight]="true">
+        domLayout = "autoHeight">
       </ag-grid-angular>
     </div>
     <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
@@ -28,8 +27,7 @@
         [rowData]="etappeStandRowData"
         (rowSelected)="onEtappeStandRowSelected($event)"
         [rowSelection]="rowSelection"
-        [enableColResize]="true"
-        [gridAutoHeight]="true">
+        domLayout = "autoHeight">
       </ag-grid-angular>
     </div>
   </div>

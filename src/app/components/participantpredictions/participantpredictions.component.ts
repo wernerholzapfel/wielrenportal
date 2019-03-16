@@ -129,12 +129,15 @@ export class ParticipantpredictionsComponent implements OnInit {
 
 
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true,
+        resizable: true
+      },
       context: {parentComponent: this},
       columnDefs: this.agColumns,
       onGridReady: () => {
-        this.gridOptions.api.sizeColumnsToFit();
-      },
-      enableSorting: true,
+        // this.gridOptions.api.sizeColumnsToFit();
+      }
     };
   }
 

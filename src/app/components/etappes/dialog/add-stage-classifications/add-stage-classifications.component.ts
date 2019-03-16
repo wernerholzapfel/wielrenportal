@@ -33,7 +33,7 @@ export class AddStageClassificationsComponent implements OnInit {
       headerName: '#',
       width: 40,
       checkboxSelection: true,
-      suppressSorting: true,
+      sortable: false,
       suppressMenu: true,
       pinned: true
     },
@@ -51,11 +51,13 @@ export class AddStageClassificationsComponent implements OnInit {
     this.determineText(this.data);
 
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true
+      },
       columnDefs: this.agColumns,
       onGridReady: () => {
         this.gridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: true,
       singleClickEdit: true,
       animateRows: true,
       rowSelection: 'multiple'

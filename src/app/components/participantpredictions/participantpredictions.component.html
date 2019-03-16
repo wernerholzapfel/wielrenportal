@@ -14,8 +14,7 @@
           [rowSelection]="rowSelection"
           [frameworkComponents]="frameworkComponents"
           (rowSelected)="onRowSelected($event)"
-          [gridAutoHeight]="true"
-          [enableColResize]="true"
+          domLayout = "autoHeight"
           (gridReady)="onGridReady($event)">
         </ag-grid-angular>
       </mat-card-content>

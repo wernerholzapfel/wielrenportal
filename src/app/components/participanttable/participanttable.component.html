@@ -16,12 +16,11 @@
         class="ag-theme-balham inside_card"
         [gridOptions]="gridOptions"
         [rowData]="(participantstable$ | async)"
-        [enableColResize]="true"
         [rowSelection]="rowSelection"
         [context]="context"
         [frameworkComponents]="frameworkComponents"
         (rowSelected)="onRowSelected($event)"
-        [gridAutoHeight]="true"
+        domLayout = "autoHeight"
         (gridReady)="onGridReady($event)">
       </ag-grid-angular>
     </mat-card-content>

@@ -49,11 +49,13 @@ export class RidersComponent implements OnInit {
 
 
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true
+      },
       columnDefs: this.agColumns,
       onGridReady: () => {
         this.gridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: true,
       singleClickEdit: true
     };
   }

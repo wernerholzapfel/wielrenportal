@@ -1,7 +1,8 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material';
 import {GridOptions} from 'ag-grid';
 import {IStageClassification} from '../../models/etappe.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-tourriderdetaildialog',
@@ -30,21 +31,25 @@ export class TourriderdetaildialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.participantsGridOptions = <GridOptions>{
+    this.participantsGridOptions = <GridOptions> {
+      defaultColDef: {
+        sortable: true
+      },
       columnDefs: this.participantsAgColumns,
       localeText: {noRowsToShow: 'Renner is niet gekozen'},
       onGridReady: () => {
         this.gridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: true,
     };
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true
+      },
       columnDefs: this.agColumns,
       localeText: {noRowsToShow: 'Geen score in etappes'},
       onGridReady: () => {
         this.gridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: true,
     };
 
     this.stageclassifications = this.data.stageclassifications ? this.data.stageclassifications : [];
@@ -54,15 +59,15 @@ export class TourriderdetaildialogComponent implements OnInit {
     // todo implement with mat-icon and mat-tooltip https://plnkr.co/edit/?p=preview
     if (params.data.isWaterdrager) {
       return '<div><mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">delete_outline</mat-icon>' +
-      'Waterdrager';
+        'Waterdrager';
     }
     if (params.data.isLinkebal) {
       return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">new_releases</mat-icon>' +
-       'Linkebal';
+        'Linkebal';
     }
     if (params.data.isBeschermdeRenner) {
       return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">verified_user</mat-icon>' +
-       'Beschermde renner';
+        'Beschermde renner';
     }
     if (params.data.isMeesterknecht) {
       return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">build</mat-icon>' +

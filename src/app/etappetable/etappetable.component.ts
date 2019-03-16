@@ -72,6 +72,10 @@ export class EtappetableComponent implements OnInit {
 
 
     this.etappeGridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true,
+        resizable: true
+      },
       context: {parentComponent: this},
       columnDefs: this.etappeAgColumns,
 
@@ -79,16 +83,18 @@ export class EtappetableComponent implements OnInit {
         this.etappeGridApi = params.api;
 
         this.etappeGridOptions.api.sizeColumnsToFit();
-      },
-      enableSorting: true,
+      }
     };
 
     this.etappeStandGridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true,
+        resizable: true
+      },
       columnDefs: this.etappeStandAgColumns,
       onGridReady: () => {
         this.etappeStandGridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: true,
     };
   }
 

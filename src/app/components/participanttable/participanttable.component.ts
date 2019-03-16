@@ -95,13 +95,12 @@ export class ParticipanttableComponent implements OnInit {
       }
     });
     this.gridOptions = <GridOptions>{
-      context: {parentComponent: this},
-      columnDefs: this.agColumns,
-
-      onGridReady: () => {
-        this.gridOptions.api.sizeColumnsToFit();
+      defaultColDef: {
+        sortable: true,
+        resizable: true
       },
-      enableSorting: true,
+      context: {parentComponent: this},
+      columnDefs: this.agColumns
     };
   }
 

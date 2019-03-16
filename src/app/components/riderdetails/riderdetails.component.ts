@@ -88,6 +88,9 @@ export class RiderdetailsComponent implements OnInit {
 
   ngOnInit() {
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true
+      },
       context: {parentComponent: this},
       columnDefs: this.defaultAgColumns,
       onGridReady: (params) => {
@@ -108,7 +111,6 @@ export class RiderdetailsComponent implements OnInit {
 
         this.gridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: true,
       rowClassRules: this.defaultRowClassRules
     };
   }

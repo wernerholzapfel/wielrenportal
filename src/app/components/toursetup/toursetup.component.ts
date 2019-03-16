@@ -110,10 +110,14 @@ export class ToursetupComponent implements OnInit {
 
 
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        enableFilter: true
+      },
       columnDefs: this.agColumns,
       onGridReady: () => {
       },
-      enableSorting: true,
     };
   }
 

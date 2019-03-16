@@ -19,7 +19,7 @@
           [rowDragManaged]="true"
           [animateRows]="true"
           (rowDragEnd)="resetPosition()"
-          [gridAutoHeight]="true"
+          domLayout = "autoHeight"
           [rowData]="data.form.uitslag">
         </ag-grid-angular>
       </div>
