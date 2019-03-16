@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {getParticipantPredictions} from '../../store/participanttable/participanttable.reducer';
 import {IAppState} from '../../store/store';
@@ -112,21 +111,11 @@ export class ParticipantpredictionsComponent implements OnInit {
   constructor(private store: Store<IAppState>,
               private route: ActivatedRoute,
               public dialog: MatDialog,
-              private participantService: ParticipantService) {
+              private participantService: ParticipantService,
+              private router: Router) {
   }
 
   ngOnInit() {
-    // this.sub = this.route.params.subscribe(params => {
-    //   if (params['id']) {
-    //     this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
-    //   } else {
-    //     this.participantService.getParticipant().subscribe(user => {
-    //       console.log(user);
-    //       this.participanttable$ = this.store.select(getParticipantPredictions(user.id));
-    //     });
-    //   }
-    // });
-
 
     this.gridOptions = <GridOptions>{
       defaultColDef: {
@@ -178,21 +167,8 @@ export class ParticipantpredictionsComponent implements OnInit {
 
   onRowSelected(event) {
     if (event.node.selected) {
-      this.openTourRidersDetailDialog(event.data);
+      this.router.navigateByUrl(`rider/${event.data.rider.id}`);
     }
-  }
-
-  openTourRidersDetailDialog(data: any) {
-    const dialogRef = this.dialog.open(TourriderdetaildialogComponent, {
-      data: data.rider,
-      width: '90%',
-      height: '90%'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('closed');
-      this.gridOptions.api.deselectAll();
-    });
   }
 
   determineTotaalpunten(params): number {

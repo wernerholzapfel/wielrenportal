@@ -16,11 +16,15 @@ import {SpelregelsComponent} from './components/spelregels/spelregels.component'
 import {CanDeactivateGuard} from './candeactivate.guard';
 import {EtappetableComponent} from './etappetable/etappetable.component';
 import {HeadlinesEditComponent} from './components/headlines-edit/headlines-edit.component';
+import {TourriderDetailComponent} from './components/tourriderdetail/tourrider-detail.component';
 
 const appRoutes: Routes = [
   {
     path: 'riders',
     component: RidersComponent
+  }, {
+    path: 'rider/:id',
+    component: TourriderDetailComponent
   }, {
     path: 'inschrijven',
     canActivate: [AuthGuardService],

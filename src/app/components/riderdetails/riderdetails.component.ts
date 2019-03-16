@@ -4,11 +4,10 @@ import {GridOptions} from 'ag-grid';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {getTour} from '../../store/tour/tour.reducer';
-import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
-import {MatDialog} from '@angular/material';
 import {ITour} from '../../models/tour.model';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
 import {IRider} from '../../models/rider.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-riderdetails',
@@ -82,7 +81,7 @@ export class RiderdetailsComponent implements OnInit {
   };
 
   constructor(private riderService: RiderService,
-              public dialog: MatDialog,
+              private router: Router,
               private store: Store<IAppState>) {
   }
 
@@ -173,19 +172,6 @@ export class RiderdetailsComponent implements OnInit {
     this.gridOptions.api.setQuickFilter(filterValue);
   }
 
-  openTourRidersDetailDialog(data: any) {
-    const dialogRef = this.dialog.open(TourriderdetaildialogComponent, {
-      data: data,
-      width: '90%',
-      height: '90%'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('closed');
-      this.gridOptions.api.deselectAll();
-    });
-  }
-
   uitgevallenTabel() {
     this.gridOptions.api.setRowData(this.totalRiders.filter(rider => rider.isOut));
     this.gridOptions.api.setColumnDefs(this.uitgevallenAgColumns);
@@ -214,7 +200,7 @@ export class RiderdetailsComponent implements OnInit {
 
   onRowSelected(event) {
     if (event.node.selected) {
-      this.openTourRidersDetailDialog(event.data);
+      this.router.navigateByUrl(`rider/${event.data.id}`);
     }
   }
 }

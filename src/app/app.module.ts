@@ -39,7 +39,6 @@ import {MAT_DATE_LOCALE} from '@angular/material';
 import {AgGridModule} from 'ag-grid-angular';
 import {ClassificationsService} from './services/stageclassifications.service';
 import {ParticipanttableComponent} from './components/participanttable/participanttable.component';
-import {TourriderdetaildialogComponent} from './components/tourriderdetaildialog/tourriderdetaildialog.component';
 import {RiderdetailsComponent} from './components/riderdetails/riderdetails.component';
 import {EdittourriderdialogComponent} from './components/edittourriderdialog/edittourriderdialog.component';
 import {ParticipantpredictionsComponent} from './components/participantpredictions/participantpredictions.component';
@@ -56,6 +55,7 @@ import {Top5Component} from './components/top5/top5.component';
 import {HeadlinesEditComponent} from './components/headlines-edit/headlines-edit.component';
 import { AddHeadlineDialogComponent } from './components/headlines-edit/dialog/add-headline-dialog/add-headline-dialog.component';
 import { HeadlinesComponent } from './components/headlines/headlines.component';
+import {TourriderDetailComponent} from './components/tourriderdetail/tourrider-detail.component';
 
 registerLocaleData(localeNl);
 
@@ -72,7 +72,7 @@ registerLocaleData(localeNl);
     AddEtappeDialogComponent,
     AddStageClassificationsComponent,
     ParticipanttableComponent,
-    TourriderdetaildialogComponent,
+    TourriderDetailComponent,
     RiderdetailsComponent,
     EdittourriderdialogComponent,
     ParticipantpredictionsComponent,
@@ -87,7 +87,6 @@ registerLocaleData(localeNl);
   entryComponents: [
     AddEtappeDialogComponent,
     AddStageClassificationsComponent,
-    TourriderdetaildialogComponent,
     EdittourriderdialogComponent,
     AddHeadlineDialogComponent
   ],

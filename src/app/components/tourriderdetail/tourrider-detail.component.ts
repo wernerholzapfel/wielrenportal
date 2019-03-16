@@ -1,19 +1,28 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {IStageClassification} from '../../models/etappe.model';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {RiderService} from '../../services/rider.service';
+import {IPrediction} from '../../models/participant.model';
+import {IRider} from '../../models/rider.model';
 
 @Component({
-  selector: 'app-tourriderdetaildialog',
-  templateUrl: './tourriderdetaildialog.component.html',
-  styleUrls: ['./tourriderdetaildialog.component.scss']
+  selector: 'app-tourriderdetail',
+  templateUrl: './tourrider-detail.component.html',
+  styleUrls: ['./tourrider-detail.component.scss']
 })
-export class TourriderdetaildialogComponent implements OnInit {
+export class TourriderDetailComponent implements OnInit {
 
+  constructor(private route: ActivatedRoute, private router: Router, private riderService: RiderService) {
+  }
 
   public gridOptions: GridOptions;
+  public participantsGridOptions: GridOptions;
+
+  rider: IRider;
+  predictions: IPrediction[];
   stageclassifications: IStageClassification[];
+
   agColumns = [
     {headerName: '#', field: 'etappe.etappeNumber', sort: 'asc', width: 75},
     {headerName: 'Etappe', field: 'etappe.etappeName'},
@@ -21,14 +30,11 @@ export class TourriderdetaildialogComponent implements OnInit {
     {headerName: 'Punten', field: 'stagePoints', width: 135}
   ];
 
-  public participantsGridOptions: GridOptions;
   participantsAgColumns = [
     {headerName: 'Naam', field: 'participant.displayName'},
     {headerName: 'Rol', cellRenderer: this.determineRole},
   ];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-  }
 
   ngOnInit() {
     this.participantsGridOptions = <GridOptions> {
@@ -52,7 +58,17 @@ export class TourriderdetaildialogComponent implements OnInit {
       },
     };
 
-    this.stageclassifications = this.data.stageclassifications ? this.data.stageclassifications : [];
+    this.route.params.subscribe(routeParams => {
+      if (routeParams['id']) {
+        this.riderService.getTourriderDetails(routeParams['id']).subscribe(tourrider => {
+          if (tourrider) {
+            this.rider = tourrider.rider;
+            this.stageclassifications = tourrider.stageclassifications;
+            this.predictions = tourrider.predictions;
+          }
+        });
+      }
+    });
   }
 
   determineRole(params): string {
@@ -76,5 +92,11 @@ export class TourriderdetaildialogComponent implements OnInit {
       return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">directions_bike</mat-icon>' +
         'Renner';
     }
+  }
+
+  onParticipantRowSelected(event) {
+      if (event.node.selected) {
+        this.router.navigateByUrl(`table/detail/${event.data.participant.id}`);
+      }
   }
 }
