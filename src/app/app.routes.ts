@@ -46,6 +46,9 @@ const appRoutes: Routes = [
     path: 'etappes',
     component: EtappetableComponent,
   }, {
+    path: 'etappes/:id',
+    component: EtappetableComponent,
+  }, {
     path: 'table/detail/:id',
     component: ParticipantpredictionsComponent
   }, {

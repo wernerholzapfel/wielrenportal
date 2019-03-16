@@ -8,6 +8,8 @@ import {getDrivenEtappes} from '../store/etappe/etappe.reducer';
 import {IAppState} from '../store/store';
 import {getTour} from '../store/tour/tour.reducer';
 import * as fromEtappe from '../store/etappe/etappe.actions';
+import {ActivatedRoute} from '@angular/router';
+import {combineLatest} from 'rxjs';
 
 @Component({
   selector: 'app-etappetable',
@@ -27,6 +29,7 @@ export class EtappetableComponent implements OnInit {
   public etappeStandRowData: any[];
   public rowClassRules;
   etappes$: Observable<any>;
+  routeParams$: Observable<any>;
   selectedEtappe: any;
   etappe: any[];
   rowSelection = 'single';
@@ -34,8 +37,10 @@ export class EtappetableComponent implements OnInit {
   tourId: string;
 
   constructor(private stageClassificationsService: ClassificationsService,
+              private route: ActivatedRoute,
               private tourService: TourService,
               private store: Store<IAppState>) {
+
     this.etappeAgColumns = [
       {headerName: '#', field: 'position', minWidth: 50, maxWidth: 50},
       {headerName: 'Naam', cellRenderer: this.determineRiderName, minWidth: 200, maxWidth: 200},
@@ -62,14 +67,20 @@ export class EtappetableComponent implements OnInit {
     });
 
     this.etappes$ = this.store.pipe(select(getDrivenEtappes));
+    this.routeParams$ = this.route.params;
 
-    this.etappes$.subscribe(etappes => {
-      if (etappes.length > 0) {
+    // if route id then find etappe by id in etappes. else get etappes[0]
+
+    // todo unsubscribe takeuntil
+    combineLatest(this.etappes$, this.routeParams$).subscribe(([etappes, routeParams]) => {
+      if (routeParams && !routeParams['id'] && etappes.length > 0) {
         this.selectedEtappe = etappes[0];
+        this.fetchData();
+      } else if (etappes.length > 0) {
+        this.selectedEtappe = etappes.find(etappe => etappe.id === routeParams['id']);
         this.fetchData();
       }
     });
-
 
     this.etappeGridOptions = <GridOptions>{
       defaultColDef: {

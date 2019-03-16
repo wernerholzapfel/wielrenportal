@@ -99,4 +99,10 @@ export class TourriderDetailComponent implements OnInit {
         this.router.navigateByUrl(`table/detail/${event.data.participant.id}`);
       }
   }
+
+  onEtappeRowSelected(event) {
+      if (event.node.selected) {
+        this.router.navigateByUrl(`etappes/${event.data.etappe.id}`);
+      }
+  }
 }
