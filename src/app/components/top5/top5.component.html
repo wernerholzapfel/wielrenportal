@@ -1,6 +1,11 @@
-<div class="mat-elevation-z8">
-  <mat-toolbar color="primary">De top {{top}}</mat-toolbar>
-  <mat-card color="accent">
+<!--<div class="mat-elevation-z8">-->
+  <!--<mat-toolbar color="primary">De top {{top}}</mat-toolbar>-->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>De top {{top}}</mat-card-title>
+      <mat-card-subtitle>&nbsp;</mat-card-subtitle>
+    </mat-card-header>
+    <mat-divider></mat-divider>
     <mat-card-content>
       <ng-container *ngIf="!(isRegistrationOpen$ | async) && (stand$ | async)?.length > 1">
              <div *ngFor="let stand of (stand$ | async); let i = index">
@@ -14,6 +19,5 @@
           Aan het laden...
           </span>
     </mat-card-content>
-
   </mat-card>
-</div>
+<!--</div>-->

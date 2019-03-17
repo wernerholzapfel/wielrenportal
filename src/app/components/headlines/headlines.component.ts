@@ -17,7 +17,7 @@ export class HeadlinesComponent implements OnInit, OnDestroy {
   unsubscribe: Subject<void> = new Subject<void>();
 
   headlines: IHeadline[];
-  numberOfHeadlines = 3;
+  numberOfHeadlines = 1;
   tour$: Observable<ITour>;
 
   constructor(private headlineService: HeadlinesService, private store: Store<IAppState>) {
@@ -30,7 +30,7 @@ export class HeadlinesComponent implements OnInit, OnDestroy {
     this.tour$.pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
       this.headlineService.getHeadlines(tour.id).subscribe(headlines => {
           if (headlines) {
-            this.headlines = headlines;
+            this.headlines = headlines.slice(0, this.numberOfHeadlines);
           }
         }
       );

@@ -3,11 +3,6 @@
   //.mat-grid-list {
   //  padding-bottom: 8px;
   //}
-  //mat-card-content {
-  //  padding: 8px;
-  //  background-color: white;
-  //}
-
   .card-container {
     height: calc(100vh - 275px);
     overflow-y: auto;
@@ -16,5 +11,9 @@
   .card-container-xs {
     height: calc(var(--vh, 1vh) - 130px);
     overflow-y: auto;
+  }
+
+  .card-padding {
+    padding: 4px;
   }
 }
