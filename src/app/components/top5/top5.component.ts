@@ -16,6 +16,7 @@ export class Top5Component implements OnInit {
   constructor(public store: Store<IAppState>) {
   }
 
+  @Input() lastUpdated: string;
   @Input() isRegistrationOpen$: Observable<boolean>;
   stand$: Observable<IParticipanttable[]>;
 

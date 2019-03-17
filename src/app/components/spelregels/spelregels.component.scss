@@ -1,10 +1,10 @@
 :host {
   .card-container {
-    height: calc(100vh - 420px);
+    height: calc(100vh - 420px + 32px);
     overflow-y: auto;
   }
   .card-container-xs {
-    height: calc(var(--vh, 1vh) - 266px);
+    height: calc(var(--vh, 1vh) - 266px + 32px);
     overflow-y: auto;
   }
 }

@@ -251,12 +251,12 @@ html, body {
 
 .ag-row-selected {
   // todo get from colors
-  background-color: #d82c26 !important;
+  background-color: #ee6873 !important;
 }
 
 .ag-theme-balham .selected {
   // todo get from colors
-  background-color: #d82c26 !important;
+  background-color: #ee6873 !important;
 }
 
 .ag-theme-balham .uitgevallen {
@@ -306,7 +306,7 @@ ag-grid-angular.inside_card {
 }
 
 .card-container-xs {
-  height: calc(var(--vh, 1vh) - 184px);
+  height: calc(var(--vh, 1vh) - 184px + 32px);
   overflow-y: auto;
 }
 

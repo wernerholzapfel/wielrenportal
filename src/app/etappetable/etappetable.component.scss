@@ -1,0 +1,15 @@
+::ng-deep {
+  .mat-card-header-text {
+    width: 100% !important;
+  }
+
+  .mat-select-value-text {
+    color: #ee6873;
+  }
+
+  .mat-option {
+    font-size: 20px !important;
+    line-height: 1.5em !important;
+    height: 1.5em !important;
+  }
+}

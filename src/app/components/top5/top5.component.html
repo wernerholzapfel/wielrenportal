@@ -3,7 +3,7 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>De top {{top}}</mat-card-title>
-      <mat-card-subtitle>&nbsp;</mat-card-subtitle>
+      <mat-card-subtitle><span *ngIf="lastUpdated">Laatst bijgewerkt: {{lastUpdated}}</span> &nbsp;</mat-card-subtitle>
     </mat-card-header>
     <mat-divider></mat-divider>
     <mat-card-content>

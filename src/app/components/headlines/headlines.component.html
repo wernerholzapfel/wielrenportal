@@ -1,6 +1,4 @@
-<!--<div class="mat-elevation-z8">-->
-<!--<mat-toolbar color="primary">Headlines</mat-toolbar>-->
-<mat-card>
+<mat-card *ngIf="headlines?.length > 0">
   <ng-container *ngFor="let headline of headlines | orderBy : 'createdDate' : 'desc'">
     <mat-card-header>
       <mat-card-title>{{headline.title}}</mat-card-title>
@@ -15,4 +13,3 @@
     </mat-card-content>
   </ng-container>
 </mat-card>
-<!--</div>-->

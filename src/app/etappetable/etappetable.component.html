@@ -1,34 +1,44 @@
-  <mat-toolbar color="primary">
-    <mat-select placeholder="Kies etappe" [(ngModel)]="selectedEtappe"
-                (selectionChange)="fetchEtappe()">
-      <mat-option *ngFor="let etappe of etappes$ | async" [value]="etappe">
-        {{ etappe.etappeName }}
-      </mat-option>
-    </mat-select></mat-toolbar>
-  <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
-  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
-    <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-select placeholder="Kies etappe" [(ngModel)]="selectedEtappe"
+                  (selectionChange)="fetchEtappe()">
+        <mat-option *ngFor="let etappe of etappes$ | async" [value]="etappe">
+          {{ etappe.etappeName }}
+        </mat-option>
+      </mat-select>
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{etappeRowData[0]?.tourrider.rider.firstName ? 'Winnaar ' + etappeRowData[0]?.tourrider.rider.firstName + ' ' + etappeRowData[0]?.tourrider.rider.surName : '&nbsp;' }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
+      <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
+        <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
 
-      <ag-grid-angular
-        style=""
-        class="ag-theme-balham inside_card"
-        [gridOptions]="etappeGridOptions"
-        [rowData]="etappeRowData"
-        [rowClassRules]="rowClassRules"
-        domLayout = "autoHeight">
-      </ag-grid-angular>
+          <ag-grid-angular
+            style=""
+            class="ag-theme-balham inside_card"
+            [gridOptions]="etappeGridOptions"
+            [rowData]="etappeRowData"
+            [rowClassRules]="rowClassRules"
+            domLayout="autoHeight">
+          </ag-grid-angular>
+        </div>
+        <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+          <ag-grid-angular
+            style=""
+            class="ag-theme-balham inside_card"
+            [gridOptions]="etappeStandGridOptions"
+            [rowData]="etappeStandRowData"
+            (rowSelected)="onEtappeStandRowSelected($event)"
+            [rowSelection]="rowSelection"
+            domLayout="autoHeight">
+          </ag-grid-angular>
+        </div>
+      </div>
     </div>
-    <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
-
-      <ag-grid-angular
-        style=""
-        class="ag-theme-balham inside_card"
-        [gridOptions]="etappeStandGridOptions"
-        [rowData]="etappeStandRowData"
-        (rowSelected)="onEtappeStandRowSelected($event)"
-        [rowSelection]="rowSelection"
-        domLayout = "autoHeight">
-      </ag-grid-angular>
-    </div>
-  </div>
-</div>
+  </mat-card-content>
+</mat-card>

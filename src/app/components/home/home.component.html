@@ -1,5 +1,5 @@
 <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
-  <div  class="card-padding" fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
+  <div *ngIf="false" class="card-padding" fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
     <!--<div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">-->
       <mat-toolbar color="accent" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
           <span *ngIf="(isRegistrationOpen$ | async)">
@@ -48,11 +48,11 @@
         </mat-card-content>
       </mat-card>
   </div>
-  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px" class="card-padding">
-    <app-headlines fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)"></app-headlines>
+  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch">
+    <app-headlines fxFlex="100" class="card-padding"></app-headlines >
     <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
-    <app-top5 [isRegistrationOpen$]="isRegistrationOpen$" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)"></app-top5>
+    <app-top5 [lastUpdated]="lastUpdated" [isRegistrationOpen$]="isRegistrationOpen$" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" class="card-padding"></app-top5>
     <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
-    <app-login fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" *ngIf="!(authService.user$ | async)"></app-login>
+    <app-login fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" *ngIf="!(authService.user$ | async)" class="card-padding"></app-login>
   </div>
 </div>

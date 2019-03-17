@@ -6,7 +6,6 @@
       <div>{{subtitleText}}</div>
       <span fxFlex></span>
     </mat-toolbar>
-    <mat-card-content>
       <div class="stage-cf-container mat-elevation-z8">
         <div class="stage-cf-header" fxLayoutAlign="space-evenly center">
           <button mat-raised-button color="accent" (click)="submit(data)">Opslaan</button>
@@ -23,7 +22,6 @@
           [rowData]="data.form.uitslag">
         </ag-grid-angular>
       </div>
-    </mat-card-content>
   </div>
   <div fxFlex="100" fxFlex.gt-sm="65">
     <app-riders

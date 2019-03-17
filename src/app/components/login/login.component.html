@@ -1,6 +1,10 @@
-<div class="mat-elevation-z8">
-  <mat-toolbar color="primary">Inloggen</mat-toolbar>
-  <mat-card>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Inloggen</mat-card-title>
+    <mat-card-subtitle>&nbsp;</mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
     <mat-tab-group *ngIf="!(authService.user$ | async)">
       <mat-tab label="inloggen" *ngIf="!wachtwoordvergeten">
         <form class="login-form">
@@ -44,7 +48,8 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input type="password" matInput autocomplete="password" placeholder="Password" formControlName="passwordFormControl"
+            <input type="password" matInput autocomplete="password" placeholder="Password"
+                   formControlName="passwordFormControl"
                    [(ngModel)]="user.password">
             <!--<mat-hint>Het wachtwoord moet minimaal 8 tekens lang zijn</mat-hint>-->
             <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.minlength &&
@@ -89,7 +94,5 @@
     <button mat-raised-button color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout
       {{(authService.user$ | async)?.displayName }}
     </button>
-  </mat-card>
-</div>
-
-
+  </mat-card-content>
+</mat-card>
