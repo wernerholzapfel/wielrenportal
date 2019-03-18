@@ -1,58 +1,32 @@
 <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
-  <div *ngIf="false" class="card-padding" fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
-    <!--<div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">-->
-      <mat-toolbar color="accent" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
-          <span *ngIf="(isRegistrationOpen$ | async)">
-          De deadline voor inschrijving is: {{deadline | date: 'd MMMM y, H:mm'}}
-          </span>
-        <span *ngIf="!(isRegistrationOpen$ | async) && lastUpdated">
-          Laatst bijgewerkt: {{lastUpdated}}
-          </span>
-        <span *ngIf="(!(isRegistrationOpen$ | async) && !lastUpdated)">
-          Aan het laden...
-          </span>
-      </mat-toolbar>
-    <!--</div>-->
-    <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
-    <!--<div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">-->
-      <mat-toolbar color="accent" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
-          <span *ngIf="!(isRegistrationOpen$ | async) && (first$ | async)?.displayName">
-          {{(first$ | async)?.displayName}} staat 1e met {{(first$ | async)?.totalPoints}} punten.
-          </span>
-        <span *ngIf="(isRegistrationOpen$ | async)">
-          Wie wordt de beste ploegleider?
-          </span>
-        <span *ngIf="!(isRegistrationOpen$ | async) && !(first$ | async)?.displayName">
-          Aan het laden...
-          </span>
-      </mat-toolbar>
-    <!--</div>-->
-  </div>
-  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" class="card-padding">
-      <mat-card fxFlex="100">
-        <mat-card-header>
-          <mat-card-title>Welkom</mat-card-title>
-          <mat-card-subtitle>&nbsp;</mat-card-subtitle>
-        </mat-card-header>
-        <mat-divider></mat-divider>
-        <mat-card-content>
-          <p>
-            Doe <b>gratis</b> mee en wordt de beste ploegleider van de Tour de France, Giro d’Italia of Vuelta a
-            Espana!
-          </p>
-          <p>
-            Gebruik je <b>budget</b> om het winnende team samen te stellen, kies daarbij ook een <b>beschermde
-            renner</b>,
-            <b>meesterknecht</b>, <b>waterdrager</b> en <b>linkebal</b>.
-          </p>
-        </mat-card-content>
-      </mat-card>
+  <div *ngIf="false" fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch"
+       class="card-padding">
+    <mat-card fxFlex="100">
+      <mat-card-header>
+        <mat-card-title>Welkom</mat-card-title>
+        <mat-card-subtitle>&nbsp;</mat-card-subtitle>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <p>
+          Doe <b>gratis</b> mee en wordt de beste ploegleider van de Tour de France, Giro d’Italia of Vuelta a
+          Espana!
+        </p>
+        <p>
+          Gebruik je <b>budget</b> om het winnende team samen te stellen, kies daarbij ook een <b>beschermde
+          renner</b>,
+          <b>meesterknecht</b>, <b>waterdrager</b> en <b>linkebal</b>.
+        </p>
+      </mat-card-content>
+    </mat-card>
   </div>
   <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch">
-    <app-headlines fxFlex="100" class="card-padding"></app-headlines >
+    <app-headlines fxFlex="100" class="card-padding"></app-headlines>
     <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
-    <app-top5 [lastUpdated]="lastUpdated" [isRegistrationOpen$]="isRegistrationOpen$" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" class="card-padding"></app-top5>
+    <app-login fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" *ngIf="!(authService.user$ | async)"
+               class="card-padding"></app-login>
     <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
-    <app-login fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" *ngIf="!(authService.user$ | async)" class="card-padding"></app-login>
+    <app-top5 [lastUpdated]="lastUpdated" [isRegistrationOpen$]="isRegistrationOpen$" fxFlex="100"
+              fxFlex.gt-xs="calc(50% - 4px)" class="card-padding"></app-top5>
   </div>
 </div>
