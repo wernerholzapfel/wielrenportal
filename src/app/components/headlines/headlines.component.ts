@@ -16,6 +16,8 @@ import {ITour} from '../../models/tour.model';
 export class HeadlinesComponent implements OnInit, OnDestroy {
   unsubscribe: Subject<void> = new Subject<void>();
 
+  headline: IHeadline;
+  headlineIndex = 0;
   headlines: IHeadline[];
   numberOfHeadlines = 1;
   tour$: Observable<ITour>;
@@ -30,11 +32,22 @@ export class HeadlinesComponent implements OnInit, OnDestroy {
     this.tour$.pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
       this.headlineService.getHeadlines(tour.id).subscribe(headlines => {
           if (headlines) {
-            this.headlines = headlines.slice(0, this.numberOfHeadlines);
+            this.headlines = headlines;
+            this.headline = headlines[this.headlineIndex];
           }
         }
       );
     });
+  }
+
+  nextHeadline() {
+    this.headlineIndex ++;
+    this.headline = this.headlines[this.headlineIndex];
+  }
+
+  previousHeadline() {
+    this.headlineIndex --;
+    this.headline = this.headlines[this.headlineIndex];
   }
 
   ngOnDestroy() {
