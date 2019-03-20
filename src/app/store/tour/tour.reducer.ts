@@ -128,7 +128,7 @@ export const getTourRiders = createSelector(getTourTeams, (tourTeams: ITeam[]) =
   return flattenTourRiders;
 });
 
-export const getTours = createSelector(gettourState, (state: TourState) => state.tours && state.tours.length > 0 ? state.tours
-  .sort((a, b) => {
-    return new Date(b.startDate) - new Date(a.startDate);
-  }) : state.tours);
+export const getTours = createSelector(gettourState, (state: TourState) => {
+  return state.tours && state.tours.length > 0 ? state.tours
+    .sort((a, b) => +new Date(b.startDate) - +new Date(a.startDate)) : state.tours;
+});
