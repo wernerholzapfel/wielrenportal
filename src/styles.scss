@@ -220,6 +220,13 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 @import '~ag-grid-community/dist/styles/ag-theme-balham.css';
 @import '~ag-grid-community/dist/styles/ag-theme-material.css';
 
+$primary: map-get($theme, primary);
+$accent: map-get($theme, accent);
+$warn: map-get($theme, warn);
+
+.mat-button-toggle-checked {
+  background-color: mat-color($primary);
+}
 
 .full-width {
   width: 100%;
@@ -306,7 +313,7 @@ ag-grid-angular.inside_card {
 }
 
 .card-container-xs {
-  height: calc(var(--vh, 1vh) - 184px + 32px);
+  height: calc(var(--vh, 1vh) - 184px - 32px);
   overflow-y: auto;
 }
 
@@ -337,4 +344,9 @@ mat-card-content {
 
 .mat-divider {
   z-index: 2;
+}
+.mat-toolbar {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

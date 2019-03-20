@@ -1,25 +1,4 @@
 <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
-  <div *ngIf="false" fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch"
-       class="card-padding">
-    <mat-card fxFlex="100">
-      <mat-card-header>
-        <mat-card-title>Welkom</mat-card-title>
-        <mat-card-subtitle>&nbsp;</mat-card-subtitle>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <p>
-          Doe <b>gratis</b> mee en wordt de beste ploegleider van de Tour de France, Giro d’Italia of Vuelta a
-          Espana!
-        </p>
-        <p>
-          Gebruik je <b>budget</b> om het winnende team samen te stellen, kies daarbij ook een <b>beschermde
-          renner</b>,
-          <b>meesterknecht</b>, <b>waterdrager</b> en <b>linkebal</b>.
-        </p>
-      </mat-card-content>
-    </mat-card>
-  </div>
   <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch">
     <app-headlines fxFlex="100" class="card-padding"></app-headlines>
     <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>

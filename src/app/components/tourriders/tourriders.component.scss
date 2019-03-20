@@ -1,13 +1,10 @@
 :host {
   .header,
   .team_card,
+  .participant_team_card,
   .waarde_card {
     margin: 10px !important;
-  }
-  .participant_team_card {
-    margin: 10px 0;
-    //  padding: 24px 0;
-
+    border-radius: 4px;
   }
   .mat-menu-content {
     padding-top: 8px;
@@ -25,4 +22,20 @@
   .my-tooltip {
     white-space: pre-line;
   }
+
+  .toolbar-card-header {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+
+  .sub-card-container {
+    height: calc(100vh - 378px - 20px);
+    overflow-y: auto;
+  }
+
+  //.sub-card-container-xs {
+  //  height: calc(var(--vh, 1vh) - 184px - 32px - 20px);
+  //  overflow-y: auto;
+  //}
+
 }
