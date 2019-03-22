@@ -33,10 +33,10 @@ export class LoginComponent implements OnInit {
       Validators.required,
       Validators.email,
     ]),
-    displayNameFormControl: new FormControl('', [
+    displayName: new FormControl('', [
       Validators.required,
     ]),
-    displayTeamNameFormControl: new FormControl('', [
+    teamName: new FormControl('', [
       Validators.required,
     ]),
     passwordFormControl: new FormControl('', [

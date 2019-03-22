@@ -3,7 +3,8 @@
     <mat-card-title>Mijn team
     </mat-card-title>
     <mat-card-subtitle>{{ calculateUsedWaardepunten() < maxParticipantRidersPunten && isRegistrationOpen && !isLoading ?
-      "Je hebt nog " + (maxParticipantRidersPunten - calculateUsedWaardepunten()) + " waardepunten." : "&nbsp;"}}</mat-card-subtitle>
+      "Je hebt nog " + (maxParticipantRidersPunten - calculateUsedWaardepunten()) + " waardepunten." : "&nbsp;"}}
+      {{!participantRidersComplete() ? 'je team is nog niet compleet' : ''}}</mat-card-subtitle>
   </mat-card-header>
   <mat-divider></mat-divider>
   <mat-progress-bar *ngIf="isLoading" mode="buffer"></mat-progress-bar>

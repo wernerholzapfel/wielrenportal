@@ -30,9 +30,9 @@
       <mat-tab label="inschrijven" *ngIf="!wachtwoordvergeten">
         <form [formGroup]="userForm" class="login-form">
           <mat-form-field class="full-width">
-            <input type="text" matInput placeholder="Naam" formControlName="displayNameFormControl"
+            <input type="text" matInput placeholder="Naam" formControlName="displayName"
                    [errorStateMatcher]="matcher" [(ngModel)]="user.displayName">
-            <mat-error *ngIf="userForm.controls['displayNameFormControl'].errors?.required">
+            <mat-error *ngIf="userForm.controls['displayName'].errors?.required">
               Naam is <strong>verplicht</strong>
             </mat-error>
           </mat-form-field>
@@ -61,9 +61,9 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input type="text" matInput placeholder="Teamnaam" formControlName="displayTeamNameFormControl"
+            <input type="text" matInput placeholder="Teamnaam" formControlName="teamName"
                    [errorStateMatcher]="matcher" [(ngModel)]="user.teamName">
-            <mat-error *ngIf="userForm.controls['displayTeamNameFormControl'].errors?.required">
+            <mat-error *ngIf="userForm.controls['teamName'].errors?.required">
               Team naam is <strong>verplicht</strong>
             </mat-error>
           </mat-form-field>

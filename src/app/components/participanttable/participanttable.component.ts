@@ -38,7 +38,7 @@ export class ParticipanttableComponent implements OnInit {
 
     this.agColumns = [
       {headerName: '#', valueGetter: this.formatPosition, minWidth: 75, maxWidth: 75},
-      {headerName: 'Naam', field: 'displayName', minWidth: 200, maxWidth: 200},
+      {headerName: 'Teamnaam', valueGetter: this.formatTeamnaam, minWidth: 200, maxWidth: 200},
       {headerName: 'Totaal', valueGetter: this.formatTotaalpunten, sort: 'desc', minWidth: 100, maxWidth: 100},
       {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
       {
@@ -125,7 +125,7 @@ export class ParticipanttableComponent implements OnInit {
   }
 
   formatPosition(params): string {
-    const deltaPositie = params.data.previousPosition - params.data.position;
+    const deltaPositie = params.data.previousPosition ? params.data.previousPosition - params.data.position : 0;
     if (deltaPositie > 0) {
       return params.data.position + ' (+' + deltaPositie + ')';
     } else {
@@ -140,10 +140,16 @@ export class ParticipanttableComponent implements OnInit {
     return params.data.totalTourPoints + params.data.totalMountainPoints + params.data.totalPointsPoints + params.data.totalYouthPoints;
   }
 
+
+  formatTeamnaam(params): string {
+    return params.data.teamName ? params.data.teamName : params.data.displayName;
+  }
+
   formatTotaalpunten(params): string {
     const addendum: string =
-      (params.data.deltaTotalStagePoints > 0) ? ' (+' + params.data.deltaTotalStagePoints + ')' :
-        (params.data.deltaTotalStagePoints === 0) ? '' : ' (' + params.data.deltaTotalStagePoints + ')';
+      (params.data.deltaTotalStagePoints && params.data.deltaTotalStagePoints > 0) ? ' (+' + params.data.deltaTotalStagePoints + ')' :
+        (!params.data.deltaTotalStagePoints || params.data.deltaTotalStagePoints === 0) ? '' :
+          ' (' + params.data.deltaTotalStagePoints + ')';
     return params.data.totalPoints + addendum;
   }
 }
