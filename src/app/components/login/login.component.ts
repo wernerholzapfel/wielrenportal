@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
     ]),
     teamName: new FormControl('', [
       Validators.required,
+      Validators.maxLength(15)
     ]),
     passwordFormControl: new FormControl('', [
       Validators.required,
