@@ -21,9 +21,6 @@ import {ProfileComponent} from './components/profile/profile.component';
 
 const appRoutes: Routes = [
   {
-    path: 'riders',
-    component: RidersComponent
-  }, {
     path: 'rider/:id',
     component: TourriderDetailComponent
   }, {
@@ -32,13 +29,12 @@ const appRoutes: Routes = [
     canDeactivate: [CanDeactivateGuard],
     component: TourridersComponent
   }, {
-    path: 'tourriders',
+    path: 'renners',
     component: RiderdetailsComponent
   }, {
     path: 'spelregels',
     component: SpelregelsComponent
-  },
-  {
+  }, {
     path: 'profiel',
     component: ProfileComponent
   }, {

@@ -90,6 +90,9 @@ export class RiderdetailsComponent implements OnInit {
       defaultColDef: {
         sortable: true
       },
+      localeText: {noRowsToShow: 'Na de deadline verschijnen hier de statistieken van de renners'
+        // , loadingOoo: 'Bezig met ophalen van de gegevens...'
+      },
       context: {parentComponent: this},
       columnDefs: this.defaultAgColumns,
       onGridReady: (params) => {
@@ -98,14 +101,19 @@ export class RiderdetailsComponent implements OnInit {
 
         this.store.select(getTour).subscribe(tour => {
           this.tour = tour;
-
-          // todo refactor for example  subscribe until
-          // todo move to store?
-          this.riderService.getDetailTourriders(tour.id)
-            .subscribe(response => {
-              this.totalRiders = response;
-              this.gridApi.setRowData(response);
-            });
+          this.gridApi.showLoadingOverlay();
+          if (new Date(this.tour.deadline) < new Date()) {
+            // todo refactor for example  subscribe until
+            // todo move to store?
+            this.riderService.getDetailTourriders(tour.id)
+              .subscribe(response => {
+                this.totalRiders = response;
+                this.gridApi.setRowData(this.totalRiders);
+              });
+          } else {
+            this.totalRiders = [];
+            this.gridApi.setRowData(this.totalRiders);
+          }
         });
 
         this.gridOptions.api.sizeColumnsToFit();

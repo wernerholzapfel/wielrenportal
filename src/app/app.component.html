@@ -25,7 +25,7 @@
         <mat-list-item *ngIf="!(isRegistrationOpen$ | async)" (click)="opened = false" [routerLink]="['/etappes']"
                        routerLinkActive="active-link">Etappes
         </mat-list-item>
-        <mat-list-item (click)="opened = false" [routerLink]="['/tourriders']" routerLinkActive="active-link">Renners
+        <mat-list-item (click)="opened = false" [routerLink]="['/renners']" routerLinkActive="active-link">Renners
         </mat-list-item>
         <mat-list-item (click)="opened = false" [routerLink]="['/spelregels']" routerLinkActive="active-link">
           Spelregels
@@ -71,7 +71,7 @@ true}">Home
           <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/participants']"
                   routerLinkActive="active-link">Deelnemers
           </button>
-          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/tourriders']"
+          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/renners']"
                   routerLinkActive="active-link">Renners
           </button>
           <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/spelregels']"
