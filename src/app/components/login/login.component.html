@@ -59,7 +59,7 @@
             <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.required">
               Paswoord is <strong>verplicht</strong>
             </mat-error>
-            <mat-error *ngIf="profileForm.controls['teamName'].errors?.maxlength">
+            <mat-error *ngIf="userForm.controls['teamName'].errors?.maxlength">
               Je teamnaam mag maximaal <strong>15</strong> tekens bevatten
             </mat-error>
           </mat-form-field>
