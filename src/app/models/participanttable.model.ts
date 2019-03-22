@@ -5,5 +5,6 @@ export interface IParticipanttable {
   displayName: string;
   predictions: IPrediction[];
   totalPoints: number;
+  position?: number;
 }
 
