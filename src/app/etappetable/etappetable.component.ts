@@ -1,40 +1,43 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ClassificationsService} from '../services/stageclassifications.service';
 import {GridOptions} from 'ag-grid';
 import {TourService} from '../services/tour.service';
 import {Observable} from 'rxjs/internal/Observable';
 import {select, Store} from '@ngrx/store';
-import {getDrivenEtappes} from '../store/etappe/etappe.reducer';
+import {getEtappes} from '../store/etappe/etappe.reducer';
 import {IAppState} from '../store/store';
 import {getTour} from '../store/tour/tour.reducer';
-import * as fromEtappe from '../store/etappe/etappe.actions';
 import {ActivatedRoute} from '@angular/router';
-import {combineLatest} from 'rxjs';
+import {combineLatest, Subject} from 'rxjs';
+import {distinctUntilChanged, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-etappetable',
   templateUrl: './etappetable.component.html',
   styleUrls: ['./etappetable.component.scss']
 })
-export class EtappetableComponent implements OnInit {
+export class EtappetableComponent implements OnInit, OnDestroy {
   private etappeGridApi;
-  private etappeGridColumnApi;
   private etappeAgColumns;
   public etappeGridOptions: GridOptions;
-  public etappeRowData: any[];
+  public etappeRowData: any[] = [];
   private etappeStandGridApi;
   private etappeStandGridColumnApi;
   private etappeStandAgColumns;
   public etappeStandGridOptions: GridOptions;
-  public etappeStandRowData: any[];
+  public etappeStandRowData: any[] = [];
   public rowClassRules;
+  tour$: Observable<any>;
   etappes$: Observable<any>;
   routeParams$: Observable<any>;
   selectedEtappe: any;
   etappe: any[];
+  etappes: any[];
   rowSelection = 'single';
   etappeId: string;
   tourId: string;
+  unsubscribe = new Subject<void>();
+
 
   constructor(private stageClassificationsService: ClassificationsService,
               private route: ActivatedRoute,
@@ -59,24 +62,28 @@ export class EtappetableComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.pipe(select(getTour)).subscribe(tour => {
+
+    this.tour$ = this.store.pipe(select(getTour)).pipe(distinctUntilChanged());
+
+    this.tour$.pipe(distinctUntilChanged(), takeUntil(this.unsubscribe)).subscribe(tour => {
       if (tour && tour.id) {
+        console.log(0);
         this.tourId = tour.id;
-        this.store.dispatch(new fromEtappe.FetchEtappeList(tour.id));
       }
     });
 
-    this.etappes$ = this.store.pipe(select(getDrivenEtappes));
+    this.etappes$ = this.store.pipe(select(getEtappes));
     this.routeParams$ = this.route.params;
 
     // if route id then find etappe by id in etappes. else get etappes[0]
-
-    // todo unsubscribe takeuntil
-    combineLatest(this.etappes$, this.routeParams$).subscribe(([etappes, routeParams]) => {
-      if (routeParams && !routeParams['id'] && etappes.length > 0) {
-        this.selectedEtappe = etappes[0];
+    combineLatest(this.etappes$.pipe(distinctUntilChanged()), this.routeParams$).pipe(distinctUntilChanged(),
+      takeUntil(this.unsubscribe)).subscribe(([etappes, routeParams]) => {
+      if (routeParams && !routeParams['id'] && etappes && etappes.length > 0) {
+        this.etappes = this.getDrivenEtappes(etappes);
+        this.selectedEtappe = this.etappes.length > 0 ? this.etappes[0] : null;
         this.fetchData();
-      } else if (etappes.length > 0) {
+      } else if (routeParams['id'] && etappes && etappes.length > 0) {
+        this.etappes = this.getDrivenEtappes(etappes);
         this.selectedEtappe = etappes.find(etappe => etappe.id === routeParams['id']);
         this.fetchData();
       }
@@ -103,10 +110,16 @@ export class EtappetableComponent implements OnInit {
         resizable: true
       },
       columnDefs: this.etappeStandAgColumns,
-      onGridReady: () => {
+      onGridReady: (params) => {
+        this.etappeStandGridApi = params.api;
         this.etappeStandGridOptions.api.sizeColumnsToFit();
       },
     };
+  }
+
+
+  private getDrivenEtappes(etappes: ObservedValueOf<Observable<any>>) {
+    return etappes.filter(item => item.isDriven).sort((a, b) => b.etappeNumber - a.etappeNumber);
   }
 
   determineRiderName(params): string {
@@ -173,27 +186,27 @@ export class EtappetableComponent implements OnInit {
   }
 
   fetchData() {
-    this.etappeRowData = [];
-    this.etappeStandRowData = [];
-    this.stageClassificationsService.getStageClassifications(this.selectedEtappe.id).subscribe(
-      response => this.etappeRowData = response
-    );
+    this.etappeGridOptions.api.showLoadingOverlay();
+    this.etappeStandGridOptions.api.showLoadingOverlay();
 
-    // todo combineLatest
-    this.tourService.getEtappeStand(this.tourId, this.selectedEtappe.id).subscribe(
-      response => this.etappeStandRowData = response
-    );
+    if (this.selectedEtappe && this.selectedEtappe.id) {
+      const getStageClassification$ = this.stageClassificationsService.getStageClassifications(this.selectedEtappe.id);
+      const getEtappeStand$ = this.tourService.getEtappeStand(this.tourId, this.selectedEtappe.id);
+
+      combineLatest(getStageClassification$, getEtappeStand$).pipe(takeUntil(this.unsubscribe)).subscribe(([etappe, stand]) => {
+        this.etappeRowData = etappe;
+        this.etappeStandRowData = stand;
+      });
+    } else {
+      this.etappeRowData = [];
+      this.etappeStandRowData = [];
+    }
   }
 
-  // onEtappeStandRowSelected(params) {
-  //   this.etappeGridApi.forEachNode(function (node) {
-  //     if (!!params.data.predictions.find(item => item.rider.id === node.data.tourrider.id)) {
-  //       node.setSelected(true);
-  //     } else {
-  //       node.setSelected(false);
-  //     }
-  //   });
-  // }
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 }
 
 

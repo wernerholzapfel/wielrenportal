@@ -3,13 +3,13 @@
     <mat-card-title>
       <mat-select placeholder="Kies etappe" [(ngModel)]="selectedEtappe"
                   (selectionChange)="fetchEtappe()">
-        <mat-option *ngFor="let etappe of etappes$ | async" [value]="etappe">
-          {{ etappe.etappeName }}
+        <mat-option *ngFor="let etappe of etappes" [value]="etappe">
+          {{ etappe?.etappeName }}
         </mat-option>
       </mat-select>
     </mat-card-title>
     <mat-card-subtitle>
-      {{etappeRowData[0]?.tourrider.rider.firstName ? 'Winnaar ' + etappeRowData[0]?.tourrider.rider.firstName + ' ' + etappeRowData[0]?.tourrider.rider.surName : '&nbsp;' }}
+      {{etappeRowData && etappeRowData[0]?.tourrider.rider.firstName ? 'Winnaar ' + etappeRowData[0]?.tourrider.rider.firstName + ' ' + etappeRowData[0]?.tourrider.rider.surName : '&nbsp;' }}
     </mat-card-subtitle>
   </mat-card-header>
   <mat-divider></mat-divider>

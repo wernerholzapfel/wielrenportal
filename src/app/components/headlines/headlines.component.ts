@@ -19,7 +19,6 @@ export class HeadlinesComponent implements OnInit, OnDestroy {
   headline: IHeadline;
   headlineIndex = 0;
   headlines: IHeadline[];
-  numberOfHeadlines = 1;
   tour$: Observable<ITour>;
 
   constructor(private headlineService: HeadlinesService, private store: Store<IAppState>) {
