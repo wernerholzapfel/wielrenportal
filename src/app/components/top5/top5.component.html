@@ -9,7 +9,7 @@
       <div *ngFor="let stand of (stand$ | async); let i = index">
         {{i+1}} {{stand.displayName}} met {{stand.totalPoints}} punten.
       </div>
-      <div *ngIf="participantPrediction">
+      <div *ngIf="participantPrediction?.position > top">
         {{participantPrediction.position}} {{participantPrediction.displayName}} met {{participantPrediction.totalPoints}} punten.
       </div>
     </ng-container>
