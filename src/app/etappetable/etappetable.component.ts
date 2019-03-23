@@ -8,7 +8,7 @@ import {getEtappes} from '../store/etappe/etappe.reducer';
 import {IAppState} from '../store/store';
 import {getTour} from '../store/tour/tour.reducer';
 import {ActivatedRoute} from '@angular/router';
-import {combineLatest, Subject} from 'rxjs';
+import {combineLatest, ObservedValueOf, Subject} from 'rxjs';
 import {distinctUntilChanged, takeUntil} from 'rxjs/operators';
 
 @Component({
