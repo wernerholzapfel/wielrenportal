@@ -2,9 +2,10 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as tour from './tour.actions';
 import * as etappe from '../etappe/etappe.actions';
+import * as tourrider from '../tourriders/tourrider.actions';
 
 import {TourService} from '../../services/tour.service';
-import {of} from 'rxjs';
+import {from, of} from 'rxjs';
 import {catchError, switchMap} from 'rxjs/operators';
 
 @Injectable()
@@ -40,7 +41,8 @@ export class TourEffects {
   fetchTourSuccess$ = this.actions$
     .pipe(ofType<tour.FetchTourSuccess>(tour.FETCH_TOUR_SUCCESS),
       switchMap(action =>
-        of(new etappe.FetchEtappeList(action.payload.id))),
+        from([new etappe.FetchEtappeList(action.payload.id),
+          new tourrider.FetchTourriderList(action.payload.id)])),
       catchError(err => of(new tour.FetchTourFailure(err))));
 
 

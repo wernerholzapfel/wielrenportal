@@ -57,6 +57,8 @@ import { AddHeadlineDialogComponent } from './components/headlines-edit/dialog/a
 import { HeadlinesComponent } from './components/headlines/headlines.component';
 import {TourriderDetailComponent} from './components/tourriderdetail/tourrider-detail.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { Deelnemertop5Component } from './components/top5/deelnemertop5/deelnemertop5.component';
+import { Ridertop5Component } from './components/top5/ridertop5/ridertop5.component';
 
 registerLocaleData(localeNl);
 
@@ -84,7 +86,9 @@ registerLocaleData(localeNl);
     HeadlinesEditComponent,
     AddHeadlineDialogComponent,
     HeadlinesComponent,
-    ProfileComponent
+    ProfileComponent,
+    Deelnemertop5Component,
+    Ridertop5Component
   ],
   entryComponents: [
     AddEtappeDialogComponent,

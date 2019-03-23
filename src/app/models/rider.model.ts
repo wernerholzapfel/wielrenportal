@@ -22,4 +22,11 @@ export interface IRider {
   position?: number;
   stageclassifications?: IStageclassifications[];
   team?: ITeam;
+  waterdragerEtappePoints?: number;
+  waterdragerTotalPoints?: number;
+  totalStagePoints?: number;
+  youthPoints?: number;
+  mountainPoints?: number;
+  tourPoints?: number;
+  pointsPoints?: number;
 }

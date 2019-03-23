@@ -1,23 +1,31 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>De top {{top}}</mat-card-title>
-    <mat-card-subtitle><span *ngIf="lastUpdated">Laatst bijgewerkt: {{lastUpdated}}</span> &nbsp;</mat-card-subtitle>
-  </mat-card-header>
-  <mat-divider></mat-divider>
-  <mat-card-content>
-    <ng-container *ngIf="!(isRegistrationOpen$ | async) && (stand$ | async)?.length > 1">
-      <div *ngFor="let stand of (stand$ | async); let i = index">
-        {{i+1}} {{stand.displayName}} met {{stand.totalPoints}} punten.
-      </div>
-      <div *ngIf="participantPrediction?.position > top">
-        {{participantPrediction.position}} {{participantPrediction.displayName}} met {{participantPrediction.totalPoints}} punten.
-      </div>
-    </ng-container>
-    <span *ngIf="(isRegistrationOpen$ | async)">
-          Wie wordt de beste ploegleider?
-          </span>
-    <span *ngIf="!(isRegistrationOpen$ | async) && (stand$ | async)?.length <= 1">
-          Aan het laden...
-          </span>
-  </mat-card-content>
-</mat-card>
+<div fxLayout="column" fxLayout.gt-xs="row wrap" fxLayoutAlign.gt-xs="space-between stretch" fxLayoutGap.gt-xs="3" fxLayoutGap.gt-sm="1">
+  <app-deelnemertop5 fxFlex="100" fxFlex.gt-sm="33" fxFlex.gt-xs="49"
+                     [stand$]="stand$"
+                     [lastUpdated]="lastUpdated"
+                     [isRegistrationOpen$]="isRegistrationOpen$"
+                     [title]="'Totaalstand'">
+
+  </app-deelnemertop5>
+  <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
+  <!--<app-deelnemertop5 fxFlex="100" fxFlex.gt-xs="25"-->
+                     <!--[stand$]="stand$"-->
+                     <!--[lastUpdated]="lastUpdated"-->
+                     <!--[isRegistrationOpen$]="isRegistrationOpen$"-->
+                     <!--[title]="'Etappe stand'">-->
+
+  <!--</app-deelnemertop5>-->
+  <div fxShow="false" [fxShow.sm]="true" [ngClass.sm]="{'spacing-xs':true}"></div>
+  <app-ridertop5 fxFlex="100" fxFlex.gt-sm="33" fxFlex.gt-xs="49"
+                 [riderTop]="riderTop"
+                 [lastUpdated]="lastUpdated"
+                 [isRegistrationOpen$]="isRegistrationOpen$"
+                 [title]="'Beste renners'">
+  </app-ridertop5>
+  <div fxShow="false" fxFlex="100" [fxShow.sm]="true" [ngClass.sm]="{'spacing-xs':true}"></div>
+  <app-ridertop5 fxFlex="100" fxFlex.gt-sm="33" fxFlex.gt-xs="49"
+                 [riderTop]="waterdragerTop"
+                 [lastUpdated]="lastUpdated"
+                 [isRegistrationOpen$]="isRegistrationOpen$"
+                 [title]="'Beste waterdragers'">
+  </app-ridertop5>
+</div>
