@@ -186,8 +186,12 @@ export class EtappetableComponent implements OnInit, OnDestroy {
   }
 
   fetchData() {
-    this.etappeGridOptions.api.showLoadingOverlay();
-    this.etappeStandGridOptions.api.showLoadingOverlay();
+    if (this.etappeGridOptions && this.etappeGridOptions.api) {
+      this.etappeGridOptions.api.showLoadingOverlay();
+    }
+    if (this.etappeStandGridOptions && this.etappeStandGridOptions.api) {
+      this.etappeStandGridOptions.api.showLoadingOverlay();
+    }
 
     if (this.selectedEtappe && this.selectedEtappe.id) {
       const getStageClassification$ = this.stageClassificationsService.getStageClassifications(this.selectedEtappe.id);
