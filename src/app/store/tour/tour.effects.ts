@@ -42,6 +42,7 @@ export class TourEffects {
     .pipe(ofType<tour.FetchTourSuccess>(tour.FETCH_TOUR_SUCCESS),
       switchMap(action =>
         from([new etappe.FetchEtappeList(action.payload.id),
+          new etappe.FetchLatestEtappe(action.payload.id),
           new tourrider.FetchTourriderList(action.payload.id)])),
       catchError(err => of(new tour.FetchTourFailure(err))));
 

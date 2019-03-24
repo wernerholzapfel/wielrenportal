@@ -12,10 +12,12 @@ export class Deelnemertop5Component implements OnInit {
   constructor() {
   }
 
+  @Input() top: number;
   @Input() stand$: Observable<IParticipanttable[]>;
   @Input() isRegistrationOpen$: Observable<boolean>;
   @Input() lastUpdated: string;
   @Input() title: string;
+  @Input() participantPrediction: IParticipanttable;
 
   ngOnInit() {
   }

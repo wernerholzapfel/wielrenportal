@@ -11,6 +11,8 @@ import {IRider} from '../../models/rider.model';
 import {getTour} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
 import {CalculatieService} from '../../services/calculatie.service';
+import {EtappeService} from '../../services/etappe.service';
+import {getLatestEtappeParticipantScore, getLatestEtappeTopX} from '../../store/etappe/etappe.reducer';
 
 @Component({
   selector: 'app-top5',
@@ -19,7 +21,7 @@ import {CalculatieService} from '../../services/calculatie.service';
 })
 export class Top5Component implements OnInit, OnDestroy {
 
-  constructor(public store: Store<IAppState>, private calculatieService: CalculatieService) {
+  constructor(public store: Store<IAppState>, private calculatieService: CalculatieService, private etappeService: EtappeService) {
   }
 
   top = 5;
@@ -28,12 +30,16 @@ export class Top5Component implements OnInit, OnDestroy {
   @Input() lastUpdated: string;
   @Input() isRegistrationOpen$: Observable<boolean>;
   stand$: Observable<IParticipanttable[]>;
+  etappeStand$: Observable<IParticipanttable[]>;
   waterdragerTop: IRider[];
   riderTop: any[];
-  participantPrediction: IParticipanttable;
+  latestParticipantTotalScore: IParticipanttable;
+  latestEtappeParticipantScore: IParticipanttable;
 
   ngOnInit() {
     this.stand$ = this.store.select(getTopX(this.top));
+
+    // get waterdragertop
     this.store.pipe(select(getTour), switchMap(tour => {
       if (tour) {
         this.tour = tour;
@@ -48,6 +54,7 @@ export class Top5Component implements OnInit, OnDestroy {
       });
     });
 
+    // get ridertop
     this.store.pipe(select(getTour), switchMap(tour => {
       if (tour) {
         return this.store.select(getRennerTopX(this.top, tour.hasEnded));
@@ -61,16 +68,42 @@ export class Top5Component implements OnInit, OnDestroy {
       });
     });
 
+    this.etappeStand$ = this.store.pipe(select(getTour), switchMap(tour => {
+      if (tour && tour.id) {
+        return this.store.select(getLatestEtappeTopX(this.top));
+      } else {
+        return of([]);
+      }
+    }));
+
+
     this.store.select(getParticipant)
       .pipe(takeUntil(this.unsubscribe), switchMap(participant => {
         return participant ? of(participant.id) : of(null);
       }))
       .pipe(switchMap(participantId => {
-        return participantId ? this.store.select(getParticipantPredictions(participantId)) : of(null);
+        return participantId ? this.store.pipe(select(getParticipantPredictions(participantId))) : of(null);
       }))
-      .subscribe(participantPredictions => {
-        if (participantPredictions) {
-          this.participantPrediction = participantPredictions;
+      .subscribe(predictions => {
+        if (predictions) {
+          // console.log('participantPredictions');
+          // console.log(predictions);
+          this.latestParticipantTotalScore = predictions;
+        }
+      });
+
+    this.store.select(getParticipant)
+      .pipe(takeUntil(this.unsubscribe), switchMap(participant => {
+        return participant ? of(participant.id) : of(null);
+      }))
+      .pipe(switchMap(participantId => {
+        return participantId ? this.store.pipe(select(getLatestEtappeParticipantScore(participantId))) : of(null);
+      }))
+      .subscribe(predictions => {
+        if (predictions) {
+          // console.log('etappe predictions');
+          // console.log(predictions);
+          this.latestEtappeParticipantScore = predictions;
         }
       });
   }

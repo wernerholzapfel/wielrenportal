@@ -29,4 +29,29 @@ export class FetchEtappeListFailure implements Action {
   }
 }
 
+export const FETCH_LATESTETAPPE = '[ETAPPE] Fetch Latest Etappe';
+export const FETCH_LATESTETAPPE_SUCCESS = '[ETAPPE] Fetch Latest Etappe Success';
+export const FETCH_LATESTETAPPE_FAILURE = '[ETAPPE] Fetch Latest Etappe Failure';
+
+export class FetchLatestEtappe implements Action {
+  readonly type = FETCH_LATESTETAPPE;
+
+  constructor(public payload: string) {
+  }
+}
+
+export class FetchLatestEtappeSuccess implements Action {
+  readonly type = FETCH_LATESTETAPPE_SUCCESS;
+
+  constructor(public payload: any[]) {
+  }
+}
+
+export class FetchLatestEtappeFailure implements Action {
+  readonly type = FETCH_LATESTETAPPE_FAILURE;
+
+  constructor(public payload: HttpErrorResponse) {
+  }
+}
+
 
