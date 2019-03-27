@@ -31,7 +31,7 @@
           Spelregels
         </mat-list-item>
         <span class="example-spacer"></span>
-        <mat-list-item (click)="opened = false" [routerLink]="['/participants']" routerLinkActive="active-link">
+        <mat-list-item *ngIf="(isRegistrationOpen$ | async)" (click)="opened = false" [routerLink]="['/participants']" routerLinkActive="active-link">
           Deelnemers
         </mat-list-item>
         <mat-list-item (click)="opened = false" *ngIf="authService.isAdmin" [routerLink]="['/admin']"
@@ -68,7 +68,7 @@ true}">Home
           <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button
                   [routerLink]="['/etappes']" routerLinkActive="active-link">Etappes
           </button>
-          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/participants']"
+          <button fxHide *ngIf="(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button [routerLink]="['/participants']"
                   routerLinkActive="active-link">Deelnemers
           </button>
           <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/renners']"

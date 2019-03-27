@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import {getEtappes} from '../store/etappe/etappe.reducer';
 import {IAppState} from '../store/store';
 import {getTour} from '../store/tour/tour.reducer';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {combineLatest, ObservedValueOf, Subject} from 'rxjs';
 import {distinctUntilChanged, takeUntil} from 'rxjs/operators';
 
@@ -41,6 +41,7 @@ export class EtappetableComponent implements OnInit, OnDestroy {
 
   constructor(private stageClassificationsService: ClassificationsService,
               private route: ActivatedRoute,
+              private router: Router,
               private tourService: TourService,
               private store: Store<IAppState>) {
 
@@ -206,7 +207,11 @@ export class EtappetableComponent implements OnInit, OnDestroy {
       this.etappeStandRowData = [];
     }
   }
-
+  onRowSelected(event) {
+    if (event.node.selected) {
+      this.router.navigateByUrl(`rider/${event.data.tourrider.id}`);
+    }
+  }
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();

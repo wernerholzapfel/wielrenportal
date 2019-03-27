@@ -57,8 +57,8 @@ export const getRennerTopX = (x, tourhasended: boolean) => createSelector(gettou
 
 
 // todo duplicate code mogelijk uit calculatieservice halen, anders ook daaraanpassen
-export function determineTotaalpunten(renner, tour): number {
-  if (tour && tour.hasEnded) {
+export function determineTotaalpunten(renner, tourhasEnded): number {
+  if (tourhasEnded) {
     return ((renner.totalStagePoints ? renner.totalStagePoints : 0) +
       (renner.youthPoints ? renner.youthPoints : 0) +
       (renner.mountainPoints ? renner.mountainPoints : 0) +

@@ -59,13 +59,15 @@ export class Top5Component implements OnInit, OnDestroy {
       if (tour) {
         return this.store.select(getRennerTopX(this.top, tour.hasEnded));
       } else {
-        return of([]);
+        return of(undefined);
       }
     })).subscribe(renners => {
-      this.riderTop = [...renners].map(renner => {
-        return Object.assign(renner,
-          {top5punten: this.calculatieService.determineTotaalpunten(renner, this.tour)});
-      });
+      if (renners) {
+        this.riderTop = [...renners].map(renner => {
+          return Object.assign(renner,
+            {top5punten: this.calculatieService.determineTotaalpunten(renner, this.tour)});
+        });
+      }
     });
 
     this.etappeStand$ = this.store.pipe(select(getTour), switchMap(tour => {

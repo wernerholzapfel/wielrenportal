@@ -5,6 +5,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {RiderService} from '../../services/rider.service';
 import {IPrediction} from '../../models/participant.model';
 import {IRider} from '../../models/rider.model';
+import {IAppState} from '../../store/store';
+import {Store} from '@ngrx/store';
 
 @Component({
   selector: 'app-tourriderdetail',
@@ -13,7 +15,7 @@ import {IRider} from '../../models/rider.model';
 })
 export class TourriderDetailComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private router: Router, private riderService: RiderService) {
+  constructor(private route: ActivatedRoute, private router: Router, private riderService: RiderService, public store: Store<IAppState>) {
   }
 
   public gridOptions: GridOptions;
@@ -34,7 +36,6 @@ export class TourriderDetailComponent implements OnInit {
     {headerName: 'Naam', field: 'participant.displayName'},
     {headerName: 'Rol', cellRenderer: this.determineRole},
   ];
-
 
   ngOnInit() {
     this.participantsGridOptions = <GridOptions> {
@@ -95,14 +96,14 @@ export class TourriderDetailComponent implements OnInit {
   }
 
   onParticipantRowSelected(event) {
-      if (event.node.selected) {
-        this.router.navigateByUrl(`table/detail/${event.data.participant.id}`);
-      }
+    if (event.node.selected) {
+      this.router.navigateByUrl(`table/detail/${event.data.participant.id}`);
+    }
   }
 
   onEtappeRowSelected(event) {
-      if (event.node.selected) {
-        this.router.navigateByUrl(`etappes/${event.data.etappe.id}`);
-      }
+    if (event.node.selected) {
+      this.router.navigateByUrl(`etappes/${event.data.etappe.id}`);
+    }
   }
 }

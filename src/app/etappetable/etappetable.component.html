@@ -24,6 +24,8 @@
             [gridOptions]="etappeGridOptions"
             [rowData]="etappeRowData"
             [rowClassRules]="rowClassRules"
+            (rowSelected)="onRowSelected($event)"
+            [rowSelection]="rowSelection"
             domLayout="autoHeight">
           </ag-grid-angular>
         </div>
