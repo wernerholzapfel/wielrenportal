@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 import {getParticipantPredictions} from '../../store/participanttable/participanttable.reducer';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
@@ -10,13 +10,14 @@ import {ParticipantService} from '../../services/participant.service';
 import {ITour} from '../../models/tour.model';
 import {getTour} from '../../store/tour/tour.reducer';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-participantpredictions',
   templateUrl: './participantpredictions.component.html',
   styleUrls: ['./participantpredictions.component.scss']
 })
-export class ParticipantpredictionsComponent implements OnInit {
+export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
   sub: Subscription;
@@ -24,6 +25,8 @@ export class ParticipantpredictionsComponent implements OnInit {
   tour: ITour;
   public gridOptions: GridOptions;
   public isLoading: Boolean;
+
+  unsubscribe = new Subject<void>();
   agColumns = [
     {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
     {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 210, maxWidth: 210},
@@ -134,21 +137,21 @@ export class ParticipantpredictionsComponent implements OnInit {
     this.isLoading = true;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.store.select(getTour).subscribe(tour => {
+    this.store.select(getTour).pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
       this.tour = tour;
       // todo refactor for example  subscribe until
-      this.sub = this.route.params.subscribe(routeParams => {
+      this.sub = this.route.params.pipe(takeUntil(this.unsubscribe)).subscribe(routeParams => {
         if (routeParams['id']) {
-          this.store.select(getParticipantPredictions(routeParams['id'])).subscribe(participanttable => {
+          this.store.select(getParticipantPredictions(routeParams['id'])).pipe(takeUntil(this.unsubscribe)).subscribe(participanttable => {
             if (participanttable) {
               this.participanttable = participanttable;
               this.gridApi.setRowData(participanttable.predictions);
             }
           });
         } else {
-          this.participantService.getParticipant().subscribe(user => {
+          this.participantService.getParticipant().pipe(takeUntil(this.unsubscribe)).subscribe(user => {
             console.log(user);
-            this.store.select(getParticipantPredictions(user.id)).subscribe(participanttable => {
+            this.store.select(getParticipantPredictions(user.id)).pipe(takeUntil(this.unsubscribe)).subscribe(participanttable => {
               this.isLoading = false;
               if (participanttable) {
                 this.participanttable = participanttable;
@@ -182,5 +185,10 @@ export class ParticipantpredictionsComponent implements OnInit {
       return params.data.totalStagePoints ? params.data.totalStagePoints : 0;
 
     }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

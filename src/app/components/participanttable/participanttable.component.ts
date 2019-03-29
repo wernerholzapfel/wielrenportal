@@ -1,23 +1,24 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
 import {getLastUpdated, getParticipanttable} from '../../store/participanttable/participanttable.reducer';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {IParticipanttable} from '../../models/participanttable.model';
 import {getTour} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
 import * as moment from 'moment';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-participanttable',
   templateUrl: './participanttable.component.html',
   styleUrls: ['./participanttable.component.scss']
 })
-export class ParticipanttableComponent implements OnInit {
+export class ParticipanttableComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
   private agColumns;
@@ -29,6 +30,7 @@ export class ParticipanttableComponent implements OnInit {
   data: any;
   participantstable$: Observable<IParticipanttable[]>;
   lastUpdated$: Observable<any>;
+  unsubscribe = new Subject<void>();
 
   public gridOptions: GridOptions;
   public lastUpdated: string;
@@ -89,7 +91,7 @@ export class ParticipanttableComponent implements OnInit {
     this.participantstable$ = this.store.pipe(select(getParticipanttable));
     this.lastUpdated$ = this.store.pipe(select(getLastUpdated));
 
-    this.lastUpdated$.subscribe(lastupdated => {
+    this.lastUpdated$.pipe(takeUntil(this.unsubscribe)).subscribe(lastupdated => {
       if (lastupdated) {
         this.lastUpdated = moment(lastupdated.lastUpdated).fromNow();
       }
@@ -107,7 +109,7 @@ export class ParticipanttableComponent implements OnInit {
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.store.select(getTour).subscribe(tour => {
+    this.store.pipe(select(getTour)).pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
       this.tour = tour;
     });
 
@@ -151,5 +153,10 @@ export class ParticipanttableComponent implements OnInit {
         (!params.data.deltaTotalStagePoints || params.data.deltaTotalStagePoints === 0) ? '' :
           ' (' + params.data.deltaTotalStagePoints + ')';
     return params.data.totalPoints + addendum;
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

@@ -1,25 +1,28 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RiderService} from '../../services/rider.service';
 import {GridOptions} from 'ag-grid';
 import {IAppState} from '../../store/store';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {getTour} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
 import {IRider} from '../../models/rider.model';
 import {Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-riderdetails',
   templateUrl: './riderdetails.component.html',
   styleUrls: ['./riderdetails.component.scss']
 })
-export class RiderdetailsComponent implements OnInit {
+export class RiderdetailsComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
   totalRiders: IRider[];
   tour: ITour;
   public gridOptions: GridOptions;
+  unsubscribe = new Subject<void>();
   defaultRowClassRules = {
     'uitgevallen': function (params) {
       return params.data.isOut;
@@ -99,7 +102,7 @@ export class RiderdetailsComponent implements OnInit {
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
 
-        this.store.select(getTour).subscribe(tour => {
+        this.store.pipe(select(getTour)).pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
           this.tour = tour;
           this.gridApi.showLoadingOverlay();
           if (new Date(this.tour.deadline) < new Date()) {
@@ -210,6 +213,10 @@ export class RiderdetailsComponent implements OnInit {
     if (event.node.selected) {
       this.router.navigateByUrl(`rider/${event.data.id}`);
     }
+  }
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
 

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {
   BERGKLASSEMENT,
   EINDKLASSEMENT,
@@ -10,9 +10,9 @@ import {ClassificationsService} from '../../../services/stageclassifications.ser
 import {select, Store} from '@ngrx/store';
 import {IAppState} from '../../../store/store';
 import {getTour} from '../../../store/tour/tour.reducer';
-import {switchMap} from 'rxjs/operators';
+import {switchMap, takeUntil} from 'rxjs/operators';
 import {GridOptions} from 'ag-grid';
-import {of} from 'rxjs';
+import {of, Subject} from 'rxjs';
 import {getParticipanttable} from '../../../store/participanttable/participanttable.reducer';
 import {IParticipanttable} from '../../../models/participanttable.model';
 import {Router} from '@angular/router';
@@ -22,7 +22,7 @@ import {Router} from '@angular/router';
   templateUrl: './klassementen.component.html',
   styleUrls: ['./klassementen.component.scss']
 })
-export class KlassementenComponent implements OnInit {
+export class KlassementenComponent implements OnInit, OnDestroy {
 
   KLASSEMENT = KLASSEMENT;
   klassementuitslag: any[];
@@ -41,6 +41,7 @@ export class KlassementenComponent implements OnInit {
   public participantStandGridApi;
   rowClassRules: any;
   rowSelection = 'single';
+  unsubscribe = new Subject<void>();
 
   constructor(private stageClassificationsService: ClassificationsService, private store: Store<IAppState>, private router: Router) {
     this.rowClassRules = {
@@ -134,7 +135,7 @@ export class KlassementenComponent implements OnInit {
   }
 
   private fetchParticipantStand() {
-    this.store.pipe(select(getParticipanttable)).subscribe(pt => {
+    this.store.pipe(select(getParticipanttable)).pipe(takeUntil(this.unsubscribe)).subscribe(pt => {
       this.participantstable = pt;
       this.participantStandGridOptions.api.setRowData(this.participantstable);
       this.participantStandGridOptions.api.sizeColumnsToFit();
@@ -148,7 +149,7 @@ export class KlassementenComponent implements OnInit {
       } else {
         return of(undefined);
       }
-    })).subscribe(response => {
+    })).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
       if (response) {
         this.setRowData(response.map(item => item), TOURFACTOR);
         this.participantStandGridOptions.api.setSortModel([{colId: 'totalTourPoints', sort: 'desc'}]);
@@ -180,7 +181,7 @@ export class KlassementenComponent implements OnInit {
       } else {
         return of(undefined);
       }
-    })).subscribe(response => {
+    })).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
       if (response) {
         this.setRowData(response.map(item => item), MOUNTAINFACTOR);
         this.participantStandGridOptions.api.setSortModel([{colId: 'totalMountainPoints', sort: 'desc'}]);
@@ -195,7 +196,7 @@ export class KlassementenComponent implements OnInit {
       } else {
         return of(undefined);
       }
-    })).subscribe(response => {
+    })).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
       if (response) {
         this.setRowData(response.map(item => item), POINTSFACTOR);
         this.participantStandGridOptions.api.setSortModel([{colId: 'totalPointsPoints', sort: 'desc'}]);
@@ -230,6 +231,10 @@ export class KlassementenComponent implements OnInit {
     if (event.node.selected) {
       this.router.navigateByUrl(`rider/${event.data.tourrider.id}`);
     }
+  }
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
 

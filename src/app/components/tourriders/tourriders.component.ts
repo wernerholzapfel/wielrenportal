@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
@@ -6,8 +6,8 @@ import {getTour, getTourTeams, isRegistrationOpen} from '../../store/tour/tour.r
 import {ITour} from '../../models/tour.model';
 import {IPartipantRidersFormModel} from '../../models/partipantRidersForm.model';
 import {ITeam} from '../../models/team.model';
-import { map, take } from 'rxjs/operators';
-import {Observable, Subscription} from 'rxjs';
+import {map, take, takeUntil} from 'rxjs/operators';
+import {Observable, Subject, Subscription} from 'rxjs';
 import {PredictionService} from '../../services/prediction.service';
 import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
@@ -24,7 +24,7 @@ import {ParticipantService} from '../../services/participant.service';
   templateUrl: './tourriders.component.html',
   styleUrls: ['./tourriders.component.scss']
 })
-export class TourridersComponent implements OnInit {
+export class TourridersComponent implements OnInit, OnDestroy {
 
   participantId: string;
   tour$: Observable<ITour>;
@@ -44,6 +44,7 @@ export class TourridersComponent implements OnInit {
   init: Subscription;
   isParticipantFormDirty: boolean;
   isRegistrationOpen: boolean;
+  unsubscribe = new Subject<void>();
 
   constructor(private store: Store<IAppState>,
               private predictionService: PredictionService,
@@ -63,14 +64,14 @@ export class TourridersComponent implements OnInit {
     this.tour$ = this.store.select(getTour);
     this.teams$ = this.store.select(getTourTeams);
     this.isRegistrationOpen$ = this.store.select(isRegistrationOpen);
-    this.isRegistrationOpen$.subscribe(response => {
+    this.isRegistrationOpen$.pipe(takeUntil(this.unsubscribe)).subscribe(response => {
       this.isRegistrationOpen = response;
       if (this.isRegistrationOpen === true) {
-        this.tour$.subscribe(tour => {
+        this.tour$.pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
           if (tour && tour.id) {
             this.isLoading = true;
 
-            this.init = this.participantsFormInit$.pipe(take(2)).subscribe(initPredictions => {
+            this.init = this.participantsFormInit$.pipe(take(2)).pipe(takeUntil(this.unsubscribe)).subscribe(initPredictions => {
               if (initPredictions.length <= 0) {
                 this.store.dispatch(new fromParticipantForm.FetchParticipantform(tour.id));
               } else {
@@ -88,7 +89,7 @@ export class TourridersComponent implements OnInit {
                 });
               }
             });
-            this.participantsForm$.subscribe(predictions => {
+            this.participantsForm$.pipe(takeUntil(this.unsubscribe)).subscribe(predictions => {
               this.partipantRidersForm = {
                 riders: predictions.filter(p => p.isRider),
                 beschermdeRenner: predictions.find(p => p.isBeschermdeRenner),
@@ -102,7 +103,7 @@ export class TourridersComponent implements OnInit {
           this.isLoading = false;
         });
 
-        this.teams$.subscribe(teams => {
+        this.teams$.pipe(takeUntil(this.unsubscribe)).subscribe(teams => {
           if (teams) {
             this.ridersWaardeList = [];
             this.newWaardeList = [];
@@ -277,7 +278,7 @@ export class TourridersComponent implements OnInit {
 
       this.partipantRidersForm.riders.map(rider => rider.isComplete = isComplete);
 
-      this.predictionService.submitPrediction(this.partipantRidersForm).subscribe(response => {
+      this.predictionService.submitPrediction(this.partipantRidersForm).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
         if (isComplete) {
           this.snackBar.open('Je team is compleet en opgeslagen!', '', {
             duration: 2000,
@@ -306,5 +307,10 @@ export class TourridersComponent implements OnInit {
 
   youngster(rider: IRider) {
     return moment(rider.dateOfBirth).isAfter('1993-01-01');
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

@@ -53,17 +53,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.tours$ = this.store.pipe(select(getTours));
 
     this.tour$ = this.store.pipe(select(getTour));
-    this.tour$.subscribe(tour => {
+    this.tour$.pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
       if (tour && tour.id) {
         this.selectedTour = tour;
-        console.log('tour is gewijzigd naar: ' + tour.id);
         this.store.dispatch(new fromParticipanttable.FetchParticipanttable(tour.id));
         this.store.dispatch(new fromParticipanttable.FetchLastUpdated(tour.id));
       }
     });
     this.lastUpdated$ = this.store.pipe(select(getLastUpdated));
 
-    this.lastUpdated$.subscribe(response => {
+    this.lastUpdated$.pipe(takeUntil(this.unsubscribe)).subscribe(response => {
       if (response &&
         this.lastUpdated && response.tour === this.lastUpdated.tour &&
         response.lastUpdated !== this.lastUpdated.lastUpdated) {

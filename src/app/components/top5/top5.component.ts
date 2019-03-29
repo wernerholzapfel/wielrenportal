@@ -47,7 +47,7 @@ export class Top5Component implements OnInit, OnDestroy {
       } else {
         return of([]);
       }
-    })).subscribe(waterdragers => {
+    })).pipe(takeUntil(this.unsubscribe)).subscribe(waterdragers => {
       this.waterdragerTop = [...waterdragers].map(waterdrager => {
         return Object.assign(waterdrager,
           {top5punten: this.tour.hasEnded ? waterdrager.waterdragerTotalPoints : waterdrager.waterdragerEtappePoints});
@@ -61,7 +61,7 @@ export class Top5Component implements OnInit, OnDestroy {
       } else {
         return of(undefined);
       }
-    })).subscribe(renners => {
+    })).pipe(takeUntil(this.unsubscribe)).subscribe(renners => {
       if (renners) {
         this.riderTop = [...renners].map(renner => {
           return Object.assign(renner,
@@ -85,7 +85,7 @@ export class Top5Component implements OnInit, OnDestroy {
       }))
       .pipe(switchMap(participantId => {
         return participantId ? this.store.pipe(select(getParticipantPredictions(participantId))) : of(null);
-      }))
+      }), takeUntil(this.unsubscribe))
       .subscribe(predictions => {
         if (predictions) {
           // console.log('participantPredictions');
@@ -100,7 +100,7 @@ export class Top5Component implements OnInit, OnDestroy {
       }))
       .pipe(switchMap(participantId => {
         return participantId ? this.store.pipe(select(getLatestEtappeParticipantScore(participantId))) : of(null);
-      }))
+      }), takeUntil(this.unsubscribe))
       .subscribe(predictions => {
         if (predictions) {
           // console.log('etappe predictions');

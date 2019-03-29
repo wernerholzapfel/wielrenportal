@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {IStageClassification} from '../../models/etappe.model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,13 +7,15 @@ import {IPrediction} from '../../models/participant.model';
 import {IRider} from '../../models/rider.model';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-tourriderdetail',
   templateUrl: './tourrider-detail.component.html',
   styleUrls: ['./tourrider-detail.component.scss']
 })
-export class TourriderDetailComponent implements OnInit {
+export class TourriderDetailComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute, private router: Router, private riderService: RiderService, public store: Store<IAppState>) {
   }
@@ -24,7 +26,7 @@ export class TourriderDetailComponent implements OnInit {
   rider: IRider;
   predictions: IPrediction[];
   stageclassifications: IStageClassification[];
-
+  unsubscribe = new Subject<void>();
   agColumns = [
     {headerName: '#', field: 'etappe.etappeNumber', sort: 'asc', width: 75},
     {headerName: 'Etappe', field: 'etappe.etappeName'},
@@ -59,7 +61,7 @@ export class TourriderDetailComponent implements OnInit {
       },
     };
 
-    this.route.params.subscribe(routeParams => {
+    this.route.params.pipe(takeUntil(this.unsubscribe)).subscribe(routeParams => {
       if (routeParams['id']) {
         this.riderService.getTourriderDetails(routeParams['id']).subscribe(tourrider => {
           if (tourrider) {
@@ -105,5 +107,10 @@ export class TourriderDetailComponent implements OnInit {
     if (event.node.selected) {
       this.router.navigateByUrl(`uitslagen/etappe/${event.data.etappe.id}`);
     }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
