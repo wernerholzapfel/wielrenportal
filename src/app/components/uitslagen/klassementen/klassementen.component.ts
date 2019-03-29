@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {
   BERGKLASSEMENT,
-  EINDKLASSEMENT,
+  ALGEMEENKLASSEMENT,
   JONGERENKLASSEMENT,
   KLASSEMENT,
   PUNTENKLASSEMENT
@@ -26,10 +26,11 @@ export class KlassementenComponent implements OnInit, OnDestroy {
 
   KLASSEMENT = KLASSEMENT;
   klassementuitslag: any[];
-  klassementen = [{klassementsType: EINDKLASSEMENT},
+  klassementen = [{klassementsType: ALGEMEENKLASSEMENT},
     {klassementsType: BERGKLASSEMENT},
-    {klassementsType: JONGERENKLASSEMENT},
-    {klassementsType: PUNTENKLASSEMENT}];
+    {klassementsType: PUNTENKLASSEMENT},
+    {klassementsType: JONGERENKLASSEMENT}
+    ];
   selectedKlassement = this.klassementen[0];
   participantstable: IParticipanttable[];
 
@@ -122,7 +123,7 @@ export class KlassementenComponent implements OnInit, OnDestroy {
       case JONGERENKLASSEMENT:
         this.fetchYouthClassification();
         break;
-      case EINDKLASSEMENT:
+      case ALGEMEENKLASSEMENT:
         this.fetchTourClassification();
         break;
       case PUNTENKLASSEMENT:

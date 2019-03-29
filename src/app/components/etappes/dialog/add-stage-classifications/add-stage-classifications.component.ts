@@ -72,7 +72,7 @@ export class AddStageClassificationsComponent implements OnInit {
         break;
       }
       case TOURCLASSIFICATION: {
-        this.toolbartext = 'eindklassement';
+        this.toolbartext = 'Algemeen klassement';
         this.subtitleText = 'Tour uitslag';
         break;
       }
