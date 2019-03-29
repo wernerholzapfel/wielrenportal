@@ -14,10 +14,11 @@ import {RiderdetailsComponent} from './components/riderdetails/riderdetails.comp
 import {ParticipantpredictionsComponent} from './components/participantpredictions/participantpredictions.component';
 import {SpelregelsComponent} from './components/spelregels/spelregels.component';
 import {CanDeactivateGuard} from './candeactivate.guard';
-import {EtappetableComponent} from './etappetable/etappetable.component';
+import {EtappetableComponent} from './components/uitslagen/etappetable/etappetable.component';
 import {HeadlinesEditComponent} from './components/headlines-edit/headlines-edit.component';
 import {TourriderDetailComponent} from './components/tourriderdetail/tourrider-detail.component';
 import {ProfileComponent} from './components/profile/profile.component';
+import {UitslagenComponent} from './components/uitslagen/uitslagen.component';
 
 const appRoutes: Routes = [
   {
@@ -44,11 +45,11 @@ const appRoutes: Routes = [
     path: 'table',
     component: ParticipanttableComponent,
   }, {
-    path: 'etappes',
-    component: EtappetableComponent,
+    path: 'uitslagen',
+    component: UitslagenComponent,
   }, {
-    path: 'etappes/:id',
-    component: EtappetableComponent,
+    path: 'uitslagen/etappe/:id',
+    component: UitslagenComponent,
   }, {
     path: 'table/detail/:id',
     component: ParticipantpredictionsComponent

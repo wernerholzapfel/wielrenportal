@@ -10,12 +10,7 @@ export interface ParticipanttableState {
 }
 
 const initalparticipanttableState: ParticipanttableState = {
-  participanttable: [{
-    id: null,
-    displayName: null,
-    predictions: [],
-    totalPoints: null,
-  }],
+  participanttable: [],
   lastUpdated: null,
   error: undefined,
   inProgress: false,

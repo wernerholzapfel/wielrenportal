@@ -1,15 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ClassificationsService} from '../services/stageclassifications.service';
+import {ClassificationsService} from '../../../services/stageclassifications.service';
 import {GridOptions} from 'ag-grid';
-import {TourService} from '../services/tour.service';
+import {TourService} from '../../../services/tour.service';
 import {Observable} from 'rxjs/internal/Observable';
 import {select, Store} from '@ngrx/store';
-import {getEtappes} from '../store/etappe/etappe.reducer';
-import {IAppState} from '../store/store';
-import {getTour} from '../store/tour/tour.reducer';
+import {getEtappes} from '../../../store/etappe/etappe.reducer';
+import {IAppState} from '../../../store/store';
+import {getTour} from '../../../store/tour/tour.reducer';
 import {ActivatedRoute, Router} from '@angular/router';
 import {combineLatest, ObservedValueOf, Subject} from 'rxjs';
 import {distinctUntilChanged, takeUntil} from 'rxjs/operators';
+import {ETAPPE} from '../../../models/constants';
 
 @Component({
   selector: 'app-etappetable',
@@ -37,7 +38,7 @@ export class EtappetableComponent implements OnInit, OnDestroy {
   etappeId: string;
   tourId: string;
   unsubscribe = new Subject<void>();
-
+  ETAPPE = ETAPPE;
 
   constructor(private stageClassificationsService: ClassificationsService,
               private route: ActivatedRoute,

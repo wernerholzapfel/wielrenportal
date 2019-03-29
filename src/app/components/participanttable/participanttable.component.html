@@ -1,9 +1,3 @@
-<!--<div class="mat-elevation-z8">-->
-<!--<mat-toolbar color="primary">De stand<span *ngIf="lastUpdated">: bijgewerkt {{lastUpdated}} </span>-->
-<!--</mat-toolbar>-->
-<!--todo show progress bar-->
-<!--<mat-progress-bar *ngIf="!(participantstable$ | async)?.length >= 0" mode="buffer"></mat-progress-bar>-->
-<!--<ng-container>-->
 <mat-card>
   <mat-card-header>
     <mat-card-title>
@@ -12,6 +6,7 @@
     <mat-card-subtitle><span *ngIf="lastUpdated">Bijgewerkt {{lastUpdated}}</span> &nbsp;</mat-card-subtitle>
   </mat-card-header>
   <mat-divider></mat-divider>
+  <mat-progress-bar *ngIf="(participantstable$ | async)?.length < 1" mode="buffer"></mat-progress-bar>
   <div [ngClass.xs]="{'card-container':false, 'card-container-xs':true}" class="card-container">
     <mat-card-content>
       <div class="container-header">
@@ -34,4 +29,3 @@
     </mat-card-content>
   </div>
 </mat-card>
-<!--</div>-->

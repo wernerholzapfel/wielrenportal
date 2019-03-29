@@ -50,7 +50,7 @@ import {CanDeactivateGuard} from './candeactivate.guard';
 import {HastourendedclassComponent} from './aggridcomponents/hastourendedclass/hastourendedclass.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AngularFireDatabaseModule} from '@angular/fire/database';
-import {EtappetableComponent} from './etappetable/etappetable.component';
+import {EtappetableComponent} from './components/uitslagen/etappetable/etappetable.component';
 import {Top5Component} from './components/top5/top5.component';
 import {HeadlinesEditComponent} from './components/headlines-edit/headlines-edit.component';
 import { AddHeadlineDialogComponent } from './components/headlines-edit/dialog/add-headline-dialog/add-headline-dialog.component';
@@ -59,6 +59,9 @@ import {TourriderDetailComponent} from './components/tourriderdetail/tourrider-d
 import { ProfileComponent } from './components/profile/profile.component';
 import { Deelnemertop5Component } from './components/top5/deelnemertop5/deelnemertop5.component';
 import { Ridertop5Component } from './components/top5/ridertop5/ridertop5.component';
+import { UitslagenComponent } from './components/uitslagen/uitslagen.component';
+import { ToggleuitslagenComponent } from './components/uitslagen/toggleuitslagen/toggleuitslagen.component';
+import { KlassementenComponent } from './components/uitslagen/klassementen/klassementen.component';
 
 registerLocaleData(localeNl);
 
@@ -88,7 +91,10 @@ registerLocaleData(localeNl);
     HeadlinesComponent,
     ProfileComponent,
     Deelnemertop5Component,
-    Ridertop5Component
+    Ridertop5Component,
+    UitslagenComponent,
+    ToggleuitslagenComponent,
+    KlassementenComponent
   ],
   entryComponents: [
     AddEtappeDialogComponent,

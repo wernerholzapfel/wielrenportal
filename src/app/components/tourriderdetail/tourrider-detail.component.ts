@@ -103,7 +103,7 @@ export class TourriderDetailComponent implements OnInit {
 
   onEtappeRowSelected(event) {
     if (event.node.selected) {
-      this.router.navigateByUrl(`etappes/${event.data.etappe.id}`);
+      this.router.navigateByUrl(`uitslagen/etappe/${event.data.etappe.id}`);
     }
   }
 }

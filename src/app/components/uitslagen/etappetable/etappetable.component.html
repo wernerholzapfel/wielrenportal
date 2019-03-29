@@ -9,15 +9,20 @@
       </mat-select>
     </mat-card-title>
     <mat-card-subtitle>
-      {{etappeRowData && etappeRowData[0]?.tourrider.rider.firstName ? 'Winnaar ' + etappeRowData[0]?.tourrider.rider.firstName + ' ' + etappeRowData[0]?.tourrider.rider.surName : '&nbsp;' }}
+      <div fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div fxFlex="70">
+          {{etappeRowData && etappeRowData[0]?.tourrider.rider.firstName ? 'Winnaar ' +
+          etappeRowData[0]?.tourrider.rider.firstName + ' ' + etappeRowData[0]?.tourrider.rider.surName : '&nbsp;' }}
+        </div>
+       <app-toggleuitslagen [checked]="ETAPPE"></app-toggleuitslagen>
+      </div>
     </mat-card-subtitle>
   </mat-card-header>
   <mat-divider></mat-divider>
   <mat-card-content>
     <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
       <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
-        <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
-
+        <div fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
           <ag-grid-angular
             style=""
             class="ag-theme-balham inside_card"
@@ -29,7 +34,7 @@
             domLayout="autoHeight">
           </ag-grid-angular>
         </div>
-        <div class="mat-elevation-z8" fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+        <div fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
           <ag-grid-angular
             style=""
             class="ag-theme-balham inside_card"
