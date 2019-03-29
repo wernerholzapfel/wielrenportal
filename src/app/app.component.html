@@ -84,8 +84,9 @@ true}">Home
             Login
           </button>
           <button fxHide [fxHide.gt-xs]="false" mat-button *ngIf="(authService.user$ | async)"
-                  [matMenuTriggerFor]="profileMenu"><mat-icon aria-label="profiel">menu</mat-icon>
+                  [matMenuTriggerFor]="profileMenu">
             {{displayName}}
+            <mat-icon aria-label="profiel">menu</mat-icon>
           </button>
         </div>
         <div fxShow [fxShow.gt-xs]="false">
