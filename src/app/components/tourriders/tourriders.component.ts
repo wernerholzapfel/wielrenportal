@@ -35,8 +35,8 @@ export class TourridersComponent implements OnInit, OnDestroy {
   currentRider: any; // todo
   currentTeam: ITeam;
   partipantRidersForm: IPartipantRidersFormModel;
-  maxParticipantRiders = 16;
-  maxParticipantRidersPunten = 1060;
+  maxParticipantRiders = 11;
+  maxParticipantRidersPunten = 800;
   laagsteWaardegroep = 10;
   ridersWaardeList: any[] = [];
   newWaardeList: any[];
@@ -217,7 +217,7 @@ export class TourridersComponent implements OnInit, OnDestroy {
     })));
     this.submitForm();
 
-    console.log(this.currentRider.surName + ' toegevoegd als linkebal');
+    console.log(this.currentRider.surName + ' toegevoegd als joker');
   }
 
   addWaterdrager() {

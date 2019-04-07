@@ -1,11 +1,13 @@
 <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
-  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch">
-    <app-headlines fxFlex="100" class="card-padding"></app-headlines>
-    <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
-    <app-login fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" *ngIf="!(authService.user$ | async)"
+  <div fxLayoutAlign="row" fxLayoutAlign.gt-md="column" fxLayout="space-between stretch">
+    <app-headlines fxFlex="100" fxFlex.gt-md="calc(50% - 8px)" class="card-padding"></app-headlines>
+    <app-login fxFlex="100" fxFlex.gt-md="calc(50% - 8px)" *ngIf="!(authService.user$ | async)"
                class="card-padding"></app-login>
+  </div>
+  <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch">
     <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
-    <app-top5 [lastUpdated]="lastUpdated" [isRegistrationOpen$]="isRegistrationOpen$" fxFlex="100"
-              fxFlex.gt-xs="calc(50% - 4px)" class="card-padding"></app-top5>
+    <div fxShow="false" [fxShow.xs]="true" [ngClass.xs]="{'spacing-xs':true}"></div>
+    <app-top5 [lastUpdated]="lastUpdated" [isRegistrationOpen$]="isRegistrationOpen$"
+              fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)" class="card-padding"></app-top5>
   </div>
 </div>

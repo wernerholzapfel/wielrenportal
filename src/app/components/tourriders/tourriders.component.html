@@ -102,13 +102,13 @@ Geen punten van teamgenoten meer vanaf moment dat hij uitvalt.">
             </mat-list-item>
             <mat-divider [inset]="true"></mat-divider>
             <h3 matSubheader
-                matTooltip="Linkebal:
+                matTooltip="Joker:
 -Uit laagste waardegroep (10 waardepunten)
 -Krijgt dubbele punten
 -Als hij uitvalt 20 strafpunten
 ">
               <mat-icon matListIcon>new_releases</mat-icon>
-              Mijn linkebal
+              Mijn Joker
             </h3>
             <mat-list-item>
               <div matLine *ngIf="partipantRidersForm?.linkebal">
@@ -235,7 +235,7 @@ Geen punten van teamgenoten meer vanaf moment dat hij uitvalt.">
     <button *ngIf="!partipantRidersForm?.linkebal && currentRider?.waarde === laagsteWaardegroep" mat-menu-item
             (click)="addLinkebal()">
       <mat-icon matListIcon>add_box</mat-icon>
-      Linkebal
+      Joker
     </button>
   </div>
 </mat-menu>

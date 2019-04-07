@@ -82,7 +82,7 @@ export class TourriderDetailComponent implements OnInit, OnDestroy {
     }
     if (params.data.isLinkebal) {
       return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">new_releases</mat-icon>' +
-        'Linkebal';
+        'Joker';
     }
     if (params.data.isBeschermdeRenner) {
       return '<mat-icon class="mat-icon mat-list-icon material-icons ag-grid-icon">verified_user</mat-icon>' +
