@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     ]),
     teamName: new FormControl('', [
       Validators.required,
-      Validators.maxLength(15)
+      Validators.maxLength(25)
     ]),
     passwordFormControl: new FormControl('', [
       Validators.required,
