@@ -13,8 +13,8 @@
             <mat-card-content>
               Deelname is gratis.<br>
               Per persoon mag één team worden ingeschreven.<br>
-              Stel een team samen van twintig renners.<br>
-              Je hebt een budget van 1060 waardepunten waarmee je zestien renners kiest. Daarnaast kies je een
+              Stel een team samen van vijftien renners.<br>
+              Je hebt een budget van 800 waardepunten waarmee je elf renners kiest. Daarnaast kies je een
               beschermde renner, een meesterknecht, een waterdrager en een joker.<br>
               Je renners pakken punten als ze bij de eerste twintig in een etappe-uitslag eindigen. Ook pakken ze
               punten als ze bij de eerste twintig in de eindklassementen eindigen. Je krijgt strafpunten als een
@@ -36,7 +36,7 @@
               waardepunten.<br> Daarnaast kies je vier renners met een bijzondere rol: de beschermde renner, de
               meesterknecht, de waterdrager en de joker.<br><br>
 
-              Je kunt met 800 waardepunten uit elke waardegroep precies een renner kiezen. Je mag er ook
+              Je kunt met 800 waardepunten uit elke waardegroep precies één renner kiezen. Je mag er ook
               voor kiezen om je waardepunten anders te verdelen. Je kunt er ook voor kiezen om minder dan 800
               waardepunten te gebruiken, je mag echter niet minder dan elf renners selecteren.<br><br>
 
@@ -56,27 +56,25 @@
         <mat-card>
           <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
             <mat-card-content>
-              Naast je zestien ‘gewone’ renners, kies je vier andere renners met een bijzondere rol.<br><br>
+              Naast je elf ‘gewone’ renners, kies je vier andere renners met een bijzondere rol.<br><br>
 
               <b>Beschermde renner:</b> Deze renner wordt beschermd door de meesterknecht. <br>De beschermde renner
               moet evenveel waardepunten hebben als de meesterknecht. <br>De punten die de beschermde renner
-              haalt komen gewoon bij je puntentotaal op. <br>Als hij uitvalt krijg je <u>geen</u> strafpunten, hij is
-              namelijk
-              ‘beschermd’.<br><br>
+              haalt komen gewoon bij je puntentotaal op. <br>Als hij uitvalt krijg je <u>dubbele</u> strafpunten (40), dit is namelijk een grote aderlating voor je team.<br><br>
 
               <b>Meesterknecht:</b> Deze renner heeft als taak zich op te offeren voor de beschermde renner.
               <br>De meesterknecht moet evenveel waardepunten hebben als de beschermde renner. <br>De punten die
-              je meesterknecht haalt <u>gaan van je puntentotaal af</u>. <br>Als je meesterknecht onderweg uitvalt,
+              je meesterknecht haalt <u>gaan van je puntentotaal af</u>. <br>Als je meesterknecht uitvalt,
               krijg
               je
               <u>strafpunten ter hoogte van zijn waardepunten</u> (als je meesterknecht en beschermde renner
-              bijvoorbeeld 120 waardepunten hebben, krijg je 120 strafpunten als je meesterknecht uitvalt).
+              bijvoorbeeld 65 waardepunten hebben, krijg je 65 strafpunten als je meesterknecht uitvalt).
               <br><br>
               <b>Waterdrager:</b> Deze renner offert zich op voor zijn hele ploeg. Deze renner moet dus in een sterk
               team zitten, maar zelf weinig punten pakken.<br>
-              De waterdrager krijgt elke dag het gemiddelde van de punten van zijn ploeggenoten, minus de
+              De waterdrager krijgt elke dag het <i>gemiddelde</i> van de punten van zijn ploeggenoten, minus de
               punten die hij zelf pakt. Die uitkomst wordt afgerond op een geheel getal en vormt de score van de
-              waterdrager voor die etappe. Als je een renner van Sunweb kiest als waterdrager, gaat het dus om de
+              waterdrager voor die etappe. Als je een renner van Sunweb kiest als waterdrager, gaat het dus om zijn
               zeven ploeggenoten bij Sunweb.<br>
               Alle afgeronde scores van de etappes worden opgeteld en aan het eind van de ronde komen daar de
               eindklassementen (volgens hetzelfde principe) bij op.<br>
@@ -95,14 +93,14 @@
                 <u>Eindklassementen</u>: Stel, de ploeggenoten van de waterdrager pakken samen 215 punten in het
                 algemeen klassement en de waterdrager pakt er zelf 10, dan krijgt hij (als zijn waarde 15 is) voor het
                 algemeen klassement het volgende aantal punten: 215 / 7 – 10 – 15 = 6 punten (afronding van
-                5,714). Dit gaat zo ook voor de andere drie eindklassementen.<br>
+                5,714). Dit geldt ook voor de andere drie eindklassementen.<br>
                 Het totaal aantal punten van de waterdrager is dan etappes+algemeen+berg+punten+jongeren.
               </i><br><br>
 
               <b>Joker:</b> van deze renner wordt eigenlijk weinig verwacht, maar gaat volgens jou ‘verrassen’ in
               deze
               ronde.<br>
-              De Joker moet uit de laagste waardegroep (10 punten) komen. De punten die hij tijdens de
+              De joker moet uit de laagste waardegroep (10 punten) komen. De punten die hij tijdens de
               wielerronde behaalt, worden <u>verdubbeld</u>. Als je joker uitvalt krijg je (gewoon) 20 strafpunten.
             </mat-card-content>
           </div>
@@ -123,11 +121,11 @@
 
               <br><br>
               Voor elke renner die uitvalt krijg je 20 strafpunten.<br>
-              Als je beschermde renner uitvalt krijg je geen strafpunten.<br>
+              Als je beschermde renner uitvalt krijg je 40 strafpunten.<br>
               Als je meesterknecht uitvalt krijg je strafpunten ter hoogte van zijn waardepunten.<br>
               Als je waterdrager uitvalt, krijg je geen strafpunten, maar vanaf dat moment ook geen punten meer
               voor zijn ploeggenoten.<br>
-              Als je joker uitvalt, krijg je 20 strafpunten.<br>
+              Als je joker uitvalt krijg je 20 strafpunten.<br>
             </mat-card-content>
           </div>
         </mat-card>
