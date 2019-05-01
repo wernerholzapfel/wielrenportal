@@ -306,7 +306,7 @@ export class TourridersComponent implements OnInit, OnDestroy {
   }
 
   youngster(rider: IRider) {
-    return moment(rider.dateOfBirth).isAfter('1993-01-01');
+    return moment(rider.dateOfBirth).isAfter('1994-01-01');
   }
 
   ngOnDestroy() {
