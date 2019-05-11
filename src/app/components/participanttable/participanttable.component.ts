@@ -39,7 +39,7 @@ export class ParticipanttableComponent implements OnInit {
     this.agColumns = [
       {headerName: '#', valueGetter: this.formatPosition, minWidth: 75, maxWidth: 75},
       {headerName: 'Naam', field: 'displayName', minWidth: 200, maxWidth: 200},
-      {headerName: 'Totaal', valueGetter: this.formatTotaalpunten, sort: 'desc', minWidth: 100, maxWidth: 100},
+      {headerName: 'Totaal', valueGetter: this.formatTotaalpunten, minWidth: 100, maxWidth: 100},
       {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
       {
         headerName: 'Truien',
