@@ -31,7 +31,8 @@
           Spelregels
         </mat-list-item>
         <span class="example-spacer"></span>
-        <mat-list-item *ngIf="(isRegistrationOpen$ | async)" (click)="opened = false" [routerLink]="['/participants']" routerLinkActive="active-link">
+        <mat-list-item *ngIf="(isRegistrationOpen$ | async)" (click)="opened = false" [routerLink]="['/participants']"
+                       routerLinkActive="active-link">
           Deelnemers
         </mat-list-item>
         <mat-list-item (click)="opened = false" *ngIf="authService.isAdmin" [routerLink]="['/admin']"
@@ -53,11 +54,9 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary">
         <div fxFlexOffset.gt-xs="5">
-          <span fxHide [fxHide.gt-xs]="false" [routerLink]="'/'">Het Wielerspel</span>
-          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/']" routerLinkActive="active-link"
-                  [routerLinkActiveOptions]="{exact:
-true}">Home
-          </button>
+          <span fxHide class="act_like_button" [fxHide.gt-xs]="false" [routerLink]="'/'" routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{exact:
+true}">Het Wielerspel</span>
           <button fxHide [fxHide.gt-xs]="false" mat-button
                   *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
                   [routerLink]="['/inschrijven']" routerLinkActive="active-link">Mijn team
@@ -68,7 +67,8 @@ true}">Home
           <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button
                   [routerLink]="['/uitslagen']" routerLinkActive="active-link">Uitslagen
           </button>
-          <button fxHide *ngIf="(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button [routerLink]="['/participants']"
+          <button fxHide *ngIf="(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button
+                  [routerLink]="['/participants']"
                   routerLinkActive="active-link">Deelnemers
           </button>
           <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/renners']"
@@ -115,7 +115,8 @@ true}">Home
       Tour admin
     </button>
     <button mat-menu-item [matMenuTriggerFor]="tourSubMenu">
-      {{selectedTour?.tourName}}</button>
+      {{selectedTour?.tourName}}
+    </button>
     <button mat-menu-item (click)="opened = false" [routerLink]="['/profiel']">
       Mijn profiel
     </button>
