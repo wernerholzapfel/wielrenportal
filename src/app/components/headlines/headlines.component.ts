@@ -7,6 +7,7 @@ import {getTour} from '../../store/tour/tour.reducer';
 import {switchMap, takeUntil} from 'rxjs/operators';
 import {Observable, of, Subject} from 'rxjs';
 import {ITour} from '../../models/tour.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-headlines',
@@ -15,7 +16,7 @@ import {ITour} from '../../models/tour.model';
 })
 export class HeadlinesComponent implements OnInit, OnDestroy {
   unsubscribe: Subject<void> = new Subject<void>();
-
+  lastUpdated: string;
   headline: IHeadline;
   headlineIndex = 0;
   headlines: IHeadline[];
@@ -38,6 +39,7 @@ export class HeadlinesComponent implements OnInit, OnDestroy {
         if (headlines) {
           this.headlines = headlines;
           this.headline = headlines[this.headlineIndex];
+          this.lastUpdated = moment(this.headline.createdDate).fromNow();
         }
       }
     );
@@ -46,11 +48,15 @@ export class HeadlinesComponent implements OnInit, OnDestroy {
   nextHeadline() {
     this.headlineIndex++;
     this.headline = this.headlines[this.headlineIndex];
+    this.lastUpdated = moment(this.headline.createdDate).fromNow();
+
   }
 
   previousHeadline() {
     this.headlineIndex--;
     this.headline = this.headlines[this.headlineIndex];
+    this.lastUpdated = moment(this.headline.createdDate).fromNow();
+
   }
 
   ngOnDestroy() {
