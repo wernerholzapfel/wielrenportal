@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UsermanagementComponent } from './usermanagement.component';
+import { Ridertop5Component } from './ridertop5.component';
 
-describe('UsermanagementComponent', () => {
-  let component: UsermanagementComponent;
-  let fixture: ComponentFixture<UsermanagementComponent>;
+describe('Ridertop5Component', () => {
+  let component: Ridertop5Component;
+  let fixture: ComponentFixture<Ridertop5Component>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UsermanagementComponent ]
+      declarations: [ Ridertop5Component ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsermanagementComponent);
+    fixture = TestBed.createComponent(Ridertop5Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

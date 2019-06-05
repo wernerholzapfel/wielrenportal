@@ -22,16 +22,17 @@
         <mat-list-item *ngIf="!(isRegistrationOpen$ | async)" (click)="opened = false" [routerLink]="['/table']"
                        routerLinkActive="active-link">Stand
         </mat-list-item>
-        <mat-list-item *ngIf="!(isRegistrationOpen$ | async)" (click)="opened = false" [routerLink]="['/etappes']"
-                       routerLinkActive="active-link">Etappes
+        <mat-list-item *ngIf="!(isRegistrationOpen$ | async)" (click)="opened = false" [routerLink]="['/uitslagen']"
+                       routerLinkActive="active-link">Uitslagen
         </mat-list-item>
-        <mat-list-item (click)="opened = false" [routerLink]="['/tourriders']" routerLinkActive="active-link">Renners
+        <mat-list-item (click)="opened = false" [routerLink]="['/renners']" routerLinkActive="active-link">Renners
         </mat-list-item>
         <mat-list-item (click)="opened = false" [routerLink]="['/spelregels']" routerLinkActive="active-link">
           Spelregels
         </mat-list-item>
         <span class="example-spacer"></span>
-        <mat-list-item (click)="opened = false" [routerLink]="['/participants']" routerLinkActive="active-link">
+        <mat-list-item *ngIf="(isRegistrationOpen$ | async)" (click)="opened = false" [routerLink]="['/participants']"
+                       routerLinkActive="active-link">
           Deelnemers
         </mat-list-item>
         <mat-list-item (click)="opened = false" *ngIf="authService.isAdmin" [routerLink]="['/admin']"
@@ -41,8 +42,11 @@
         <mat-list-item (click)="opened = false" *ngIf="!(authService.user$ | async)" [routerLink]="['/login']"
                        routerLinkActive="active-link">Login
         </mat-list-item>
+        <mat-list-item (click)="opened = false" *ngIf="(authService.user$ | async)" [routerLink]="['/profiel']"
+                       routerLinkActive="active-link">Mijn profiel
+        </mat-list-item>
         <mat-list-item (click)="opened = false" *ngIf="(authService.user$ | async)" (click)="logout()">
-          Logout {{(authService.user$ | async)?.displayName }}
+          Logout {{displayName}}
         </mat-list-item>
       </mat-list>
     </mat-sidenav>
@@ -50,51 +54,41 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary">
         <div fxFlexOffset.gt-xs="5">
-          <span fxHide [fxHide.gt-xs]="false" [routerLink]="'/'">Het Wielerspel</span>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/']"  routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:
-true}">Home</button>
+          <span fxHide class="act_like_button" [fxHide.gt-xs]="false" [routerLink]="'/'" routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{exact:
+true}">Het Wielerspel</span>
           <button fxHide [fxHide.gt-xs]="false" mat-button
                   *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
                   [routerLink]="['/inschrijven']" routerLinkActive="active-link">Mijn team
           </button>
-          <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-flat-button
+          <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button
                   [routerLink]="['/table']" routerLinkActive="active-link">Stand
           </button>
-          <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-flat-button
-                  [routerLink]="['/etappes']" routerLinkActive="active-link">Etappes
+          <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button
+                  [routerLink]="['/uitslagen']" routerLinkActive="active-link">Uitslagen
           </button>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/participants']"
+          <button fxHide *ngIf="(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button
+                  [routerLink]="['/participants']"
                   routerLinkActive="active-link">Deelnemers
           </button>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/tourriders']"
+          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/renners']"
                   routerLinkActive="active-link">Renners
           </button>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button [routerLink]="['/spelregels']"
+          <button fxHide [fxHide.gt-xs]="false" mat-button [routerLink]="['/spelregels']"
                   routerLinkActive="active-link">Spelregels
           </button>
           <span fxHide [fxHide.gt-xs]="false" class="example-spacer"></span>
-          <button fxHide [fxHide.gt-xs]="false" mat-flat-button *ngIf="authService.isAdmin" [routerLink]="['/admin']"
-                  routerLinkActive="active-link">Tour
-            admin
-          </button>
           <span fxHide [fxHide.gt-xs]="false" class="example-spacer"></span>
           <button fxHide [fxHide.gt-xs]="false" mat-button *ngIf="!(authService.user$ | async)"
                   [routerLink]="['/login']" routerLinkActive="active-link">
             Login
           </button>
-          <button fxHide [fxHide.gt-xs]="false" mat-button *ngIf="(authService.user$ | async)" (click)="logout()">Logout
-            {{(authService.user$ |
-            async)?.displayName }}
+          <button fxHide [fxHide.gt-xs]="false" mat-button *ngIf="(authService.user$ | async)"
+                  [matMenuTriggerFor]="profileMenu">
+            {{displayName}}
+            <mat-icon aria-label="profiel">menu</mat-icon>
           </button>
-          <mat-select fxHide [fxHide.gt-xs]="false" *ngIf="authService.isAdmin" placeholder="Kies de ronde"
-                      [(ngModel)]="selectedTour" (selectionChange)="fetchTour()">
-            <mat-option *ngFor="let tour of tours$ | async" [value]="tour">
-              {{ tour.tourName }}
-            </mat-option>
-          </mat-select>
         </div>
-        <!--<button mat-button *ngIf="(authService.user$ | async)" [matMenuTriggerFor]="profileMenu">{{(authService.user$ | async)?.displayName }}</button>-->
-        <!--</div>-->
         <div fxShow [fxShow.gt-xs]="false">
           <span class="example-spacer"></span>
           <button mat-icon-button>
@@ -105,32 +99,35 @@ true}">Home</button>
       </mat-toolbar>
       <img class="banner_image" fxHide [fxHide.gt-xs]="false" src="../assets/images/header_small.png">
       <div class="banner_image_div" fxShow [fxShow.gt-xs]="false"></div>
-      <!--<div fxLayout="column" fxLayoutAlign="start center" fxFlex="70" style="background-color: cornflowerblue">-->
       <div fxLayout="row" fxLayoutAlign="start stretch">
         <div fxFlexOffset.gt-xs="5" fxFlex="0 0 100" fxFlex.gt-xs="0 0 90">
           <router-outlet [hidden]="!opened"></router-outlet>
         </div>
       </div>
       <mat-toolbar class="footer" color="primary"></mat-toolbar>
-      <!--</div>-->
-      <mat-menu #profileMenu="matMenu">
-        <mat-list>
-          <mat-list-item>
-            <div fxLayout="column" fxLayoutAlign="start stretch">
-              {{(authService.user$ | async)?.displayName }}
-            </div>
-          </mat-list-item>
-          <mat-list-item>
-            <div fxLayout="column" fxLayoutAlign="start stretch">
-              <button mat-raised-button color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout
-                {{(authService.user$ | async)?.displayName }}
-              </button>
-            </div>
-          </mat-list-item>
-        </mat-list>
-      </mat-menu>
-
-
     </mat-sidenav-content>
   </mat-sidenav-container>
 </section>
+
+<mat-menu #profileMenu="matMenu" backdropClass="profileMenu">
+  <mat-action-list>
+    <button mat-menu-item (click)="opened = false" *ngIf="authService.isAdmin" [routerLink]="['/admin']">
+      Tour admin
+    </button>
+    <button mat-menu-item [matMenuTriggerFor]="tourSubMenu">
+      {{selectedTour?.tourName}}
+    </button>
+    <button mat-menu-item (click)="opened = false" [routerLink]="['/profiel']">
+      Mijn profiel
+    </button>
+    <button mat-menu-item *ngIf="(authService.user$ | async)" (click)="logout()">
+      Logout
+    </button>
+  </mat-action-list>
+</mat-menu>
+
+
+<mat-menu #tourSubMenu="matMenu">
+  <button mat-menu-item *ngFor="let tour of tours$ | async" (click)="selectTour(tour)">{{tour?.tourName}}
+  </button>
+</mat-menu>

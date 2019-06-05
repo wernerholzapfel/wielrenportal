@@ -3,6 +3,9 @@
     flex: 1 1 auto;
   }
 
+  .act_like_button {
+    cursor: pointer;
+  }
   .example-container {
     position: absolute;
     top: 0;
@@ -23,6 +26,7 @@
   .footer {
     position: absolute;
     bottom: 0;
+    height: 32px;
   }
 
   .banner_image_div {

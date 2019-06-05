@@ -1,0 +1,54 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <mat-select fxFlex="100" placeholder="Kies klassement" [(ngModel)]="selectedKlassement"
+                  (selectionChange)="fetchKlassement($event)">
+        <mat-option *ngFor="let klassement of klassementen" [value]="klassement">
+          {{ klassement?.klassementsType }}
+        </mat-option>
+      </mat-select>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <div fxLayout="row" fxLayoutAlign="space-between stretch">
+        <div fxFlex="70">
+          {{klassementuitslag && klassementuitslag[0]?.tourrider.rider.firstName ? 'Winnaar ' +
+          klassementuitslag[0]?.tourrider.rider.firstName + ' ' + klassementuitslag[0]?.tourrider.rider.surName : '&nbsp;'
+          }}
+        </div>
+        <app-toggleuitslagen [checked]="KLASSEMENT"></app-toggleuitslagen>
+      </div>
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
+      <div fxLayoutAlign="row" fxLayoutAlign.gt-xs="column" fxLayout="space-between stretch" fxLayoutGap.gt-xs="8px">
+        <div fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+          <ag-grid-angular
+            style=""
+            class="ag-theme-balham inside_card"
+            [gridOptions]="klassementGridOptions"
+            [rowData]="klassementuitslag"
+            [rowClassRules]="rowClassRules"
+            (rowSelected)="onRowSelected($event)"
+            [rowSelection]="rowSelection"
+            domLayout="autoHeight">
+            >
+          </ag-grid-angular>
+        </div>
+        <div fxFlex="100" fxFlex.gt-xs="calc(50% - 4px)">
+          <ag-grid-angular
+            style=""
+            class="ag-theme-balham inside_card"
+            [gridOptions]="participantStandGridOptions"
+            [rowData]="participantstable"
+            (rowSelected)="onStandRowSelected($event)"
+            [rowSelection]="rowSelection"
+            domLayout="autoHeight">
+          </ag-grid-angular>
+
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {EtappeService} from '../../services/etappe.service';
 import {IEtappe} from '../../models/etappe.model';
 import {MatDialog} from '@angular/material';
@@ -10,23 +10,26 @@ import {getTourTeams} from '../../store/tour/tour.reducer';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {getEtappes} from '../../store/etappe/etappe.reducer';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-etappes',
   templateUrl: './etappes.component.html',
   styleUrls: ['./etappes.component.scss']
 })
-export class EtappesComponent implements OnInit {
+export class EtappesComponent implements OnInit, OnDestroy {
 
   etappes: IEtappe[];
   @Input() selectedtour: ITour;
+  unsubscribe = new Subject<void>();
 
   constructor(private store: Store<IAppState>, private etappeService: EtappeService, public dialog: MatDialog) {
   }
 
   ngOnInit() {
     // todo make async when save is also in store
-    this.store.select(getEtappes).subscribe(etappes => this.etappes = etappes);
+    this.store.select(getEtappes).pipe(takeUntil(this.unsubscribe)).subscribe(etappes => this.etappes = etappes);
   }
 
   openAddEtappeDialog() {
@@ -64,6 +67,10 @@ export class EtappesComponent implements OnInit {
         console.log(result);
       }
     });
+  }
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
 

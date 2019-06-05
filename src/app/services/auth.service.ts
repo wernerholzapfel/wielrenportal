@@ -5,17 +5,23 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 // import * as firebase from 'firebase';
 import {AngularFireAuth} from '@angular/fire/auth';
+import {Store} from '@ngrx/store';
+import {IAppState} from '../store/store';
+import {getParticipant} from '../store/participant/participant.reducer';
+import {FetchParticipant} from '../store/participant/participant.actions';
 
 @Injectable()
 export class AuthService {
   public user$: Observable<firebase.User>;
   public isAdmin = false;
 
-  constructor(private _firebaseAuth: AngularFireAuth, private router: Router) {
+  constructor(private _firebaseAuth: AngularFireAuth, private router: Router, private store: Store<IAppState>) {
     this.user$ = _firebaseAuth.authState;
 
     this.user$.subscribe(user => {
       if (user) {
+        this.store.dispatch(new FetchParticipant());
+
         this._firebaseAuth.auth.currentUser.getIdTokenResult(true).then(tokenResult => {
           this.isAdmin = tokenResult.claims.admin;
         });

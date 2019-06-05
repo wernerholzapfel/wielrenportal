@@ -1,6 +1,10 @@
-<div class="mat-elevation-z8">
-  <mat-toolbar color="primary">Inloggen</mat-toolbar>
-  <mat-card>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Inloggen</mat-card-title>
+    <mat-card-subtitle>&nbsp;</mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
     <mat-tab-group *ngIf="!(authService.user$ | async)">
       <mat-tab label="inloggen" *ngIf="!wachtwoordvergeten">
         <form class="login-form">
@@ -26,9 +30,9 @@
       <mat-tab label="inschrijven" *ngIf="!wachtwoordvergeten">
         <form [formGroup]="userForm" class="login-form">
           <mat-form-field class="full-width">
-            <input type="text" matInput placeholder="Naam" formControlName="displayNameFormControl"
+            <input type="text" matInput placeholder="Naam" formControlName="displayName"
                    [errorStateMatcher]="matcher" [(ngModel)]="user.displayName">
-            <mat-error *ngIf="userForm.controls['displayNameFormControl'].errors?.required">
+            <mat-error *ngIf="userForm.controls['displayName'].errors?.required">
               Naam is <strong>verplicht</strong>
             </mat-error>
           </mat-form-field>
@@ -44,7 +48,8 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input type="password" matInput autocomplete="password" placeholder="Password" formControlName="passwordFormControl"
+            <input type="password" matInput autocomplete="password" placeholder="Password"
+                   formControlName="passwordFormControl"
                    [(ngModel)]="user.password">
             <!--<mat-hint>Het wachtwoord moet minimaal 8 tekens lang zijn</mat-hint>-->
             <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.minlength &&
@@ -54,11 +59,14 @@
             <mat-error *ngIf="userForm.controls['passwordFormControl'].errors?.required">
               Paswoord is <strong>verplicht</strong>
             </mat-error>
+            <mat-error *ngIf="userForm.controls['teamName'].errors?.maxlength">
+              Je teamnaam mag maximaal <strong>25</strong> tekens bevatten
+            </mat-error>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input type="text" matInput placeholder="Teamnaam" formControlName="displayTeamNameFormControl"
+            <input type="text" matInput placeholder="Teamnaam" formControlName="teamName"
                    [errorStateMatcher]="matcher" [(ngModel)]="user.teamName">
-            <mat-error *ngIf="userForm.controls['displayTeamNameFormControl'].errors?.required">
+            <mat-error *ngIf="userForm.controls['teamName'].errors?.required">
               Team naam is <strong>verplicht</strong>
             </mat-error>
           </mat-form-field>
@@ -89,7 +97,5 @@
     <button mat-raised-button color="primary" *ngIf="(authService.user$ | async)" (click)="logout()">Logout
       {{(authService.user$ | async)?.displayName }}
     </button>
-  </mat-card>
-</div>
-
-
+  </mat-card-content>
+</mat-card>

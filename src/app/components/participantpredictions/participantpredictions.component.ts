@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
-import {ActivatedRoute} from '@angular/router';
-import {Subscription, Observable} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subject, Subscription} from 'rxjs';
 import {getParticipantPredictions} from '../../store/participanttable/participanttable.reducer';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
@@ -11,19 +10,23 @@ import {ParticipantService} from '../../services/participant.service';
 import {ITour} from '../../models/tour.model';
 import {getTour} from '../../store/tour/tour.reducer';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-participantpredictions',
   templateUrl: './participantpredictions.component.html',
   styleUrls: ['./participantpredictions.component.scss']
 })
-export class ParticipantpredictionsComponent implements OnInit {
+export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
   sub: Subscription;
   participanttable: any;
   tour: ITour;
   public gridOptions: GridOptions;
+  public isLoading: Boolean;
+
+  unsubscribe = new Subject<void>();
   agColumns = [
     {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
     {headerName: 'Renner', cellRenderer: this.determineRole, minWidth: 210, maxWidth: 210},
@@ -111,54 +114,51 @@ export class ParticipantpredictionsComponent implements OnInit {
   constructor(private store: Store<IAppState>,
               private route: ActivatedRoute,
               public dialog: MatDialog,
-              private participantService: ParticipantService) {
+              private participantService: ParticipantService,
+              private router: Router) {
   }
 
   ngOnInit() {
 
-    // this.sub = this.route.params.subscribe(params => {
-    //   if (params['id']) {
-    //     this.participanttable$ = this.store.select(getParticipantPredictions(params['id']));
-    //   } else {
-    //     this.participantService.getParticipant().subscribe(user => {
-    //       console.log(user);
-    //       this.participanttable$ = this.store.select(getParticipantPredictions(user.id));
-    //     });
-    //   }
-    // });
-
-
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true,
+        resizable: true
+      },
       context: {parentComponent: this},
       columnDefs: this.agColumns,
       onGridReady: () => {
-        this.gridOptions.api.sizeColumnsToFit();
-      },
-      enableSorting: true,
+        // this.gridOptions.api.sizeColumnsToFit();
+      }
     };
   }
 
   onGridReady(params) {
+    this.isLoading = true;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.store.select(getTour).subscribe(tour => {
+    this.store.select(getTour).pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
       this.tour = tour;
       // todo refactor for example  subscribe until
-      this.sub = this.route.params.subscribe(routeParams => {
+      this.sub = this.route.params.pipe(takeUntil(this.unsubscribe)).subscribe(routeParams => {
         if (routeParams['id']) {
-          this.store.select(getParticipantPredictions(routeParams['id'])).subscribe(participanttable => {
+          this.store.select(getParticipantPredictions(routeParams['id'])).pipe(takeUntil(this.unsubscribe)).subscribe(participanttable => {
             if (participanttable) {
               this.participanttable = participanttable;
               this.gridApi.setRowData(participanttable.predictions);
             }
           });
         } else {
-          this.participantService.getParticipant().subscribe(user => {
+          this.participantService.getParticipant().pipe(takeUntil(this.unsubscribe)).subscribe(user => {
             console.log(user);
-            this.store.select(getParticipantPredictions(user.id)).subscribe(participanttable => {
+            this.store.select(getParticipantPredictions(user.id)).pipe(takeUntil(this.unsubscribe)).subscribe(participanttable => {
+              this.isLoading = false;
               if (participanttable) {
                 this.participanttable = participanttable;
                 this.gridApi.setRowData(participanttable.predictions);
+              } else {
+                this.participanttable = null;
+                this.gridApi.setRowData([]);
               }
             });
           });
@@ -170,21 +170,8 @@ export class ParticipantpredictionsComponent implements OnInit {
 
   onRowSelected(event) {
     if (event.node.selected) {
-      this.openTourRidersDetailDialog(event.data);
+      this.router.navigateByUrl(`rider/${event.data.rider.id}`);
     }
-  }
-
-  openTourRidersDetailDialog(data: any) {
-    const dialogRef = this.dialog.open(TourriderdetaildialogComponent, {
-      data: data.rider,
-      width: '90%',
-      height: '90%'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('closed');
-      this.gridOptions.api.deselectAll();
-    });
   }
 
   determineTotaalpunten(params): number {
@@ -198,5 +185,10 @@ export class ParticipantpredictionsComponent implements OnInit {
       return params.data.totalStagePoints ? params.data.totalStagePoints : 0;
 
     }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

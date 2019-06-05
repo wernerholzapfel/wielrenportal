@@ -1,0 +1,24 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{title}}</mat-card-title>
+    <mat-card-subtitle><span *ngIf="lastUpdated">Laatst bijgewerkt: {{lastUpdated}}</span> &nbsp;</mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <ng-container *ngIf="!(isRegistrationOpen$ | async) && (stand$ | async)?.length > 1">
+      <div *ngFor="let stand of (stand$ | async); let i = index">
+        {{i+1}} {{stand.displayName}} met {{stand.totalPoints ? stand.totalPoints : stand.totalStagePoints}} punten.
+      </div>
+      <div *ngIf="participantPrediction?.position > top">
+        <mat-divider></mat-divider>
+        {{participantPrediction.position}} {{participantPrediction.displayName}} met {{participantPrediction.totalPoints ? participantPrediction.totalPoints : participantPrediction.totalStagePoints}} punten.
+      </div>
+    </ng-container>
+    <span *ngIf="(isRegistrationOpen$ | async)">
+          Wie wordt de beste ploegleider?
+          </span>
+    <span *ngIf="!(isRegistrationOpen$ | async) && (stand$ | async)?.length <= 1">
+          Aan het laden...
+          </span>
+  </mat-card-content>
+</mat-card>

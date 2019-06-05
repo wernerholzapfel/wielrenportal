@@ -1,11 +1,20 @@
-<div class="mat-elevation-z8">
-  <mat-toolbar color="primary">Deelnemers</mat-toolbar>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Deelnemers
+    </mat-card-title>
+    <mat-card-subtitle><span *ngIf="participants?.length > 0"> Aantal: {{participants?.length}}</span> &nbsp;
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
   <mat-progress-bar *ngIf="!participants" mode="buffer"></mat-progress-bar>
-  <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
-    <mat-list>
-      <mat-list-item *ngFor="let participant of participants">
-        {{participant.displayName}}
-      </mat-list-item>
-    </mat-list>
-  </div>
-</div>
+  <mat-card-content>
+    <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
+      <mat-list>
+        <mat-list-item *ngFor="let participant of participants">
+          {{participant.displayName}}
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-card-content>
+</mat-card>

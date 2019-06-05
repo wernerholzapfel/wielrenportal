@@ -1,0 +1,30 @@
+<mat-card>
+ <mat-card-header>
+   <mat-card-title>Voeg headline toe</mat-card-title>
+   <mat-card-subtitle>&nbsp;</mat-card-subtitle>
+ </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+
+    <form [formGroup]="headlineForm" class="login-form">
+      <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Titel" formControlName="headlineTitleFormControl"
+             [errorStateMatcher]="matcher" [(ngModel)]="data.title">
+      <mat-error *ngIf="headlineForm.controls['headlineTitleFormControl'].errors?.required">
+        Titel is <strong>verplicht</strong>
+      </mat-error>
+    </mat-form-field>
+      <mat-form-field class="full-width">
+      <input type="text" matInput placeholder="Tekst" formControlName="headlineTextFormControl"
+             [errorStateMatcher]="matcher" [(ngModel)]="data.text">
+      <mat-error *ngIf="headlineForm.controls['headlineTextFormControl'].errors?.required">
+        Titel is <strong>verplicht</strong>
+      </mat-error>
+    </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button [disabled]="headlineForm.invalid" [mat-dialog-close]="data" color="accent">Opslaan</button>
+    <button mat-raised-button [mat-dialog-close]="false">Annuleer</button>
+  </mat-card-actions>
+</mat-card>

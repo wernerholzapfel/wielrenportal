@@ -1,10 +1,15 @@
-<div class="mat-elevation-z8">
-  <mat-toolbar color="primary">Team van {{participanttable?.displayName}} ({{participanttable?.totalPoints}})
-  </mat-toolbar>
-  <!--<div fxLayout="row">-->
-  <!--<div fxFlex="100">-->
-  <ng-container>
-    <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
+<mat-card>
+  <mat-card-header>
+    <mat-card-title *ngIf="isLoading && !participanttable?.displayName">Bezig met het ophalen van het team...
+    </mat-card-title>
+    <mat-card-title *ngIf="participanttable && participanttable?.displayName">Ploeg: {{participanttable?.teamName ? participanttable?.teamName : participant?.displayName }}
+    </mat-card-title>
+    <mat-card-title *ngIf="!participanttable && !isLoading">De deadline voor inschrijving is verstreken</mat-card-title>
+    <mat-card-subtitle *ngIf="participanttable?.displayName">Ploegleider: {{participanttable?.displayName}} {{participanttable && participanttable?.displayName ? '- ' +participanttable?.totalPoints  + ' punten' : '&nbsp;'}}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <div class="card-container" [ngClass.xs]="{'card-container':false, 'card-container-xs':true}">
       <mat-card-content>
         <ag-grid-angular
           style=""
@@ -13,11 +18,9 @@
           [rowSelection]="rowSelection"
           [frameworkComponents]="frameworkComponents"
           (rowSelected)="onRowSelected($event)"
-          [gridAutoHeight]="true"
-          [enableColResize]="true"
+          domLayout="autoHeight"
           (gridReady)="onGridReady($event)">
         </ag-grid-angular>
       </mat-card-content>
     </div>
-  </ng-container>
-</div>
+</mat-card>

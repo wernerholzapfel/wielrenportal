@@ -17,8 +17,16 @@ export interface IRider {
   isWaterdrager?: boolean;
   isRenner?: boolean;
   isSelected?: boolean;
+  isOut?: boolean;
   waarde?: number;
   position?: number;
   stageclassifications?: IStageclassifications[];
   team?: ITeam;
+  waterdragerEtappePoints?: number;
+  waterdragerTotalPoints?: number;
+  totalStagePoints?: number;
+  youthPoints?: number;
+  mountainPoints?: number;
+  tourPoints?: number;
+  pointsPoints?: number;
 }

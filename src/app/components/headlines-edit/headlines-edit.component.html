@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-content>
+      <mat-list dense>
+        <mat-list-item *ngFor="let headline of headlines | orderBy : 'createdDate' : false">
+          <div matLine>
+            {{headline.schrijver}} {{headline.title}} {{headline.text}} {{headline.createdDate | date}}
+          </div>
+          <button mat-button color="accent" (click)="openAddHeadlineDialog(headline)">Edit</button>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+      <button mat-raised-button color="accent" (click)="openAddHeadlineDialog(null)">Voeg headline toe</button>
+  </mat-card-content>
+</mat-card>

@@ -17,7 +17,13 @@ const initaltourState: TourState = {
   tours: undefined,
   isRegistrationOpen: undefined,
   tour: {
-    id: undefined, endDate: null, startDate: null, tourName: '', isActive: undefined, deadline: undefined, hasEnded: undefined,
+    id: undefined,
+    endDate: null,
+    startDate: null,
+    tourName: '',
+    isActive: undefined,
+    deadline: undefined,
+    hasEnded: undefined,
   },
   teams: [],
   error: undefined,
@@ -54,7 +60,7 @@ export function tourReducer(state = initaltourState, action): TourState {
       return {
         ...state,
         teams: action.payload.teams,
-    };
+      };
     case tour.FETCH_TOURLIST_SUCCESS:
       return {
         ...state,
@@ -122,4 +128,7 @@ export const getTourRiders = createSelector(getTourTeams, (tourTeams: ITeam[]) =
   return flattenTourRiders;
 });
 
-export const getTours = createSelector(gettourState, (state: TourState) => state.tours);
+export const getTours = createSelector(gettourState, (state: TourState) => {
+  return state.tours && state.tours.length > 0 ? state.tours
+    .sort((a, b) => +new Date(b.startDate) - +new Date(a.startDate)) : state.tours;
+});

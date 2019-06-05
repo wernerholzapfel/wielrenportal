@@ -1,5 +1,6 @@
 import {ITour} from './tour.model';
 import {IRider} from './rider.model';
+import {IPrediction} from './participant.model';
 
 export interface IEtappe {
   id: string;
@@ -29,4 +30,6 @@ export interface ITourClassification {
 export interface ITourrider {
   id: string;
   rider: IRider;
+  stageclassifications?: IStageClassification[];
+  predictions?: IPrediction[];
 }

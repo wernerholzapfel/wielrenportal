@@ -1,27 +1,35 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RiderService} from '../../services/rider.service';
 import {GridOptions} from 'ag-grid';
 import {IAppState} from '../../store/store';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {getTour} from '../../store/tour/tour.reducer';
-import {TourriderdetaildialogComponent} from '../tourriderdetaildialog/tourriderdetaildialog.component';
-import {MatDialog} from '@angular/material';
 import {ITour} from '../../models/tour.model';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
+import {IRider} from '../../models/rider.model';
+import {Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-riderdetails',
   templateUrl: './riderdetails.component.html',
   styleUrls: ['./riderdetails.component.scss']
 })
-export class RiderdetailsComponent implements OnInit {
+export class RiderdetailsComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
-
+  totalRiders: IRider[];
   tour: ITour;
   public gridOptions: GridOptions;
-  agColumns = [
-    {headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
+  unsubscribe = new Subject<void>();
+  defaultRowClassRules = {
+    'uitgevallen': function (params) {
+      return params.data.isOut;
+    }
+  };
+
+  defaultHeaders = [{headerName: '', cellRenderer: this.determineFlag, minWidth: 50, maxWidth: 50},
     {
       headerName: 'Renner',
       cellRenderer: this.determineName,
@@ -29,8 +37,11 @@ export class RiderdetailsComponent implements OnInit {
       maxWidth: 200,
       getQuickFilterText: this.determineName
     },
-    {headerName: 'Team', field: 'team.teamName', minWidth: 100, maxWidth: 100},
+    {headerName: 'Team', field: 'team.teamName', minWidth: 100, maxWidth: 100}];
 
+  defaultAgColumns = [
+    {valueGetter: 'node.rowIndex + 1', minWidth: 50, maxWidth: 50},
+    ...this.defaultHeaders,
     {headerName: 'Etappes', field: 'totalStagePoints', minWidth: 100, maxWidth: 100},
     {headerName: 'Algemeen', field: 'tourPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
     {headerName: 'Berg', field: 'mountainPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
@@ -38,10 +49,14 @@ export class RiderdetailsComponent implements OnInit {
     {headerName: 'Jongeren', field: 'youthPoints', cellRenderer: 'hasTourEndedClass', minWidth: 100, maxWidth: 100},
     {headerName: 'Totaal', sort: 'desc', valueGetter: this.determineTotaalpunten, minWidth: 100, maxWidth: 100},
     {headerName: 'Waterdrager', valueGetter: this.determineWDTotaalpunten, minWidth: 120, maxWidth: 120},
-    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
-    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60}, {
+    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100}];
+
+  aantalKeerGekozenAgColumns = [
+    ...this.defaultHeaders,
+    {
       headerName: '# RE',
       valueGetter: this.determineRiderChoosenCount,
+      sort: 'desc',
       minWidth: 80,
       maxWidth: 80,
     },
@@ -54,39 +69,59 @@ export class RiderdetailsComponent implements OnInit {
     },
     {headerName: '# WD', valueGetter: this.determineWaterdragerChoosenCount, minWidth: 80, maxWidth: 80},
     {headerName: '# LB', valueGetter: this.determineLinkebalChoosenCount, minWidth: 80, maxWidth: 80},
-
   ];
+
+  uitgevallenAgColumns = [
+    ...this.defaultHeaders,
+    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100},
+    {headerName: 'Uit', valueGetter: this.determineIsOutText, minWidth: 60, maxWidth: 60},
+    {headerName: 'Etappe', field: 'latestEtappe.etappeNumber', sort: 'desc', minWidth: 100, maxWidth: 100}
+  ];
+
   rowSelection = 'single';
   frameworkComponents = {
     hasTourEndedClass: HastourendedclassComponent,
   };
 
   constructor(private riderService: RiderService,
-              public dialog: MatDialog,
+              private router: Router,
               private store: Store<IAppState>) {
   }
 
   ngOnInit() {
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true
+      },
+      localeText: {noRowsToShow: 'Na de deadline verschijnen hier de statistieken van de renners'
+        // , loadingOoo: 'Bezig met ophalen van de gegevens...'
+      },
       context: {parentComponent: this},
-      columnDefs: this.agColumns,
+      columnDefs: this.defaultAgColumns,
       onGridReady: (params) => {
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
 
-        this.store.select(getTour).subscribe(tour => {
+        this.store.pipe(select(getTour)).pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
           this.tour = tour;
-
-          // todo refactor for example  subscribe until
-          // todo move to store?
-          this.riderService.getDetailTourriders(tour.id)
-            .subscribe(response =>
-              this.gridApi.setRowData(response));
+          this.gridApi.showLoadingOverlay();
+          if (new Date(this.tour.deadline) < new Date()) {
+            // todo refactor for example  subscribe until
+            // todo move to store?
+            this.riderService.getDetailTourriders(tour.id)
+              .subscribe(response => {
+                this.totalRiders = response;
+                this.gridApi.setRowData(this.totalRiders);
+              });
+          } else {
+            this.totalRiders = [];
+            this.gridApi.setRowData(this.totalRiders);
+          }
         });
 
         this.gridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: true,
+      rowClassRules: this.defaultRowClassRules
     };
   }
 
@@ -148,23 +183,40 @@ export class RiderdetailsComponent implements OnInit {
     this.gridOptions.api.setQuickFilter(filterValue);
   }
 
-  openTourRidersDetailDialog(data: any) {
-    const dialogRef = this.dialog.open(TourriderdetaildialogComponent, {
-      data: data,
-      width: '90%',
-      height: '90%'
-    });
+  uitgevallenTabel() {
+    this.gridOptions.api.setRowData(this.totalRiders.filter(rider => rider.isOut));
+    this.gridOptions.api.setColumnDefs(this.uitgevallenAgColumns);
+    this.gridOptions.api.sizeColumnsToFit();
+    this.gridOptions.rowClassRules = {
+      '': function (params) {
+        return params.data.isOut;
+      }
+    };
+  }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('closed');
-      this.gridOptions.api.deselectAll();
-    });
+  defaultTabel() {
+    this.gridOptions.api.setRowData(this.totalRiders);
+    this.gridOptions.api.setColumnDefs(this.defaultAgColumns);
+    this.gridOptions.api.sizeColumnsToFit();
+    this.gridOptions.rowClassRules = this.defaultRowClassRules;
+  }
+
+  aantalKeerGekozenTabel() {
+    this.gridOptions.api.setRowData(this.totalRiders);
+    this.gridOptions.api.setColumnDefs(this.aantalKeerGekozenAgColumns);
+    this.gridOptions.api.sizeColumnsToFit();
+    this.gridOptions.rowClassRules = this.defaultRowClassRules;
+
   }
 
   onRowSelected(event) {
     if (event.node.selected) {
-      this.openTourRidersDetailDialog(event.data);
+      this.router.navigateByUrl(`rider/${event.data.id}`);
     }
+  }
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
 

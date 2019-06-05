@@ -1,0 +1,4 @@
+<mat-button-toggle-group>
+  <mat-button-toggle value="etappestanden" [checked]="checked === ETAPPE" (click)="setUitslagenType(ETAPPE)">Etappes</mat-button-toggle>
+  <mat-button-toggle value="klassementsstanden" [checked]="checked === KLASSEMENT" (click)="setUitslagenType(KLASSEMENT)">{{klassementText}}</mat-button-toggle>
+</mat-button-toggle-group>

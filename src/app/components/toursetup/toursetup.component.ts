@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
 import * as fromEtappe from '../../store/etappe/etappe.actions';
 import * as fromTeam from '../../store/team/team.actions';
@@ -6,7 +6,7 @@ import * as fromRider from '../../store/rider/rider.actions';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {ITour} from '../../models/tour.model';
-import {Observable, combineLatest } from 'rxjs';
+import {combineLatest, Observable, Subject} from 'rxjs';
 
 import {getTour, getTourInProgress, getTours, getTourTeams} from '../../store/tour/tour.reducer';
 import {ITeam} from '../../models/team.model';
@@ -28,13 +28,15 @@ import {
 } from '../../models/constants';
 import {EdittourriderdialogComponent} from '../edittourriderdialog/edittourriderdialog.component';
 import * as moment from 'moment';
+import {HeadlinesEditComponent} from '../headlines-edit/headlines-edit.component';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-toursetup',
   templateUrl: './toursetup.component.html',
   styleUrls: ['./toursetup.component.scss']
 })
-export class ToursetupComponent implements OnInit {
+export class ToursetupComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<IAppState>, private tourService: TourService, public snackBar: MatSnackBar, public dialog: MatDialog) {
   }
@@ -63,16 +65,17 @@ export class ToursetupComponent implements OnInit {
   MOUNTAINCLASSIFICATION = MOUNTAINCLASSIFICATION;
   POINTSCLASSIFICATION = POINTSCLASSIFICATION;
   filterText: string;
+  unsubscribe = new Subject<void>();
 
   ngOnInit() {
     this.store.dispatch(new fromTeam.FetchTeams());
     this.store.dispatch(new fromRider.FetchRiders());
 
-    this.store.select(getTourInProgress).subscribe(inProgress => {
+    this.store.select(getTourInProgress).pipe(takeUntil(this.unsubscribe)).subscribe(inProgress => {
       this.isLoading = inProgress;
     });
 
-    this.store.select(getTour).subscribe(tour => {
+    this.store.select(getTour).pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
       if (tour) {
         this.selectedTour = tour;
         this.store.dispatch(new fromEtappe.FetchEtappeList(tour.id));
@@ -84,7 +87,7 @@ export class ToursetupComponent implements OnInit {
     this.teams$ = this.store.select(getTeams);
     this.riders$ = this.store.select(getRiders);
 
-    combineLatest(this.teams$, this.tourTeams$).subscribe(
+    combineLatest(this.teams$, this.tourTeams$).pipe(takeUntil(this.unsubscribe)).subscribe(
       ([teams, tourteams]) => {
         this.selectableTeamList = Object.assign(teams.map(team => {
           if (tourteams && tourteams.find(tt => tt.id === team.id)) {
@@ -96,7 +99,7 @@ export class ToursetupComponent implements OnInit {
         console.log(this.selectableTeamList);
       });
 
-    combineLatest(this.tourTeams$, this.riders$).subscribe(
+    combineLatest(this.tourTeams$, this.riders$).pipe(takeUntil(this.unsubscribe)).subscribe(
       ([tourTeams, riders]) => {
         if (riders && tourTeams && tourTeams.length > 0) {
           let flattenTourRiders: ITourriders[] = [];
@@ -109,10 +112,14 @@ export class ToursetupComponent implements OnInit {
 
 
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        enableFilter: true
+      },
       columnDefs: this.agColumns,
       onGridReady: () => {
       },
-      enableSorting: true,
     };
   }
 
@@ -168,8 +175,6 @@ export class ToursetupComponent implements OnInit {
       height: '90%'
     });
 
-    // todo move to store ?
-    // todo check voor wijzigingen
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log(result);
@@ -202,6 +207,10 @@ export class ToursetupComponent implements OnInit {
   }
 
   youngster(rider: IRider) {
-    return moment(rider.dateOfBirth).isAfter('1993-01-01');
+    return moment(rider.dateOfBirth).isSameOrAfter('1994-01-01');
+  }
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

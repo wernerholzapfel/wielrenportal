@@ -5,7 +5,6 @@ import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {RiderService} from '../../services/rider.service';
 import {FetchRiders} from '../../store/rider/rider.actions';
-import {getRiders} from '../../store/rider/rider.reducer';
 import {Observable} from 'rxjs';
 import {GridOptions} from 'ag-grid';
 import {getTourRiders} from '../../store/tour/tour.reducer';
@@ -26,11 +25,13 @@ export class RidersComponent implements OnInit {
     {headerName: 'Voornaam', field: 'rider.firstName'},
     {headerName: 'Achternaam', field: 'rider.surName'},
     {headerName: 'Nationaliteit', field: 'rider.nationality'},
-    {headerName: 'Positie', field: 'rider.position', editable: true,
-      valueParser: this.numberParser},
+    {
+      headerName: 'Positie', field: 'rider.position', editable: true,
+      valueParser: this.numberParser
+    },
     {headerName: 'Geboortedag', field: 'rider.dateOfBirth'}];
   dataSource = new MatTableDataSource<IRider>();
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   @Output()
   addPositionEvent: EventEmitter<IRider> = new EventEmitter<IRider>();
@@ -49,11 +50,13 @@ export class RidersComponent implements OnInit {
 
 
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true
+      },
       columnDefs: this.agColumns,
       onGridReady: () => {
         this.gridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: true,
       singleClickEdit: true
     };
   }
@@ -74,9 +77,11 @@ export class RidersComponent implements OnInit {
       .toString()
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   }
+
   numberFormatter(params) {
     return '\xA3' + this.formatNumber(params.value);
   }
+
   numberParser(params) {
     return Number(params.newValue);
   }

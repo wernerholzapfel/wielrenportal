@@ -23,11 +23,13 @@ export class SpelregelsComponent implements OnInit {
 
   ngOnInit() {
     this.gridOptions = <GridOptions>{
+      defaultColDef: {
+        sortable: true
+      },
       columnDefs: this.agColumns,
       onGridReady: () => {
         this.gridOptions.api.sizeColumnsToFit();
       },
-      enableSorting: true,
     };
 
     this.spelregelstable = [

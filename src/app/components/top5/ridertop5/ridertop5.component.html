@@ -1,0 +1,20 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{title}}</mat-card-title>
+    <mat-card-subtitle><span *ngIf="lastUpdated">Laatst bijgewerkt: {{lastUpdated}}</span> &nbsp;</mat-card-subtitle>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <ng-container *ngIf="!(isRegistrationOpen$ | async) && riderTop?.length > 1">
+      <div *ngFor="let rider of riderTop; let i = index">
+        {{i+1}} {{rider.rider.firstNameShort}} {{rider.rider.surNameShort}} met {{rider.top5punten}} punten.
+      </div>
+    </ng-container>
+    <span *ngIf="(isRegistrationOpen$ | async)">
+          Wie wordt de beste?
+          </span>
+    <span *ngIf="!(isRegistrationOpen$ | async) && riderTop?.length <= 1">
+          Aan het laden...
+          </span>
+  </mat-card-content>
+</mat-card>
