@@ -28,7 +28,6 @@ import {
 } from '../../models/constants';
 import {EdittourriderdialogComponent} from '../edittourriderdialog/edittourriderdialog.component';
 import * as moment from 'moment';
-import {HeadlinesEditComponent} from '../headlines-edit/headlines-edit.component';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -199,9 +198,7 @@ export class ToursetupComponent implements OnInit, OnDestroy {
     // todo move to store ?
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // this.tourriderservice.saveEtappe(result).subscribe(response => {
-        //   this.etappes = [...this.etappes, response];
-        // });
+        console.log(result);
       }
     });
   }
@@ -209,6 +206,7 @@ export class ToursetupComponent implements OnInit, OnDestroy {
   youngster(rider: IRider) {
     return moment(rider.dateOfBirth).isSameOrAfter('1994-01-01');
   }
+
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();

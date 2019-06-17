@@ -75,4 +75,17 @@ export class TourEffects {
     .pipe(
       switchMap(action => of(new tour.SaveRiderToTeamSuccess(action))),
       catchError(err => of(new tour.SaveRiderToTeamFailure(err))));
+
+  @Effect()
+  deleteRiderFromTeam$ = this.actions$
+    .pipe(ofType<tour.SaveRiderToTeam>(tour.DELETE_RIDER_FROM_TEAM),
+      switchMap(action => {
+        return this.tourService.deleteRiderFromTourridersTeam(action.payload)
+          .pipe(switchMap(x => {
+          return of(action.payload);
+        }));
+      }))
+    .pipe(
+      switchMap(action => of(new tour.DeleteRiderFromTeamSuccess(action))),
+      catchError(err => of(new tour.DeleteRiderFromTeamFailure(err))));
 }

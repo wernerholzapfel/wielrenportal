@@ -41,5 +41,10 @@ export class TourService {
       .pipe(map(res => <any>res));
   }
 
+  deleteRiderFromTourridersTeam(tourridersId: string): Observable<any> {
+    return this.http.delete<any>(`${environment.apiBaseUrl}/tourriders/${tourridersId}`)
+      .pipe(map(res => <string>tourridersId));
+  }
+
 
 }

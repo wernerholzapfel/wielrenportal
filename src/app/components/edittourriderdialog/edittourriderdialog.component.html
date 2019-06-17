@@ -27,5 +27,8 @@
     <button mat-raised-button (click)="saveRiderToTeam(data)" [mat-dialog-close]="data"
             color="accent">Opslaan
     </button>
+  <button mat-raised-button (click)="deleteRiderFromTourridersTeam(data.id)" [mat-dialog-close]="data"
+            color="warn">Delete
+    </button>
     <button mat-raised-button [mat-dialog-close]="false">Annuleer</button>
 </mat-card>

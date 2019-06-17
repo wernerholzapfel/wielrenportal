@@ -107,6 +107,21 @@ export function tourReducer(state = initaltourState, action): TourState {
             tourRiders: [...team.tourRiders, action.payload]
           } : team)),
       };
+      case tour.DELETE_RIDER_FROM_TEAM_SUCCESS:
+      return {
+        ...state,
+        teams: [...state.teams].map(
+          team => ({
+            id: team.id,
+            teamName: team.teamName,
+            teamAbbreviation: team.teamAbbreviation,
+            selected: team.selected,
+            teamNameShort: team.teamNameShort,
+            country: team.country,
+            tourRiders:  team.tourRiders ?
+              team.tourRiders.filter(rider => rider.id !== action.payload) : team.tourRiders
+          }))
+      };
     default:
       return {
         ...state

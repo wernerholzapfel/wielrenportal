@@ -10,6 +10,7 @@ import {TourService} from '../../services/tour.service';
 import {getEtappes} from '../../store/etappe/etappe.reducer';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import * as fromTour from '../../store/tour/tour.actions';
 
 @Component({
   selector: 'app-edittourriderdialog',
@@ -60,6 +61,10 @@ export class EdittourriderdialogComponent implements OnInit, OnDestroy {
     }).subscribe(response => {
       console.log('saveriderToTeam response: ' + response);
     });
+  }
+
+  deleteRiderFromTourridersTeam(tourridersId: string) {
+    this.store.dispatch(new fromTour.DeleteRiderFromTeam(tourridersId));
   }
 
   ngOnDestroy() {
