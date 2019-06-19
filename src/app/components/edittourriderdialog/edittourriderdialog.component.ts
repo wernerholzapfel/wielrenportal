@@ -8,8 +8,8 @@ import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {TourService} from '../../services/tour.service';
 import {getEtappes} from '../../store/etappe/etappe.reducer';
-import {Observable, Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
+import {debounceTime, takeUntil} from 'rxjs/operators';
 import * as fromTour from '../../store/tour/tour.actions';
 import {getRiders} from '../../store/rider/rider.reducer';
 import {IRider} from '../../models/rider.model';
@@ -28,7 +28,11 @@ export class EdittourriderdialogComponent implements OnInit, OnDestroy {
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
-  ridersList$: Observable<IRider[]>;
+  ridersList: IRider[];
+  filteredRidersList$: BehaviorSubject<IRider[]> = new BehaviorSubject([]);
+
+  rennerFilterCtrl: FormControl = new FormControl();
+
   etappes: IEtappe[];
   selectedEtappe: IEtappe;
   unsubscribe = new Subject<void>();
@@ -51,7 +55,37 @@ export class EdittourriderdialogComponent implements OnInit, OnDestroy {
       .subscribe(response => this.etappes = response.sort((a, b) => a.etappeNumber - b.etappeNumber));
     this.selectedEtappe = this.data.latestEtappe;
 
-    this.ridersList$ = this.store.select(getRiders);
+    this.store.select(getRiders).pipe(takeUntil(this.unsubscribe)).subscribe(riders => {
+      this.ridersList = riders;
+      this.filteredRidersList$.next(this.ridersList.slice());
+    });
+
+
+    // listen for search field value changes
+    this.rennerFilterCtrl.valueChanges
+      .pipe(debounceTime(500), takeUntil(this.unsubscribe))
+      .subscribe(() => {
+        console.log('value changed');
+        this.filterRiders();
+      });
+  }
+
+  private filterRiders() {
+    if (!this.ridersList) {
+      return;
+    }
+    // get the search keyword
+    let search = this.rennerFilterCtrl.value;
+    if (!search) {
+      this.filteredRidersList$.next(this.ridersList.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the riders
+    this.filteredRidersList$.next(
+      this.ridersList.filter(rider => rider.surName.toLowerCase().indexOf(search) > -1)
+    );
   }
 
   updateTourRider(data: any) {

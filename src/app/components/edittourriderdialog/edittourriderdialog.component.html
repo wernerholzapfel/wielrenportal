@@ -6,8 +6,9 @@
   </mat-card-header>
   <mat-card-content>
     <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="start stretch">
-      <mat-select placeholder="Wissel de renner" [(ngModel)]="data.rider">
-        <mat-option *ngFor="let rider of ridersList$ | async" [value]="rider">
+      <mat-select placeholder="Wissel de renner" #selectedRider>
+        <mat-select-search [formControl]="rennerFilterCtrl"></mat-select-search>
+        <mat-option *ngFor="let rider of filteredRidersList$ | async" [value]="rider">
           {{ rider.firstName }}
           {{ rider.surName }}
         </mat-option>

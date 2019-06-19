@@ -62,6 +62,7 @@ import { Ridertop5Component } from './components/top5/ridertop5/ridertop5.compon
 import { UitslagenComponent } from './components/uitslagen/uitslagen.component';
 import { ToggleuitslagenComponent } from './components/uitslagen/toggleuitslagen/toggleuitslagen.component';
 import { KlassementenComponent } from './components/uitslagen/klassementen/klassementen.component';
+import {MatSelectSearchModule} from './mat-select-search/mat-select-search.module';
 
 registerLocaleData(localeNl);
 
@@ -103,6 +104,7 @@ registerLocaleData(localeNl);
     AddHeadlineDialogComponent
   ],
   imports: [
+    MatSelectSearchModule,
     BrowserModule,
     FormsModule,
     OrderModule,
