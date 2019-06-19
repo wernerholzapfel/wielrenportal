@@ -17,6 +17,9 @@ export const SAVE_RIDER_TO_TEAM_FAILURE = '[RIDERS] Save Rider To Team Failure';
 export const DELETE_RIDER_FROM_TEAM = '[RIDERS] Delete Rider From Team';
 export const DELETE_RIDER_FROM_TEAM_SUCCESS = '[RIDERS] Delete Rider From Team Success';
 export const DELETE_RIDER_FROM_TEAM_FAILURE = '[RIDERS] Delete Rider From Team Failure';
+export const UPDATE_RIDER_FROM_TEAM = '[RIDERS] Update Rider From Team';
+export const UPDATE_RIDER_FROM_TEAM_SUCCESS = '[RIDERS] Update Rider From Team Success';
+export const UPDATE_RIDER_FROM_TEAM_FAILURE = '[RIDERS] Update Rider From Team Failure';
 
 export class SetCurrentRiderAsSelected implements Action {
   readonly type = Set_CURRENT_RIDER_AS_SELECTED;
@@ -118,6 +121,27 @@ export class DeleteRiderFromTeamSuccess implements Action {
 
 export class DeleteRiderFromTeamFailure implements Action {
   readonly type = DELETE_RIDER_FROM_TEAM_FAILURE;
+
+  constructor(public payload: HttpErrorResponse) {
+  }
+}
+
+export class UpdateRiderFromTeam implements Action {
+  readonly type = UPDATE_RIDER_FROM_TEAM;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateRiderFromTeamSuccess implements Action {
+  readonly type = UPDATE_RIDER_FROM_TEAM_SUCCESS;
+
+  constructor(public payload: any) {
+  }
+}
+
+export class UpdateRiderFromTeamFailure implements Action {
+  readonly type = UPDATE_RIDER_FROM_TEAM_FAILURE;
 
   constructor(public payload: HttpErrorResponse) {
   }

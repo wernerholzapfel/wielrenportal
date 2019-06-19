@@ -7,6 +7,7 @@ import * as tourrider from '../tourriders/tourrider.actions';
 import {TourService} from '../../services/tour.service';
 import {from, of} from 'rxjs';
 import {catchError, switchMap} from 'rxjs/operators';
+import {UPDATE_RIDER_FROM_TEAM} from './tour.actions';
 
 @Injectable()
 export class TourEffects {
@@ -78,14 +79,24 @@ export class TourEffects {
 
   @Effect()
   deleteRiderFromTeam$ = this.actions$
-    .pipe(ofType<tour.SaveRiderToTeam>(tour.DELETE_RIDER_FROM_TEAM),
+    .pipe(ofType<tour.DeleteRiderFromTeam>(tour.DELETE_RIDER_FROM_TEAM),
       switchMap(action => {
         return this.tourService.deleteRiderFromTourridersTeam(action.payload)
           .pipe(switchMap(x => {
-          return of(action.payload);
-        }));
+            return of(action.payload);
+          }));
       }))
     .pipe(
       switchMap(action => of(new tour.DeleteRiderFromTeamSuccess(action))),
       catchError(err => of(new tour.DeleteRiderFromTeamFailure(err))));
+
+  @Effect()
+  updateRiderToTeam$ = this.actions$
+    .pipe(ofType<tour.UpdateRiderFromTeam>(tour.UPDATE_RIDER_FROM_TEAM),
+      switchMap(action => {
+        return this.tourService.addRidertoTeam(action.payload);
+      }))
+    .pipe(
+      switchMap(action => of(new tour.UpdateRiderFromTeamSuccess(action))),
+      catchError(err => of(new tour.UpdateRiderFromTeamFailure(err))));
 }

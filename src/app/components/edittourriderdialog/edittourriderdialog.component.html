@@ -6,6 +6,12 @@
   </mat-card-header>
   <mat-card-content>
     <div fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="start stretch">
+      <mat-select placeholder="Wissel de renner" [(ngModel)]="data.rider">
+        <mat-option *ngFor="let rider of ridersList$ | async" [value]="rider">
+          {{ rider.firstName }}
+          {{ rider.surName }}
+        </mat-option>
+      </mat-select>
       <mat-form-field class="full-width">
         <input type="number" matInput placeholder="waarde" name="riderWaardeFormControl"
                [errorStateMatcher]="matcher" [(ngModel)]="data.waarde">
@@ -24,7 +30,7 @@
       </mat-form-field>
     </div>
   </mat-card-content>
-    <button mat-raised-button (click)="saveRiderToTeam(data)" [mat-dialog-close]="data"
+    <button mat-raised-button (click)="updateTourRider(data)" [mat-dialog-close]="data"
             color="accent">Opslaan
     </button>
   <button mat-raised-button (click)="deleteRiderFromTourridersTeam(data.id)" [mat-dialog-close]="data"

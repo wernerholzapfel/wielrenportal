@@ -8,9 +8,11 @@ import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {TourService} from '../../services/tour.service';
 import {getEtappes} from '../../store/etappe/etappe.reducer';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import * as fromTour from '../../store/tour/tour.actions';
+import {getRiders} from '../../store/rider/rider.reducer';
+import {IRider} from '../../models/rider.model';
 
 @Component({
   selector: 'app-edittourriderdialog',
@@ -26,6 +28,7 @@ export class EdittourriderdialogComponent implements OnInit, OnDestroy {
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
+  ridersList$: Observable<IRider[]>;
   etappes: IEtappe[];
   selectedEtappe: IEtappe;
   unsubscribe = new Subject<void>();
@@ -47,10 +50,12 @@ export class EdittourriderdialogComponent implements OnInit, OnDestroy {
     this.store.select(getEtappes).pipe(takeUntil(this.unsubscribe))
       .subscribe(response => this.etappes = response.sort((a, b) => a.etappeNumber - b.etappeNumber));
     this.selectedEtappe = this.data.latestEtappe;
+
+    this.ridersList$ = this.store.select(getRiders);
   }
 
-  saveRiderToTeam(data: any) {
-    this.tourriderservice.addRidertoTeam({
+  updateTourRider(data: any) {
+    this.store.dispatch(new fromTour.UpdateRiderFromTeam({
       id: data.id,
       isOut: data.isOut,
       waarde: data.waarde,
@@ -58,9 +63,7 @@ export class EdittourriderdialogComponent implements OnInit, OnDestroy {
       team: data.team,
       rider: data.rider,
       latestEtappe: this.selectedEtappe
-    }).subscribe(response => {
-      console.log('saveriderToTeam response: ' + response);
-    });
+    }));
   }
 
   deleteRiderFromTourridersTeam(tourridersId: string) {
