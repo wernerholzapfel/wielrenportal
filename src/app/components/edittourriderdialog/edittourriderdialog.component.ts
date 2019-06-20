@@ -22,20 +22,16 @@ import {IRider} from '../../models/rider.model';
 export class EdittourriderdialogComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<IAppState>,
-              private etappeService: EtappeService,
-              private tourriderservice: TourService,
-              public dialogRef: MatDialogRef<EdittourriderdialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
+
+  // see https://stackblitz.com/edit/mat-select-search for working of mat-select-search
 
   ridersList: IRider[];
   filteredRidersList$: BehaviorSubject<IRider[]> = new BehaviorSubject([]);
 
-  rennerFilterCtrl: FormControl = new FormControl();
-
   etappes: IEtappe[];
   selectedEtappe: IEtappe;
-  unsubscribe = new Subject<void>();
 
   riderForm = new FormGroup({
     riderWaardeFormControl: new FormControl('', [
@@ -43,29 +39,37 @@ export class EdittourriderdialogComponent implements OnInit, OnDestroy {
     ]),
     isUitgevallenFormControl: new FormControl('', []),
     etappeFormControl: new FormControl('', []),
-
   });
+
+  rennerFilterCtrl: FormControl = new FormControl();
+  unsubscribe = new Subject<void>();
 
   matcher = new MyErrorStateMatcher();
 
   ngOnInit() {
-    // todo store in store
-    // todo get tour?
     this.store.select(getEtappes).pipe(takeUntil(this.unsubscribe))
       .subscribe(response => this.etappes = response.sort((a, b) => a.etappeNumber - b.etappeNumber));
     this.selectedEtappe = this.data.latestEtappe;
 
-    this.store.select(getRiders).pipe(takeUntil(this.unsubscribe)).subscribe(riders => {
-      this.ridersList = riders;
-      this.filteredRidersList$.next(this.ridersList.slice());
-    });
+    this.store.select(getRiders).pipe(takeUntil(this.unsubscribe))
+      .subscribe(riders => {
+        this.ridersList = riders.sort((a, b) => {
+          if (a.surName < b.surName) {
+            return -1;
+          }
+          if (a.surName > b.surName) {
+            return 1;
+          }
+          return 0;
+        });
+        this.filteredRidersList$.next(this.ridersList.slice());
+      });
 
 
     // listen for search field value changes
     this.rennerFilterCtrl.valueChanges
       .pipe(debounceTime(500), takeUntil(this.unsubscribe))
       .subscribe(() => {
-        console.log('value changed');
         this.filterRiders();
       });
   }
@@ -74,17 +78,13 @@ export class EdittourriderdialogComponent implements OnInit, OnDestroy {
     if (!this.ridersList) {
       return;
     }
-    // get the search keyword
-    let search = this.rennerFilterCtrl.value;
+    const search = this.rennerFilterCtrl.value;
     if (!search) {
       this.filteredRidersList$.next(this.ridersList.slice());
       return;
-    } else {
-      search = search.toLowerCase();
     }
-    // filter the riders
     this.filteredRidersList$.next(
-      this.ridersList.filter(rider => rider.surName.toLowerCase().indexOf(search) > -1)
+      this.ridersList.filter(rider => rider.surName.toLowerCase().indexOf(search.toLowerCase()) > -1)
     );
   }
 
