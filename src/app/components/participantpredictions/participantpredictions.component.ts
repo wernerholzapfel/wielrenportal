@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subject, Subscription} from 'rxjs';
+import {Subject} from 'rxjs';
 import {getParticipantPredictions} from '../../store/participanttable/participanttable.reducer';
 import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
@@ -10,7 +10,7 @@ import {ParticipantService} from '../../services/participant.service';
 import {ITour} from '../../models/tour.model';
 import {getTour} from '../../store/tour/tour.reducer';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-participantpredictions',
@@ -20,7 +20,6 @@ import {takeUntil} from 'rxjs/operators';
 export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
-  sub: Subscription;
   participanttable: any;
   tour: ITour;
   public gridOptions: GridOptions;
@@ -139,31 +138,38 @@ export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
     this.gridColumnApi = params.columnApi;
     this.store.select(getTour).pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
       this.tour = tour;
-      // todo refactor for example  subscribe until
-      this.sub = this.route.params.pipe(takeUntil(this.unsubscribe)).subscribe(routeParams => {
-        if (routeParams['id']) {
-          this.store.select(getParticipantPredictions(routeParams['id'])).pipe(takeUntil(this.unsubscribe)).subscribe(participanttable => {
+    });
+
+    // todo refactor for example  subscribe until
+    this.route.params.pipe(takeUntil(this.unsubscribe), tap()).subscribe(routeParams => {
+      if (routeParams['id']) {
+        this.store.select(getParticipantPredictions(routeParams['id']))
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe(participanttable => {
             if (participanttable) {
               this.participanttable = participanttable;
               this.gridApi.setRowData(participanttable.predictions);
             }
           });
-        } else {
-          this.participantService.getParticipant().pipe(takeUntil(this.unsubscribe)).subscribe(user => {
+      } else {
+        this.participantService.getParticipant()
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe(user => {
             console.log(user);
-            this.store.select(getParticipantPredictions(user.id)).pipe(takeUntil(this.unsubscribe)).subscribe(participanttable => {
-              this.isLoading = false;
-              if (participanttable) {
-                this.participanttable = participanttable;
-                this.gridApi.setRowData(participanttable.predictions);
-              } else {
-                this.participanttable = null;
-                this.gridApi.setRowData([]);
-              }
-            });
+            this.store.select(getParticipantPredictions(user.id))
+              .pipe(takeUntil(this.unsubscribe))
+              .subscribe(participanttable => {
+                this.isLoading = false;
+                if (participanttable) {
+                  this.participanttable = participanttable;
+                  this.gridApi.setRowData(participanttable.predictions);
+                } else {
+                  this.participanttable = null;
+                  this.gridApi.setRowData([]);
+                }
+              });
           });
-        }
-      });
+      }
     });
     params.api.sizeColumnsToFit();
   }
