@@ -10,7 +10,7 @@ import {ParticipantService} from '../../services/participant.service';
 import {ITour} from '../../models/tour.model';
 import {getTour} from '../../store/tour/tour.reducer';
 import {HastourendedclassComponent} from '../../aggridcomponents/hastourendedclass/hastourendedclass.component';
-import {takeUntil, tap} from 'rxjs/operators';
+import {switchMap, takeUntil} from 'rxjs/operators';
 
 @Component({
   selector: 'app-participantpredictions',
@@ -141,37 +141,22 @@ export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
     });
 
     // todo refactor for example  subscribe until
-    this.route.params.pipe(takeUntil(this.unsubscribe), tap()).subscribe(routeParams => {
+    this.route.params.pipe(takeUntil(this.unsubscribe), switchMap(routeParams => {
       if (routeParams['id']) {
-        this.store.select(getParticipantPredictions(routeParams['id']))
-          .pipe(takeUntil(this.unsubscribe))
-          .subscribe(participanttable => {
-            if (participanttable) {
-              this.participanttable = participanttable;
-              this.gridApi.setRowData(participanttable.predictions);
-            }
-          });
+        return this.store.select(getParticipantPredictions(routeParams['id']));
       } else {
-        this.participantService.getParticipant()
-          .pipe(takeUntil(this.unsubscribe))
-          .subscribe(user => {
-            console.log(user);
-            this.store.select(getParticipantPredictions(user.id))
-              .pipe(takeUntil(this.unsubscribe))
-              .subscribe(participanttable => {
-                this.isLoading = false;
-                if (participanttable) {
-                  this.participanttable = participanttable;
-                  this.gridApi.setRowData(participanttable.predictions);
-                } else {
-                  this.participanttable = null;
-                  this.gridApi.setRowData([]);
-                }
-              });
-          });
+        return this.participantService.getParticipant()
+          .pipe(switchMap(user => {
+            return this.store.select(getParticipantPredictions(user.id));
+          }));
+      }}))
+      .subscribe(participanttable => {
+      if (participanttable) {
+        this.participanttable = participanttable;
+        this.gridApi.setRowData(participanttable.predictions);
+        params.api.sizeColumnsToFit();
       }
     });
-    params.api.sizeColumnsToFit();
   }
 
   onRowSelected(event) {
