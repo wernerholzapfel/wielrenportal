@@ -2,7 +2,7 @@
   <mat-card-header>
     <mat-card-title *ngIf="isLoading && !participanttable?.displayName">Bezig met het ophalen van het team...
     </mat-card-title>
-    <mat-card-title *ngIf="participanttable && participanttable?.displayName">Ploeg: {{participanttable?.teamName ? participanttable?.teamName : participant?.displayName }}
+    <mat-card-title *ngIf="participanttable && participanttable?.displayName">Ploeg: {{participanttable?.teamName ? participanttable?.teamName : participanttable?.displayName }}
     </mat-card-title>
     <mat-card-title *ngIf="!participanttable && !isLoading">De deadline voor inschrijving is verstreken</mat-card-title>
     <mat-card-subtitle *ngIf="participanttable?.displayName">Ploegleider: {{participanttable?.displayName}} {{participanttable && participanttable?.displayName ? '- ' +participanttable?.totalPoints  + ' punten' : '&nbsp;'}}
@@ -15,6 +15,7 @@
           style=""
           class="ag-theme-balham inside_card"
           [gridOptions]="gridOptions"
+          [rowData]="participanttable?.predictions"
           [rowSelection]="rowSelection"
           [frameworkComponents]="frameworkComponents"
           (rowSelected)="onRowSelected($event)"

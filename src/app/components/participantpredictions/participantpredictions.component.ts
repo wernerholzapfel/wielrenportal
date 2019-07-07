@@ -115,9 +115,30 @@ export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
               public dialog: MatDialog,
               private participantService: ParticipantService,
               private router: Router) {
+
   }
 
   ngOnInit() {
+    this.store.select(getTour).pipe(switchMap(tour => {
+      this.tour = tour;
+      return this.route.params.pipe(switchMap(routeParams => {
+        console.log(routeParams);
+        if (routeParams['id']) {
+          return this.store.select(getParticipantPredictions(routeParams['id']));
+        } else {
+          return this.participantService.getParticipant()
+            .pipe(switchMap(user => {
+              return this.store.select(getParticipantPredictions(user.id));
+            }));
+        }
+      }));
+    }))
+      .subscribe(participanttable => {
+        if (participanttable) {
+          console.log(participanttable);
+          this.participanttable = participanttable;
+        }
+      });
 
     this.gridOptions = <GridOptions>{
       defaultColDef: {
@@ -127,7 +148,7 @@ export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
       context: {parentComponent: this},
       columnDefs: this.agColumns,
       onGridReady: () => {
-        // this.gridOptions.api.sizeColumnsToFit();
+        this.gridOptions.api.sizeColumnsToFit();
       }
     };
   }
@@ -136,27 +157,6 @@ export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
-    this.store.select(getTour).pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
-      this.tour = tour;
-    });
-
-    // todo refactor for example  subscribe until
-    this.route.params.pipe(takeUntil(this.unsubscribe), switchMap(routeParams => {
-      if (routeParams['id']) {
-        return this.store.select(getParticipantPredictions(routeParams['id']));
-      } else {
-        return this.participantService.getParticipant()
-          .pipe(switchMap(user => {
-            return this.store.select(getParticipantPredictions(user.id));
-          }));
-      }}))
-      .subscribe(participanttable => {
-      if (participanttable) {
-        this.participanttable = participanttable;
-        this.gridApi.setRowData(participanttable.predictions);
-        params.api.sizeColumnsToFit();
-      }
-    });
   }
 
   onRowSelected(event) {

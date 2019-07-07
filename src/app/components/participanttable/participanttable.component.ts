@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
@@ -35,7 +35,10 @@ export class ParticipanttableComponent implements OnInit, OnDestroy {
   public gridOptions: GridOptions;
   public lastUpdated: string;
 
-  constructor(private store: Store<IAppState>, public dialog: MatDialog, private router: Router) {
+  constructor(private store: Store<IAppState>,
+              public dialog: MatDialog,
+              private router: Router,
+              private ngZone: NgZone) {
     moment.locale('nl');
 
     this.agColumns = [
@@ -121,7 +124,7 @@ export class ParticipanttableComponent implements OnInit, OnDestroy {
 
   onRowSelected(event) {
     if (event.node.selected) {
-      this.router.navigate(['/table/detail/', event.data.id]);
+        this.ngZone.run(() => this.router.navigate(['/table/detail/', event.data.id]));
     }
   }
 
