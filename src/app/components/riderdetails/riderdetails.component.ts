@@ -69,7 +69,8 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
     },
     {headerName: '# WD', valueGetter: this.determineWaterdragerChoosenCount, minWidth: 80, maxWidth: 80},
     {headerName: '# LB', valueGetter: this.determineLinkebalChoosenCount, minWidth: 80, maxWidth: 80},
-  ];
+    {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100}
+];
 
   uitgevallenAgColumns = [
     ...this.defaultHeaders,
