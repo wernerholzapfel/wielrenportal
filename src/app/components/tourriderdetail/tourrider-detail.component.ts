@@ -9,6 +9,8 @@ import {IAppState} from '../../store/store';
 import {Store} from '@ngrx/store';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {IParticipanttable} from '../../models/participanttable.model';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 @Component({
   selector: 'app-tourriderdetail',
@@ -17,7 +19,11 @@ import {Subject} from 'rxjs';
 })
 export class TourriderDetailComponent implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute, private router: Router, private riderService: RiderService, public store: Store<IAppState>) {
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private riderService: RiderService,
+              private db: AngularFireDatabase,
+              public store: Store<IAppState>) {
   }
 
   public gridOptions: GridOptions;
@@ -63,7 +69,10 @@ export class TourriderDetailComponent implements OnInit, OnDestroy {
 
     this.route.params.pipe(takeUntil(this.unsubscribe)).subscribe(routeParams => {
       if (routeParams['id']) {
-        this.riderService.getTourriderDetails(routeParams['id']).subscribe(tourrider => {
+        this.db.list<IParticipanttable>(routeParams['id'] + '/renners/').valueChanges();
+
+        this.riderService.getTourriderDetails(routeParams['id'])
+          .subscribe(tourrider => {
           if (tourrider) {
             this.rider = tourrider.rider;
             this.stageclassifications = tourrider.stageclassifications;

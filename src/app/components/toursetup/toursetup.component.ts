@@ -29,6 +29,7 @@ import {
 import {EdittourriderdialogComponent} from '../edittourriderdialog/edittourriderdialog.component';
 import * as moment from 'moment';
 import {takeUntil} from 'rxjs/operators';
+import {RiderService} from '../../services/rider.service';
 
 @Component({
   selector: 'app-toursetup',
@@ -37,7 +38,11 @@ import {takeUntil} from 'rxjs/operators';
 })
 export class ToursetupComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<IAppState>, private tourService: TourService, public snackBar: MatSnackBar, public dialog: MatDialog) {
+  constructor(private store: Store<IAppState>,
+              private tourService: TourService,
+              private riderService: RiderService,
+              public snackBar: MatSnackBar,
+              public dialog: MatDialog) {
   }
 
   public gridOptions: GridOptions;
@@ -157,7 +162,18 @@ export class ToursetupComponent implements OnInit, OnDestroy {
 
   updateTable() {
     this.tourService.updateStand(this.selectedTour.id).subscribe(response => {
-      console.log(response);
+      this.snackBar.open('stand geupdate', '', {
+        duration: 2000,
+      });
+    });
+    this.updateRennersFirebase();
+  }
+
+  updateRennersFirebase() {
+    this.riderService.updateTourRidersFirebase(this.selectedTour.id).subscribe(response => {
+      this.snackBar.open('renners geupdate', '', {
+        duration: 2000,
+      });
     });
   }
 

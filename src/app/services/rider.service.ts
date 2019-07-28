@@ -20,6 +20,9 @@ export class RiderService {
     return this.http.get<IRider[]>(`${environment.apiBaseUrl}/tourriders/details/` + tourId);
   }
 
+  updateTourRidersFirebase(tourId): Observable<any> {
+    return this.http.put<any>(`${environment.apiBaseUrl}/tourriders/details/${tourId}`, null);
+  }
 
   getTourriderDetails(tourriderId: string): Observable<ITourrider> {
     return this.http.get<ITourrider>(`${environment.apiBaseUrl}/participants/rider/` + tourriderId);

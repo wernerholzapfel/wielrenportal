@@ -10,6 +10,7 @@ import {IRider} from '../../models/rider.model';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {AngularFireDatabase} from '@angular/fire/database';
 
 @Component({
   selector: 'app-riderdetails',
@@ -86,7 +87,8 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
 
   constructor(private riderService: RiderService,
               private router: Router,
-              private store: Store<IAppState>) {
+              private store: Store<IAppState>,
+              private db: AngularFireDatabase) {
   }
 
   ngOnInit() {
@@ -109,7 +111,8 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
           if (new Date(this.tour.deadline) < new Date()) {
             // todo refactor for example  subscribe until
             // todo move to store?
-            this.riderService.getDetailTourriders(tour.id)
+            this.db.object<any>(tour.id + '/renners/').valueChanges()
+            // this.riderService.getDetailTourriders(tour.id)
               .subscribe(response => {
                 this.totalRiders = response;
                 this.gridApi.setRowData(this.totalRiders);
