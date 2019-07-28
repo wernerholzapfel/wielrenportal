@@ -71,7 +71,7 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
     {headerName: '# WD', valueGetter: this.determineWaterdragerChoosenCount, minWidth: 80, maxWidth: 80},
     {headerName: '# LB', valueGetter: this.determineLinkebalChoosenCount, minWidth: 80, maxWidth: 80},
     {headerName: 'Waarde', field: 'waarde', minWidth: 100, maxWidth: 100}
-];
+  ];
 
   uitgevallenAgColumns = [
     ...this.defaultHeaders,
@@ -96,7 +96,8 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
       defaultColDef: {
         sortable: true
       },
-      localeText: {noRowsToShow: 'Na de deadline verschijnen hier de statistieken van de renners'
+      localeText: {
+        noRowsToShow: 'Na de deadline verschijnen hier de statistieken van de renners'
         // , loadingOoo: 'Bezig met ophalen van de gegevens...'
       },
       context: {parentComponent: this},
@@ -159,23 +160,23 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
   }
 
   determineRiderChoosenCount(params): number {
-    return params.data.predictions.filter(p => p.isRider).length;
+    return params.data.predictions ? params.data.predictions.filter(p => p.isRider).length : 0;
   }
 
   determineWaterdragerChoosenCount(params): number {
-    return params.data.predictions.filter(p => p.isWaterdrager).length;
+    return params.data.predictions ? params.data.predictions.filter(p => p.isWaterdrager).length : 0;
   }
 
   determineLinkebalChoosenCount(params): number {
-    return params.data.predictions.filter(p => p.isLinkebal).length;
+    return params.data.predictions ? params.data.predictions.filter(p => p.isLinkebal).length : 0;
   }
 
   determineBeschermderennerChoosenCount(params): number {
-    return params.data.predictions.filter(p => p.isBeschermdeRenner).length;
+    return params.data.predictions ? params.data.predictions.filter(p => p.isBeschermdeRenner).length : 0;
   }
 
   determineMeesterknechtChoosenCount(params): number {
-    return params.data.predictions.filter(p => p.isMeesterknecht).length;
+    return params.data.predictions ? params.data.predictions.filter(p => p.isMeesterknecht).length : 0;
   }
 
   determineFlag(params): string {
@@ -218,6 +219,7 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(`rider/${event.data.id}`);
     }
   }
+
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
