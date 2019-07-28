@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ClassificationsService} from '../../../services/stageclassifications.service';
 import {GridOptions} from 'ag-grid';
 import {TourService} from '../../../services/tour.service';
@@ -44,6 +44,7 @@ export class EtappetableComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private router: Router,
               private tourService: TourService,
+              private ngZone: NgZone,
               private store: Store<IAppState>) {
 
     this.etappeAgColumns = [
@@ -210,7 +211,7 @@ export class EtappetableComponent implements OnInit, OnDestroy {
   }
   onRowSelected(event) {
     if (event.node.selected) {
-      this.router.navigateByUrl(`rider/${event.data.tourrider.id}`);
+      this.ngZone.run(() =>  this.router.navigateByUrl(`rider/${event.data.tourrider.id}`));
     }
   }
   ngOnDestroy() {
