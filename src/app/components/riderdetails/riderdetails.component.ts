@@ -112,8 +112,7 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
           if (new Date(this.tour.deadline) < new Date()) {
             // todo refactor for example  subscribe until
             // todo move to store?
-            this.db.object<any>(tour.id + '/renners/').valueChanges()
-            // this.riderService.getDetailTourriders(tour.id)
+            this.riderService.getDetailTourriders(tour.id)
               .subscribe(response => {
                 this.totalRiders = response;
                 this.gridApi.setRowData(this.totalRiders);

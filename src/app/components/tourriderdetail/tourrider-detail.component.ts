@@ -69,8 +69,6 @@ export class TourriderDetailComponent implements OnInit, OnDestroy {
 
     this.route.params.pipe(takeUntil(this.unsubscribe)).subscribe(routeParams => {
       if (routeParams['id']) {
-        this.db.list<IParticipanttable>(routeParams['id'] + '/renners/').valueChanges();
-
         this.riderService.getTourriderDetails(routeParams['id'])
           .subscribe(tourrider => {
           if (tourrider) {
