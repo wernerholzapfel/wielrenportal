@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {MatDialog} from '@angular/material';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -114,6 +114,7 @@ export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               public dialog: MatDialog,
               private participantService: ParticipantService,
+              private ngZone: NgZone,
               private router: Router) {
 
   }
@@ -161,7 +162,7 @@ export class ParticipantpredictionsComponent implements OnInit, OnDestroy {
 
   onRowSelected(event) {
     if (event.node.selected) {
-      this.router.navigateByUrl(`rider/${event.data.rider.id}`);
+      this.ngZone.run(() => this.router.navigateByUrl(`rider/${event.data.rider.id}`));
     }
   }
 

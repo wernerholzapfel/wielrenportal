@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {GridOptions} from 'ag-grid';
 import {IStageClassification} from '../../models/etappe.model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -23,6 +23,7 @@ export class TourriderDetailComponent implements OnInit, OnDestroy {
               private router: Router,
               private riderService: RiderService,
               private db: AngularFireDatabase,
+              private ngZone: NgZone,
               public store: Store<IAppState>) {
   }
 
@@ -106,13 +107,13 @@ export class TourriderDetailComponent implements OnInit, OnDestroy {
 
   onParticipantRowSelected(event) {
     if (event.node.selected) {
-      this.router.navigateByUrl(`table/detail/${event.data.participant.id}`);
+      this.ngZone.run(() => this.router.navigateByUrl(`table/detail/${event.data.participant.id}`));
     }
   }
 
   onEtappeRowSelected(event) {
     if (event.node.selected) {
-      this.router.navigateByUrl(`uitslagen/etappe/${event.data.etappe.id}`);
+      this.ngZone.run(() => this.router.navigateByUrl(`uitslagen/etappe/${event.data.etappe.id}`));
     }
   }
 

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {RiderService} from '../../services/rider.service';
 import {GridOptions} from 'ag-grid';
 import {IAppState} from '../../store/store';
@@ -88,7 +88,8 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
   constructor(private riderService: RiderService,
               private router: Router,
               private store: Store<IAppState>,
-              private db: AngularFireDatabase) {
+              private db: AngularFireDatabase,
+              private ngZone: NgZone) {
   }
 
   ngOnInit() {
@@ -215,7 +216,7 @@ export class RiderdetailsComponent implements OnInit, OnDestroy {
 
   onRowSelected(event) {
     if (event.node.selected) {
-      this.router.navigateByUrl(`rider/${event.data.id}`);
+      this.ngZone.run(() => this.router.navigateByUrl(`rider/${event.data.id}`));
     }
   }
 

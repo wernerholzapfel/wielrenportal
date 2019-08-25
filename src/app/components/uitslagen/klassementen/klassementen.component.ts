@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {
-  BERGKLASSEMENT,
   ALGEMEENKLASSEMENT,
+  BERGKLASSEMENT,
   JONGERENKLASSEMENT,
   KLASSEMENT,
   PUNTENKLASSEMENT
@@ -30,7 +30,7 @@ export class KlassementenComponent implements OnInit, OnDestroy {
     {klassementsType: BERGKLASSEMENT},
     {klassementsType: PUNTENKLASSEMENT},
     {klassementsType: JONGERENKLASSEMENT}
-    ];
+  ];
   selectedKlassement = this.klassementen[0];
   participantstable: IParticipanttable[];
 
@@ -44,7 +44,9 @@ export class KlassementenComponent implements OnInit, OnDestroy {
   rowSelection = 'single';
   unsubscribe = new Subject<void>();
 
-  constructor(private stageClassificationsService: ClassificationsService, private store: Store<IAppState>, private router: Router) {
+  constructor(private stageClassificationsService: ClassificationsService,
+              private ngZone: NgZone,
+              private store: Store<IAppState>, private router: Router) {
     this.rowClassRules = {
       'selected': function (params) {
         return params.data.selected;
@@ -230,9 +232,10 @@ export class KlassementenComponent implements OnInit, OnDestroy {
 
   onRowSelected(event) {
     if (event.node.selected) {
-      this.router.navigateByUrl(`rider/${event.data.tourrider.id}`);
+      this.ngZone.run(() => this.router.navigateByUrl(`rider/${event.data.tourrider.id}`));
     }
   }
+
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
