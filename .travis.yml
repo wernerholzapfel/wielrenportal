@@ -18,4 +18,4 @@ deploy:
   on:
     all_branches: true
   token:
-    secure: $FIREBASE_TOKEN
+    secure: [FIREBASE_TOKEN]
