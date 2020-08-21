@@ -13,7 +13,9 @@ script:
 install:
 - npm install -g firebase-tools
 deploy:
+  project: "wielerspel-aec4b"
   provider: firebase
+  on:
+    all_branches: true
   token:
     secure: $FIREBASE_TOKEN
-  project: "wielerspel-aec4b"
