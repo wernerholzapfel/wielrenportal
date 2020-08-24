@@ -307,9 +307,13 @@ export class TourridersComponent implements OnInit, OnDestroy {
   }
 
   youngster(rider: IRider) {
+    if (rider.surName === 'Peters') {
+      console.log(this.tourYear);
+      console.log(new Date(rider.dateOfBirth).getFullYear());
+    }
     const tourYear = this.tourYear;
     const birthYear = new Date(rider.dateOfBirth).getFullYear();
-    return tourYear - birthYear < 26;
+    return (tourYear - birthYear) < 26;
   }
 
   ngOnDestroy() {
