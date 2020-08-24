@@ -307,7 +307,7 @@ export class TourridersComponent implements OnInit, OnDestroy {
   }
 
   youngster(rider: IRider) {
-    const tourYear = new Date(this.tourYear).getFullYear();
+    const tourYear = this.tourYear;
     const birthYear = new Date(rider.dateOfBirth).getFullYear();
     return tourYear - birthYear < 26;
   }
