@@ -44,6 +44,7 @@ export class TourridersComponent implements OnInit, OnDestroy {
   init: Subscription;
   isParticipantFormDirty: boolean;
   isRegistrationOpen: boolean;
+  tourYear: number;
   unsubscribe = new Subject<void>();
 
   constructor(private store: Store<IAppState>,
@@ -70,7 +71,7 @@ export class TourridersComponent implements OnInit, OnDestroy {
         this.tour$.pipe(takeUntil(this.unsubscribe)).subscribe(tour => {
           if (tour && tour.id) {
             this.isLoading = true;
-
+            this.tourYear = new Date(tour.startDate).getFullYear();
             this.init = this.participantsFormInit$.pipe(take(2)).pipe(takeUntil(this.unsubscribe)).subscribe(initPredictions => {
               if (initPredictions.length <= 0) {
                 this.store.dispatch(new fromParticipantForm.FetchParticipantform(tour.id));
@@ -306,7 +307,7 @@ export class TourridersComponent implements OnInit, OnDestroy {
   }
 
   youngster(rider: IRider) {
-    return moment().month(1).day(1).diff(rider.dateOfBirth, 'years') < 26 ;
+    return moment().year(this.tourYear).month(1).day(1).diff(rider.dateOfBirth, 'years') < 26 ;
   }
 
   ngOnDestroy() {
