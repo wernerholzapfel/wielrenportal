@@ -220,9 +220,8 @@ export class ToursetupComponent implements OnInit, OnDestroy {
   }
 
   youngster(rider: IRider) {
-    return moment(rider.dateOfBirth).isSameOrAfter('1994-01-01');
+    return moment().month(1).day(1).diff(rider.dateOfBirth, 'years') < 26 ;
   }
-
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
