@@ -220,8 +220,11 @@ export class ToursetupComponent implements OnInit, OnDestroy {
   }
 
   youngster(rider: IRider) {
-    return moment().year(new Date(this.selectedTour.startDate).getFullYear()).month(1).day(1).diff(rider.dateOfBirth, 'years') < 26 ;
+    const tourYear = new Date(this.selectedTour.startDate).getFullYear();
+    const birthYear = new Date(rider.dateOfBirth).getFullYear();
+    return tourYear - birthYear < 26;
   }
+
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
