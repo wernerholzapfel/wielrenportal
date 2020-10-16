@@ -4,7 +4,7 @@
       <mat-toolbar color="primary">
         <span>Menu</span>
         <span class="example-spacer"></span>
-        <mat-select *ngIf="authService.isAdmin" placeholder="Kies de ronde" [(ngModel)]="selectedTour"
+        <mat-select placeholder="Kies de ronde" [(ngModel)]="selectedTour"
                     (selectionChange)="fetchTour()">
           <mat-option *ngFor="let tour of tours$ | async" [value]="tour">
             {{ tour.tourName }}
