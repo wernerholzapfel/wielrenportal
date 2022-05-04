@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -9,11 +9,12 @@ import {Store} from '@ngrx/store';
 import {IAppState} from '../store/store';
 import {getParticipant} from '../store/participant/participant.reducer';
 import {FetchParticipant} from '../store/participant/participant.actions';
+import {ETAPPE} from '../models/constants';
 
 @Injectable()
 export class AuthService {
   public user$: Observable<firebase.User>;
-  public isAdmin = false;
+  public isAdmin$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private _firebaseAuth: AngularFireAuth, private router: Router, private store: Store<IAppState>) {
     this.user$ = _firebaseAuth.authState;
@@ -23,7 +24,7 @@ export class AuthService {
         this.store.dispatch(new FetchParticipant());
 
         this._firebaseAuth.auth.currentUser.getIdTokenResult(true).then(tokenResult => {
-          this.isAdmin = tokenResult.claims.admin;
+          this.isAdmin$.next(tokenResult.claims.admin);
         });
       }
     });

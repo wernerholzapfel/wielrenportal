@@ -16,7 +16,7 @@
                        [routerLinkActiveOptions]="{exact: true}">Home
         </mat-list-item>
         <mat-list-item (click)="opened = false"
-                       *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
+                       *ngIf="((authService.user$ | async) && isSubmissionPossible) || (authService.isAdmin$ | async)"
                        [routerLink]="['/inschrijven']" routerLinkActive="active-link">Mijn team
         </mat-list-item>
         <mat-list-item *ngIf="!(isRegistrationOpen$ | async)" (click)="opened = false" [routerLink]="['/table']"
@@ -35,7 +35,7 @@
                        routerLinkActive="active-link">
           Deelnemers
         </mat-list-item>
-        <mat-list-item (click)="opened = false" *ngIf="authService.isAdmin" [routerLink]="['/admin']"
+        <mat-list-item (click)="opened = false" *ngIf="(authService.isAdmin$ | async)" [routerLink]="['/admin']"
                        routerLinkActive="active-link">Tour admin
         </mat-list-item>
         <span class="example-spacer"></span>
@@ -54,11 +54,11 @@
     <mat-sidenav-content>
       <mat-toolbar color="primary">
         <div fxFlexOffset.gt-xs="5">
-          <span fxHide class="act_like_button" [fxHide.gt-xs]="false" [routerLink]="'/'" routerLinkActive="active-link"
-                [routerLinkActiveOptions]="{exact:
-true}">Het Wielerspel</span>
+          <button mat-button fxHide [fxHide.gt-xs]="false" [routerLink]="'/'" routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{exact:true}">
+            <img src="assets/images/header_white3.png" height="36px"></button>
           <button fxHide [fxHide.gt-xs]="false" mat-button
-                  *ngIf="((authService.user$ | async) && isSubmissionPossible) || authService.isAdmin"
+                  *ngIf="((authService.user$ | async) && isSubmissionPossible) || (authService.isAdmin$ | async)"
                   [routerLink]="['/inschrijven']" routerLinkActive="active-link">Mijn team
           </button>
           <button fxHide *ngIf="!(isRegistrationOpen$ | async)" [fxHide.gt-xs]="false" mat-button
@@ -94,7 +94,10 @@ true}">Het Wielerspel</span>
           <button mat-icon-button>
             <mat-icon aria-label="menu" (click)="opened = !opened">menu</mat-icon>
           </button>
-          <span [routerLink]="'/'">Het Wielerspel</span>
+          <span [routerLink]="'/'">
+            <button mat-button>
+              <img src="assets/images/header_white3.png" height="36px"></button>
+          </span>
         </div>
       </mat-toolbar>
       <img class="banner_image" fxHide [fxHide.gt-xs]="false" src="../assets/images/header_small.png">
@@ -111,7 +114,7 @@ true}">Het Wielerspel</span>
 
 <mat-menu #profileMenu="matMenu" backdropClass="profileMenu">
   <mat-action-list>
-    <button mat-menu-item (click)="opened = false" *ngIf="authService.isAdmin" [routerLink]="['/admin']">
+    <button mat-menu-item (click)="opened = false" *ngIf="(authService.isAdmin$ | async)" [routerLink]="['/admin']">
       Tour admin
     </button>
     <button mat-menu-item [matMenuTriggerFor]="tourSubMenu">

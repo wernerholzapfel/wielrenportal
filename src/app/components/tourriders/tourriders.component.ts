@@ -1,8 +1,8 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import * as fromTour from '../../store/tour/tour.actions';
+import {getTour, getTourTeams, isRegistrationOpen} from '../../store/tour/tour.reducer';
 import {Store} from '@ngrx/store';
 import {IAppState} from '../../store/store';
-import {getTour, getTourTeams, isRegistrationOpen} from '../../store/tour/tour.reducer';
 import {ITour} from '../../models/tour.model';
 import {IPartipantRidersFormModel} from '../../models/partipantRidersForm.model';
 import {ITeam} from '../../models/team.model';

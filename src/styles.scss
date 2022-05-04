@@ -363,3 +363,6 @@ mat-card-content {
   color: #fafafa !important;
 }
 
+::ng-deep .mat-select-placeholder {
+  color: orange !important;
+}
