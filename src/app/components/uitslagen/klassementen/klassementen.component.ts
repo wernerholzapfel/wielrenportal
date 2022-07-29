@@ -160,7 +160,6 @@ export class KlassementenComponent implements OnInit, OnDestroy {
     });
   }
 
-
   private fetchYouthClassification() {
     this.store.select(getTour).pipe(switchMap(tour => {
       if (tour && tour.id) {

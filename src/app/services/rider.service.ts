@@ -19,7 +19,9 @@ export class RiderService {
   }
 
   getDetailTourriders(tourId: string): Observable<IRider[]> {
-    return this.db.list<IRider>(tourId + '/renners/').valueChanges();
+    // return this.db.list<IRider>(tourId + '/renners/').valueChanges();
+    return this.http.get<IRider[]>(`${environment.apiBaseUrl}/tourriders/details/${tourId}`);
+
   }
 
   updateTourRidersFirebase(tourId): Observable<any> {

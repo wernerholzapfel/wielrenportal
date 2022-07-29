@@ -88,11 +88,13 @@ export class LoginComponent implements OnInit, OnDestroy {
               displayName: this.user.displayName,
               teamName: this.user.teamName,
               email: this.user.email
-            }).pipe(takeUntil(this.unsubscribe)).subscribe(response => {
-              console.log('user opgeslagen in database');
+            }).subscribe(response => {
+              if (response) {
+                console.log('user opgeslagen in database');
+                this.store.dispatch(new fromParticipantForm.ClearParticipantform());
+                this.router.navigate(['/inschrijven']);
+              }
             });
-            this.store.dispatch(new fromParticipantForm.ClearParticipantform());
-            this.router.navigate(['/inschrijven']);
           }
         }
       )
